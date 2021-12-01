@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import Image from "next/image";
 import Link from "next/link";
 import Find from "../types/Find";
 import MobileSuit from "../types/MobileSuit";
@@ -26,7 +25,7 @@ const FindCard = (props: Find) => {
           <div key={idx}>
             <div>{MS.name}</div>
             <div>{MS.series}</div>
-            <Image src={MS.image} alt={MS.name} width={50} height={50} />
+            <img src={MS.image} alt={MS.name} width={50} height={50} />
           </div>
         ))}
         {/*{props.isVC ? (*/}
