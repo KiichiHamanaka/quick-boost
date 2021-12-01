@@ -1,6 +1,6 @@
 import React from "react";
 import FindCard from "../../components/FindCard";
-import Find from "../../type/Find";
+import Find from "../../types/Find";
 import { useFinds } from "../../hooks/swrHooks";
 
 const FindIndex: React.FC = () => {

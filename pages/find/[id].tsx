@@ -1,5 +1,5 @@
 import { useFind } from "../../hooks/swrHooks";
-import MobileSuit from "../../type/MobileSuit";
+import MobileSuit from "../../types/MobileSuit";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";

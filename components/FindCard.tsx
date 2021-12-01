@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import Image from "next/image";
 import Link from "next/link";
-import Find from "../type/Find";
-import MobileSuit from "../type/MobileSuit";
+import Find from "../types/Find";
+import MobileSuit from "../types/MobileSuit";
 
 const FindCard = (props: Find) => {
   const bgColor = props.enjoyType === "ガチ" ? "#FFCCCC" : "#CCFFFF";
