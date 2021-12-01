@@ -8,6 +8,12 @@ export default NextAuth({
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    session: async function ({ session }) {
+      // session.user.providerID = OauthProfile.screen_nameにしたい
+      return session;
+    },
+  },
   logger: {
     error(code, ...message) {
       console.error(code, message);
