@@ -1,7 +1,11 @@
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 const Header = () => {
-  const [session, loading] = useSession();
+  // ハンバーガーメニューも作りたい
+  // li追加していく感じで
+  // アイテムはリストページ、プロフィールページ、ユーザ検索、お問い合わせページ、ログアウトとか？
 
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
   if (loading) return null;
 
   return (

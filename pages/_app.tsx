@@ -1,12 +1,12 @@
 import type { AppProps } from "next/app";
-import { Provider } from "next-auth/client";
+import { SessionProvider } from "next-auth/react";
 import Header from "../components/Header";
 import emotionNormalize from "emotion-normalize";
 import { Global, css } from "@emotion/react";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <Provider session={pageProps.session}>
+    <SessionProvider session={session} refetchInterval={5 * 60}>
       <Global
         styles={css`
           ${emotionNormalize}
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Header />
       <Component {...pageProps} />
-    </Provider>
+    </SessionProvider>
   );
 }
 

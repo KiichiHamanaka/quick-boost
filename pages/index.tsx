@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { css } from "@emotion/react";
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 // ログインしてたら最初からリストの方に飛ばす
@@ -20,7 +20,8 @@ const Button = css`
 `;
 
 const IndexPage = () => {
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
   const router = useRouter();
 
   if (loading) return null;
