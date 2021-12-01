@@ -7,6 +7,7 @@ type Find = {
   message: string;
   body: string;
   enjoyType: "ガチ" | "エンジョイ";
+  isVC: boolean;
   mobileSuites: Array<MobileSuit>;
 };
 

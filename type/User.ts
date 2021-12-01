@@ -3,6 +3,7 @@ type User = {
   name: string;
   rank?: Rank;
   grade?: Grade;
+  discordName?: string;
 };
 
 type Rank = {}; //C1~EXX
