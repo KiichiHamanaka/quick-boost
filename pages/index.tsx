@@ -3,8 +3,6 @@ import { css } from "@emotion/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-// ログインしてたら最初からリストの方に飛ばす
-
 const indexCard = css`
   width: 400px;
   border: solid 1px #2d2d2d;
