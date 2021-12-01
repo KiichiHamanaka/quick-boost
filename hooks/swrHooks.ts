@@ -20,3 +20,23 @@ export const useFinds = () => {
     isError: error,
   };
 };
+
+export const useUser = (id: number) => {
+  const { data, error } = useSWR(`/api/user/${id}`, fetcher.fetchGet);
+
+  return {
+    user: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
+export const useUsers = () => {
+  const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
+
+  return {
+    users: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
