@@ -3,6 +3,14 @@ import MobileSuit from "../../type/MobileSuit";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { css } from "@emotion/react";
+
+const FindCardStyle = css`
+  width: 400px;
+  border: solid 1px #2d2d2d;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
+`;
 
 const FindId = () => {
   const router = useRouter();
@@ -12,7 +20,7 @@ const FindId = () => {
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
   return (
-    <div>
+    <div css={FindCardStyle}>
       <div>{find.user.name}</div>
       <div>{find.message}</div>
       <div>{find.user.grade}</div>
