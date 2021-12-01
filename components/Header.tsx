@@ -1,10 +1,9 @@
 import { signIn, signOut, useSession } from "next-auth/client";
-import Image from "next/image";
 const Header = () => {
   const [session, loading] = useSession();
 
   if (loading) return null;
-  console.log(session);
+
   return (
     <div>
       {!session && (
@@ -14,7 +13,7 @@ const Header = () => {
       )}
       {session && (
         <>
-          <Image
+          <img
             src={session.user.image}
             alt={session.user.name}
             width={50}
