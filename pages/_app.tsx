@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from "next-auth/client";
 import Header from "../components/Header";
