@@ -12,7 +12,15 @@ const Header = () => {
     <div>
       {!session && (
         <>
-          <button onClick={() => signIn()}>ログイン</button>
+          <button
+            onClick={() =>
+              signIn("twitter", {
+                callbackUrl: "http://127.0.0.1:3000/find",
+              })
+            }
+          >
+            Twitter Login
+          </button>
         </>
       )}
       {session && (
@@ -24,7 +32,7 @@ const Header = () => {
             height={50}
           />
           {session.user.name}さん
-          <button onClick={() => signOut()}>ログアウト</button>
+          <button onClick={() => signOut()}>LogOut</button>
         </>
       )}
     </div>
