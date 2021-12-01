@@ -26,7 +26,7 @@ const FindCard = (props: Find) => {
           <div key={idx}>
             <div>{MS.name}</div>
             <div>{MS.series}</div>
-            <Image src={MS.imagePath} alt={MS.name} width={50} height={50} />
+            <Image src={MS.image} alt={MS.name} width={50} height={50} />
           </div>
         ))}
         {/*{props.isVC ? (*/}

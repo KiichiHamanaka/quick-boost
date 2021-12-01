@@ -4,7 +4,7 @@ type MobileSuit = {
   id: number;
   name: string;
   series: Series;
-  imagePath: string;
+  image: string; // S3的なサービスのURLに変更
 };
 
 export default MobileSuit;
