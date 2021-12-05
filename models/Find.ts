@@ -4,19 +4,20 @@ import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
 import { Post, PostSchema } from "./Post";
 
 export interface Find extends Document {
+  id: number;
   author: User;
   message: string;
   body: string;
   enjoyType: "ガチ" | "エンジョイ";
   isVC: boolean;
-  isPlaying: "Open" | "FriendsOnly" | "No";
-  allowUsers: Array<User>;
-  wantToUse: Array<MobileSuit>;
+  isPlaying: boolean;
+  allowUsers?: Array<User>;
+  wantToUse?: Array<MobileSuit>;
   position: "前衛" | "後衛" | "どちらでも";
   created_at: string;
   start_at: string;
   end_at: string;
-  Posts: Post;
+  Posts?: Post;
 }
 
 export const FindSchema: Schema = new Schema({
