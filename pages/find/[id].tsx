@@ -30,7 +30,7 @@ const FindId = () => {
         <div key={idx}>
           <div>{MS.name}</div>
           <div>{MS.series}</div>
-          <Image src={MS.image} alt={MS.name} width={50} height={50} />
+          <img src={MS.image} alt={MS.name} width={50} height={50} />
         </div>
       ))}
     </div>

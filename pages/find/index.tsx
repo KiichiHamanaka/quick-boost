@@ -18,9 +18,15 @@ const FindIndex: React.FC = () => {
             mobileSuites={find.mobileSuites}
             enjoyType={find.enjoyType}
             message={find.message}
-            user={find.user}
+            author={find.author}
             body={find.body}
             isVC={find.isVC}
+            allowUsers={find.allowUsers}
+            created_at={"2022-12-12"}
+            start_at={"2022-12-12"}
+            end_at={"2022-12-12"}
+            isPlay
+            position={"Both"}
           />
         );
       })}
