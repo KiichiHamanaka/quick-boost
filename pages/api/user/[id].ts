@@ -1,22 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import User from "../../../models/User";
+import connectDB from "../../../lib/atlas";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const method = req.method;
+connectDB();
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const {
+    query: { id },
+    method,
+  } = req;
   switch (method) {
     case "GET": {
-      // const { id } = req.query;
       try {
-        res.status(200).json({
-          name: "馬場P",
-          grade: "民間人",
-          rank: "EXX",
-        });
+        const user = await User.findById(id);
+        res.status(200).json(user);
+
+        // res.status(200).json({
+        //   name: "馬場P",
+        //   grade: "民間人",
+        //   rank: "EXX",
+        // });
         break;
       } catch (err) {
         break;
       }
     }
-    case "POST": {
+    case "PUT": {
       try {
         const { val1, val2 } = req.body;
         const result = val1 + val2;
@@ -30,4 +39,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).end();
     }
   }
-}
+};
+
+export default handler;
