@@ -1,12 +1,12 @@
-import {model, Schema} from "mongoose";
-import Series from "./Series";
+import { model, Schema } from "mongoose";
+import { SeriesSchema } from "./Series";
 
-const MobileSuiteSchema:Schema = new Schema({
-    name: { String, required: true } ,
-    cost : { type: Number, enum: [1500, 2000, 2500, 3000] ,required: true},
-    series : { type: Series },
-})
+export const MobileSuiteSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  cost: { type: Number, enum: [1500, 2000, 2500, 3000], required: true },
+  series: { type: SeriesSchema, required: false },
+});
 
-const MobileSuite = model('User', MobileSuiteSchema);
+const MobileSuite = model("MobileSuite", MobileSuiteSchema);
 
-export default MobileSuite
+export default MobileSuite;

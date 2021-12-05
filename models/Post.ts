@@ -1,12 +1,11 @@
-import {model, Schema} from "mongoose";
-import User from "./User";
+import { model, Schema } from "mongoose";
+import { UserSchema } from "./User";
 
-const PostSchema:Schema = new Schema({
-    Body: String!,
-    author: { type:User, required: true } ,
-})
+export const PostSchema: Schema = new Schema({
+  message: { type: String, required: true },
+  author: { type: UserSchema, required: true },
+});
 
+const Post = model("User", PostSchema);
 
-const Post = model('User', PostSchema);
-
-export default Post
+export default Post;

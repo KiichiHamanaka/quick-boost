@@ -1,9 +1,9 @@
-import {model, Schema} from "mongoose";
+import { model, Schema } from "mongoose";
 
-const SeriesSchema :Schema = new Schema({
-    name: String,
-})
+export const SeriesSchema: Schema = new Schema({
+  name: { type: String, required: true },
+});
 
-const Series = model('User', SeriesSchema);
+const Series = model("Series", SeriesSchema);
 
-export default Series
+export default Series;
