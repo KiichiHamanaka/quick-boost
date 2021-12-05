@@ -1,11 +1,18 @@
-import { model, Schema } from "mongoose";
-import { UserSchema } from "./User";
+import { model, Schema, Document, Model, models } from "mongoose";
+import { User, UserSchema } from "./User";
+
+export interface Post extends Document {
+  message: string;
+  author: User;
+}
 
 export const PostSchema: Schema = new Schema({
-  message: { type: String, required: true },
-  author: { type: UserSchema, required: true },
+  message: String,
+  author: UserSchema,
 });
 
-const Post = model("User", PostSchema);
+interface PostModel extends Model<Post> {}
 
-export default Post;
+export default models.Post
+  ? (models.Post as PostModel)
+  : model<Post, PostModel>("Post", PostSchema);

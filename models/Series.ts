@@ -1,9 +1,15 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Model, models } from "mongoose";
+
+export interface Series extends Document {
+  name: string;
+}
 
 export const SeriesSchema: Schema = new Schema({
-  name: { type: String, required: true },
+  name: String,
 });
 
-const Series = model("Series", SeriesSchema);
+interface SeriesModel extends Model<Series> {}
 
-export default Series;
+export default models.Series
+  ? (models.Series as SeriesModel)
+  : model<Series, SeriesModel>("Series", SeriesSchema);

@@ -1,8 +1,21 @@
-import { Schema, model } from "mongoose";
-import { MobileSuiteSchema } from "./MobileSuite";
-import { RankSchema } from "./Rank";
-import { FollowSchema } from "./Follow";
-import { GradeSchema } from "./Grade";
+import { model, Schema, Document, Model, models } from "mongoose";
+import { Rank, RankSchema } from "./Rank";
+import { Grade, GradeSchema } from "./Grade";
+import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
+
+export interface User extends Document {
+  twitter: string;
+  handleName: string;
+  grade: Grade;
+  rank: Rank;
+  discordName: string;
+  openSNSName: "Open" | "FriendsOnly" | "No";
+  favoriteMS: Array<MobileSuit>;
+  message: string;
+  created_at: string;
+  good: number;
+  token: string;
+}
 
 export const UserSchema: Schema = new Schema({
   twitter: {
@@ -21,13 +34,15 @@ export const UserSchema: Schema = new Schema({
     enum: ["Open", "FriendsOnly", "No"],
     required: true,
   },
-  favoriteMS: [MobileSuiteSchema],
+  favoriteMS: [MobileSuitSchema],
   message: String,
   created_at: { type: Date, default: Date.now },
   good: Number,
-  friends: [FollowSchema],
+  token: { type: String, require: true },
 });
 
-const User = model("User", UserSchema);
+interface UserModel extends Model<User> {}
 
-export default User;
+export default models.User
+  ? (models.User as UserModel)
+  : model<User, UserModel>("User", UserSchema);
