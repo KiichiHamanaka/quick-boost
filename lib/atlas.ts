@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
-import * as URI from "../config";
 const connectDB = async () => {
   try {
-    await mongoose.connect(URI.masterDB);
+    // @ts-ignore
+    await mongoose.connect(process.env.MASTER_URL);
     console.log("connect is successful");
   } catch (err) {
+    console.log("DB接続失敗してるわ");
     console.log(err);
   }
 };
