@@ -27,21 +27,18 @@ const UserCard = (props: UserProps) => {
         <div>{props.message}</div>
         <div>{props.grade}</div>
         <div>{props.rank}</div>
-        {
-          // @ts-ignore
-          props.favoriteMS.map((MS: MobileSuit, idx: number) => (
-            <div key={idx}>
-              <div>{MS.name}</div>
-              <div>{MS.series}</div>
-              <Image
-                src={MSImagePath(MS.name, MS.series)}
-                alt={MS.name}
-                width={50}
-                height={50}
-              />
-            </div>
-          ))
-        }
+        {props.favoriteMS!.map((MS: MobileSuit, idx: number) => (
+          <div key={idx}>
+            <div>{MS.name}</div>
+            <div>{MS.series}</div>
+            <Image
+              src={MSImagePath(MS.name, MS.series)}
+              alt={MS.name}
+              width={50}
+              height={50}
+            />
+          </div>
+        ))}
       </div>
     </Link>
   );
