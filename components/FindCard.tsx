@@ -1,9 +1,26 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import Find from "../types/Find";
-import MobileSuit from "../types/MobileSuit";
+import { MobileSuit } from "../models/MobileSuit";
+import { MSImagePath } from "../util/returnPath";
+import { Find } from "../models/Find";
+import Image from "next/image";
 
-const FindCard = (props: Find) => {
+type FindProps = Pick<
+  Find,
+  | "id"
+  | "author"
+  | "message"
+  | "enjoyType"
+  | "wantToUse"
+  | "isVC"
+  | "allowUsers"
+  | "position"
+  | "start_at"
+  | "end_at"
+  | "isPlaying"
+>;
+
+const FindCard = (props: FindProps) => {
   const bgColor = props.enjoyType === "ガチ" ? "#FFCCCC" : "#CCFFFF";
   const FindCardStyle = css`
     width: 400px;
@@ -16,23 +33,28 @@ const FindCard = (props: Find) => {
   return (
     <Link href={`/find/${props.id}`} passHref>
       <div css={FindCardStyle}>
-        <div>{props.user.name}</div>
+        <div>{props.author.handleName}</div>
         <div>ひとこと：{props.message}</div>
-        <div>階級：{props.user.grade}</div>
-        <div>ランク：{props.user.rank}</div>
+        <div>階級：{props.author.grade}</div>
+        <div>ランク：{props.author.rank}</div>
         <div>モード：{props.enjoyType}</div>
-        {props.mobileSuites.map((MS: MobileSuit, idx: number) => (
+        {props.wantToUse!.map((MS: MobileSuit, idx: number) => (
           <div key={idx}>
             <div>{MS.name}</div>
-            <div>{MS.series}</div>
-            <img src={MS.image} alt={MS.name} width={50} height={50} />
+            <div>{MS.series.name}</div>
+            <Image
+              src={MSImagePath(MS.name, MS.series)}
+              alt={MS.name}
+              width={50}
+              height={50}
+            />
           </div>
         ))}
-        {/*{props.isVC ? (*/}
-        {/*  <Image src={"/assets/canDiscord.png"} />*/}
-        {/*) : (*/}
-        {/*  <Image src={"/assets/cantDiscord.png"} />*/}
-        {/*)}*/}
+        {props.isVC ? (
+          <Image src={"/assets/Logo/discord.jpeg"} />
+        ) : (
+          <Image src={"/assets/cantDiscord.png"} />
+        )}
       </div>
     </Link>
   );
