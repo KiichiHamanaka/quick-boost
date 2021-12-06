@@ -14,6 +14,7 @@ export default NextAuth({
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   logger: {
     error(code, ...message) {
       console.error(code, message);
