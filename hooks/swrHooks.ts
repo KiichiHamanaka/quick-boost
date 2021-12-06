@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import * as fetcher from "../lib/fetcher";
+import { User } from "../models/User";
 
 export const useFind = (id: number) => {
   const { data, error } = useSWR(`/api/find/${id}`, fetcher.fetchGet);
@@ -21,11 +22,12 @@ export const useFinds = () => {
   };
 };
 
-export const useUser = (id: number) => {
+export const useUser = (id: string) => {
   const { data, error } = useSWR(`/api/user/${id}`, fetcher.fetchGet);
+  const user: User = data;
 
   return {
-    user: data,
+    user,
     isLoading: !error && !data,
     isError: error,
   };
