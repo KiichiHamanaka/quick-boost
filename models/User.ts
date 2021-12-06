@@ -6,14 +6,14 @@ import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
 export interface User extends Document {
   twitter: string;
   handleName: string;
-  grade: Grade;
-  rank: Rank;
-  discordName: string;
+  grade?: Grade;
+  rank?: Rank;
+  discordName?: string;
   openSNSName: "Open" | "FriendsOnly" | "No";
-  favoriteMS: Array<MobileSuit>;
-  message: string;
+  favoriteMS?: Array<MobileSuit>;
+  message?: string;
   created_at: string;
-  good: number;
+  good?: number;
   token: string;
 }
 

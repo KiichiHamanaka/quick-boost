@@ -1,11 +1,12 @@
 import { useUser } from "../../hooks/swrHooks";
-import MobileSuit from "../../types/MobileSuit";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { css } from "@emotion/react";
+import { MSImagePath } from "../../util/returnPath";
+import { MobileSuit } from "../../models/MobileSuit";
 
-const FindCardStyle = css`
+const UserCardStyle = css`
   width: 400px;
   border: solid 1px #2d2d2d;
   border-radius: 4px;
@@ -14,23 +15,27 @@ const FindCardStyle = css`
 
 const UserId: React.FC = () => {
   const router = useRouter();
-  const id = Number(router.query);
+  const id = String(router.query);
   const { user, isLoading, isError } = useUser(id);
 
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
   return (
-    <div css={FindCardStyle}>
-      <div>{user.name}</div>
+    <div css={UserCardStyle}>
+      <div>{user.twitter}</div>
       <div>{user.message}</div>
       <div>{user.grade}</div>
       <div>{user.rank}</div>
-      <div>{user.body}</div>
-      {user.mobileSuites.map((MS: MobileSuit, idx: number) => (
+      {user.favoriteMS!.map((MS: MobileSuit, idx: number) => (
         <div key={idx}>
           <div>{MS.name}</div>
           <div>{MS.series}</div>
-          <Image src={MS.image} alt={MS.name} width={50} height={50} />
+          <Image
+            src={MSImagePath(MS.name, MS.series)}
+            alt={MS.name}
+            width={50}
+            height={50}
+          />
         </div>
       ))}
     </div>

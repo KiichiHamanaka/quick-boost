@@ -51,9 +51,9 @@ const FindCard = (props: FindProps) => {
           </div>
         ))}
         {props.isVC ? (
-          <Image src={"/assets/Logo/discord.jpeg"} />
+          <Image src={"/assets/Logo/discord.jpeg"} alt={"VC可能"} />
         ) : (
-          <Image src={"/assets/cantDiscord.png"} />
+          <Image src={"/assets/cantDiscord.png"} alt={"VC不可"} />
         )}
       </div>
     </Link>

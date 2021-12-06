@@ -1,9 +1,10 @@
 import { useFind } from "../../hooks/swrHooks";
-import MobileSuit from "../../types/MobileSuit";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { css } from "@emotion/react";
+import { MobileSuit } from "../../models/MobileSuit";
+import { MSImagePath } from "../../util/returnPath";
 
 const FindCardStyle = css`
   width: 400px;
@@ -30,7 +31,12 @@ const FindId = () => {
         <div key={idx}>
           <div>{MS.name}</div>
           <div>{MS.series}</div>
-          <img src={MS.image} alt={MS.name} width={50} height={50} />
+          <Image
+            src={MSImagePath(MS.name, MS.series)}
+            alt={MS.name}
+            width={50}
+            height={50}
+          />
         </div>
       ))}
     </div>
