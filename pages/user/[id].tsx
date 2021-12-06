@@ -15,7 +15,8 @@ const UserCardStyle = css`
 
 const UserId: React.FC = () => {
   const router = useRouter();
-  const id = String(router.query);
+  const id = router.query.id as string;
+
   const { user, isLoading, isError } = useUser(id);
 
   if (isLoading) return <div>Loading Animation</div>;
