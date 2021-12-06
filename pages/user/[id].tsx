@@ -15,7 +15,7 @@ const UserCardStyle = css`
 
 const UserId: React.FC = () => {
   const router = useRouter();
-  const id = router.query.id as string;
+  const id: string = router.query.id as string;
 
   const { user, isLoading, isError } = useUser(id);
 
