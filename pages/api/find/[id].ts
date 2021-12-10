@@ -2,9 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Find from "../../../models/Find";
 import connectDB from "../../../lib/atlas";
 
-connectDB();
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   const {
     query: { id },
     method,
@@ -12,9 +11,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const find = await Find.findById(id);
-        res.status(200).json(find);
-        console.log(find);
+        // console.log(`id is ${id}`);
+        if (typeof id === "string") {
+          const find = await Find.findById(id);
+          res.status(200).json(find);
+          // console.log(find);
+        }
+        // const find = await Find.findById(numId);
+        //
+        // res.status(200).json(find);
+        // console.log(find);
         // res.status(200).json({
         //   id: 1,
         //   name: "ぼしゅゅ",
@@ -43,9 +49,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "PUT": {
       try {
-        const { val1, val2 } = req.body;
-        const result = val1 + val2;
-        res.status(200).json({ result });
+        const find = await Find.create(req.body); //mongooseでcreateではなくupdateがあるか調べる
+        res.status(201).json({ find });
         break;
       } catch (e) {
         break;
