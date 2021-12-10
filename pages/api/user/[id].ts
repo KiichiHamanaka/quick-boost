@@ -2,9 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import User from "../../../models/User";
 import connectDB from "../../../lib/atlas";
 
-connectDB();
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   const {
     query: { id },
     method,
@@ -12,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const user = await User.findById(id);
+        const user = await User.findOne({ twitter: id });
         res.status(200).json(user);
 
         // res.status(200).json({
