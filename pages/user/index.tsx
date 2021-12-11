@@ -16,7 +16,7 @@ const UserIndex: React.FC = () => {
   const { users, isLoading, isError } = useUsers();
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
-  const res: Array<User> = users.result;
+  const res: Array<User> = users.users;
   return (
     <div>
       {res?.map((user, idx) => {

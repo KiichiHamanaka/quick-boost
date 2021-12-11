@@ -1,34 +1,35 @@
-import { Document, Model, model, models, Schema } from "mongoose";
-import { User, UserSchema } from "./User";
-import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
+import { Document, Model, model, models, Schema, Types } from "mongoose";
+import { User } from "./User";
+import { MobileSuit } from "./MobileSuit";
 import { Post, PostSchema } from "./Post";
 
 export interface Find extends Document {
   id: number;
-  author: User;
+  author: Types.ObjectId;
   message: string;
   body: string;
   enjoyType: "ガチ" | "エンジョイ";
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers?: Array<User>;
-  wantToUse?: Array<MobileSuit>;
+  allowUsers?: Array<Types.ObjectId>;
+  wantToUse?: Array<Types.ObjectId>;
   position: "前衛" | "後衛" | "どちらでも";
   created_at: string;
   start_at: string;
   end_at: string;
   Posts?: Post;
+  tagCode?: string;
 }
 
 export const FindSchema: Schema = new Schema({
-  author: { type: UserSchema, required: true },
+  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
   message: { type: String, required: true },
   body: { type: String, required: true, max: 140 },
   enjoyType: { type: String, enum: ["ガチ", "エンジョイ"], required: true },
   isVC: { type: Boolean, required: true },
   isPlaying: { type: Boolean, required: true },
-  allowUsers: [{ type: UserSchema, required: true }],
-  wantToUse: [{ type: MobileSuitSchema }],
+  allowUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  wantToUse: [{ type: Schema.Types.ObjectId, ref: "MobileSuit" }],
   position: {
     type: String,
     enum: ["前衛", "後衛", "どちらでも"],
@@ -37,7 +38,8 @@ export const FindSchema: Schema = new Schema({
   created_at: { type: Date, default: Date.now },
   start_at: { type: Date, required: true },
   end_at: { type: Date, required: true },
-  Posts: [{ type: PostSchema }],
+  Posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+  tagCode: { type: String, required: false },
 });
 
 interface FindModel extends Model<Find> {}

@@ -5,6 +5,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { MobileSuit } from "../../models/MobileSuit";
 import { MSImagePath } from "../../util/returnPath";
+import { Types } from "mongoose";
 
 const FindCardStyle = css`
   width: 400px;
@@ -15,9 +16,9 @@ const FindCardStyle = css`
 
 const FindId = () => {
   const router = useRouter();
-  const id = Number(router.query);
-  const { find, isLoading, isError } = useFind(id);
+  const id: string = router.query.id as string;
 
+  const { find, isLoading, isError } = useFind(id);
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
   return (
@@ -27,12 +28,12 @@ const FindId = () => {
       <div>{find.user.grade}</div>
       <div>{find.user.rank}</div>
       <div>{find.body}</div>
-      {find.mobileSuites.map((MS: MobileSuit, idx: number) => (
+      {find.wantToUse.map((MS: MobileSuit, idx: number) => (
         <div key={idx}>
           <div>{MS.name}</div>
           <div>{MS.series}</div>
           <Image
-            src={MSImagePath(MS.name, MS.series)}
+            src={MSImagePath(MS.name, MS.series.name)}
             alt={MS.name}
             width={50}
             height={50}

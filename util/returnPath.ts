@@ -1,7 +1,7 @@
 import { Series } from "../models/Series";
 
 export const MSImagePath = (name: string, series: Series) => {
-  return `/MS/${series}/${name}`;
+  return `/MS/${series}/${series.name}`;
 };
 
 export const seriesImagePath = (series: string) => {

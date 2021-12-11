@@ -1,4 +1,4 @@
-import { model, Schema, Document, Model, models } from "mongoose";
+import { model, Schema, Document, Model, models, Types } from "mongoose";
 import { Rank, RankSchema } from "./Rank";
 import { Grade, GradeSchema } from "./Grade";
 import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
@@ -10,10 +10,9 @@ export interface User extends Document {
   rank?: Rank;
   discordName?: string;
   openSNSName: "Open" | "FriendsOnly" | "No";
-  favoriteMS?: Array<MobileSuit>;
+  favoriteMS?: [MobileSuit];
   message?: string;
   created_at: string;
-  good?: number;
   token: string;
 }
 
@@ -26,18 +25,17 @@ export const UserSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  grade: { type: GradeSchema },
-  rank: { type: RankSchema },
+  grade: { type: Schema.Types.ObjectId, ref: "Grade" },
+  rank: { type: Schema.Types.ObjectId, ref: "Rank" },
   discordName: String,
   openSNSName: {
     type: String,
     enum: ["Open", "FriendsOnly", "No"],
     required: true,
   },
-  favoriteMS: [MobileSuitSchema],
+  favoriteMS: [{ type: Schema.Types.ObjectId, ref: "MobileSuit" }],
   message: String,
   created_at: { type: Date, default: Date.now },
-  good: Number,
   token: { type: String, require: true },
 });
 

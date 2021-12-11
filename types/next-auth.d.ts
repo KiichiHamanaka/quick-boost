@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { User } from "../models/User";
 
 declare module "next-auth" {
   /**
@@ -9,6 +10,7 @@ declare module "next-auth" {
       twitterID: string;
       name: string;
       image: string;
+      user: User;
     };
   }
 }

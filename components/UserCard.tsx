@@ -21,7 +21,7 @@ const UserCard = (props: UserProps) => {
   `;
 
   return (
-    <Link href={`/find/${props.twitter}`} passHref>
+    <Link href={`/user/${props.twitter}`} passHref>
       <div css={UserCardStyle}>
         <div>{props.twitter}</div>
         <div>{props.message}</div>

@@ -1,14 +1,12 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
 const Header = () => {
   // ハンバーガーメニューも作りたい
   // li追加していく感じで
-  // アイテムはリストページ、プロフィールページ、ユーザ検索、お問い合わせページ、ログアウトとか？
+  // アイテムはリストページ、プロフィールページ、ユーザ検索、お問い合わせページ、関連リンク、ログアウトとか？
 
   const { data: session, status } = useSession();
   const loading = status === "loading";
   if (loading) return null;
-
   return (
     <div>
       {!session && (
