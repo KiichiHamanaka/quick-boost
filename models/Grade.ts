@@ -1,5 +1,4 @@
 import { model, Schema, Document, Model, models } from "mongoose";
-import { User, UserSchema } from "./User";
 
 export interface Grade extends Document {
   name: string;
@@ -7,7 +6,6 @@ export interface Grade extends Document {
 }
 
 export const GradeSchema: Schema = new Schema({
-  _id: Schema.Types.ObjectId,
   name: String,
   power: Number,
 });

@@ -1,10 +1,10 @@
-import { model, Schema, Document, Model, models, Types } from "mongoose";
-import { Series, SeriesSchema } from "./Series";
+import { model, Schema, Document, Model, models } from "mongoose";
+import { Series } from "./Series";
 
 export interface MobileSuit extends Document {
   name: string;
   cost: 1500 | 2000 | 2500 | 3000;
-  series: Types.ObjectId;
+  series: Schema.Types.ObjectId | string;
 }
 
 export const MobileSuitSchema: Schema = new Schema({

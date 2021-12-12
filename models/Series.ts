@@ -1,13 +1,13 @@
 import { model, Schema, Document, Model, models } from "mongoose";
 
 export interface Series extends Document {
-  releaseDate: number; //ソート用ナンバーにした方がいいかも 並び順がリリース日じゃないかもしれん
+  sortNum: number;
   name: string;
 }
 
 export const SeriesSchema: Schema = new Schema({
-  releaseDate: Number,
-  name: String,
+  sortNum: { type: Number, required: true },
+  name: { type: String, required: true },
 });
 
 interface SeriesModel extends Model<Series> {}
