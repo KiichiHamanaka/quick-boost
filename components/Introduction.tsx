@@ -39,7 +39,7 @@ const Introduction = () => {
         カスプレイヤーは容赦無くSNS上に晒しあげましょう
       </div>
 
-      <Link href={"/find"} passHref>
+      <Link href={"/thread"} passHref>
         <div css={Button}>相方を探す</div>
       </Link>
     </div>

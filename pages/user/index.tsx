@@ -13,19 +13,18 @@ dayjs.tz.setDefault("Asia/Tokyo");
 // const date = dayjs().tz().format("YYYY-MM-DD-HH-mm-ss");
 
 const UserIndex: React.FC = () => {
-  const { users, isLoading, isError } = useUsers();
+  const { res, isLoading, isError } = useUsers();
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
-  const res: Array<User> = users.users;
   return (
     <div>
       {res?.map((user, idx) => {
         return (
           <UserCard
             key={idx}
-            twitter={user.twitter}
-            handleName={user.handleName}
-            message={user.message}
+            twitterId={user.twitterId}
+            twitterName={user.twitterName}
+            bio={user.bio}
             grade={user.grade}
             rank={user.rank}
             favoriteMS={user.favoriteMS}

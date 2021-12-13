@@ -8,7 +8,7 @@ const IndexPage = () => {
   const router = useRouter();
 
   if (loading) return null;
-  if (session) router.push("/find");
+  if (session) router.push("/thread");
 
   return <Introduction />;
 };

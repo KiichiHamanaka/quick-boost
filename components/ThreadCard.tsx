@@ -2,26 +2,27 @@ import { css } from "@emotion/react";
 import Link from "next/link";
 import { MobileSuit } from "../models/MobileSuit";
 import { MSImagePath } from "../util/returnPath";
-import { Find } from "../models/Find";
+import { Thread } from "../models/Thread";
 import Image from "next/image";
 
-type FindProps = Pick<
-  Find,
+type ThreadProps = Pick<
+  Thread,
   | "id"
-  | "author"
-  | "message"
-  | "enjoyType"
-  | "wantToUse"
+  | "threadAuthor"
+  | "title"
+  | "playStyle" //色
+  | "useMS"
   | "isVC"
   | "allowUsers"
   | "position"
-  | "start_at"
-  | "end_at"
+  | "startedAt"
+  | "finishedAt"
   | "isPlaying"
+  | "gameMode" //色
 >;
 
-const FindCard = (props: FindProps) => {
-  const bgColor = props.enjoyType === "ガチ" ? "#FFCCCC" : "#CCFFFF";
+const ThreadCard = (props: ThreadProps) => {
+  const bgColor = props.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
   const FindCardStyle = css`
     width: 400px;
     border: solid 1px #2d2d2d;
@@ -31,14 +32,14 @@ const FindCard = (props: FindProps) => {
   `;
 
   return (
-    <Link href={`/find/${props.id}`} passHref>
+    <Link href={`/thread/${props.id}`} passHref>
       <div css={FindCardStyle}>
-        <div>{props.author.handleName}</div>
-        <div>ひとこと：{props.message}</div>
-        <div>階級：{props.author.grade}</div>
-        <div>ランク：{props.author.rank}</div>
-        <div>モード：{props.enjoyType}</div>
-        {props.wantToUse!.map((MS: MobileSuit, idx: number) => (
+        <div>{props.threadAuthor.twitterName}</div>
+        <div>ひとこと：{props.title}</div>
+        <div>階級：{props.threadAuthor.grade}</div>
+        <div>ランク：{props.threadAuthor.rank}</div>
+        <div>モード：{props.gameMode}</div>
+        {props.useMS!.map((MS: MobileSuit, idx: number) => (
           <div key={idx}>
             <div>{MS.name}</div>
             <div>{MS.series.name}</div>
@@ -60,4 +61,4 @@ const FindCard = (props: FindProps) => {
   );
 };
 
-export default FindCard;
+export default ThreadCard;

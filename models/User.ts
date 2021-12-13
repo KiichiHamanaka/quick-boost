@@ -1,7 +1,7 @@
 import { model, Schema, Document, Model, models } from "mongoose";
 import { Rank } from "./Rank";
 import { Grade } from "./Grade";
-import { MobileSuit } from "./MobileSuit";
+import { MobileSuit, MobileSuitSchema } from "./MobileSuit";
 
 export interface User extends Document {
   twitterId: string;
@@ -10,7 +10,7 @@ export interface User extends Document {
   rank?: Schema.Types.ObjectId | string;
   discordId?: string;
   openSNS: "Open" | "FriendsOnly" | "No";
-  favoriteMS?: [Schema.Types.ObjectId | string];
+  favoriteMS?: [MobileSuit];
   bio?: string;
 }
 
@@ -32,7 +32,7 @@ export const UserSchema: Schema = new Schema(
       enum: ["Open", "FriendsOnly", "No"],
       required: true,
     },
-    favoriteMS: [{ type: Schema.Types.ObjectId, ref: "MobileSuit" }],
+    favoriteMS: [{ type: MobileSuitSchema, ref: "MobileSuit" }],
     bio: {
       type: String,
     },

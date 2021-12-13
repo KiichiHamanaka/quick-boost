@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Find from "../../../models/Find";
+import Tnread from "../../../models/Thread";
 import connectDB from "../../../lib/atlas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const finds = await Find.find();
+        const finds = await Tnread.find();
         res.status(200).json(finds);
         break;
       } catch (err) {
@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "POST": {
       try {
-        const find = await Find.create(req.body);
+        const find = await Tnread.create(req.body);
         res.status(200).json(find);
         break;
       } catch (e) {
@@ -30,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "PUT": {
       try {
-        const find = await Find.create(req.body);
+        const find = await Tnread.create(req.body);
         res.status(200).json(find);
         break;
       } catch (e) {

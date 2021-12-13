@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Find from "../../../models/Find";
+import Thread from "../../../models/Thread";
 import connectDB from "../../../lib/atlas";
 import MobileSuit from "../../../models/MobileSuit";
 
@@ -22,8 +22,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "POST": {
       try {
-        const find = await Find.create(req.body);
-        res.status(200).json(find);
+        const thread = await Thread.create(req.body);
+        res.status(200).json(thread);
         break;
       } catch (e) {
         break;
@@ -31,8 +31,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "PUT": {
       try {
-        const find = await Find.create(req.body);
-        res.status(200).json(find);
+        const thread = await Thread.create(req.body);
+        res.status(200).json(thread);
         break;
       } catch (e) {
         break;

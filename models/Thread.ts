@@ -1,10 +1,11 @@
 import { Document, Model, model, models, Schema } from "mongoose";
-import { User } from "./User";
+import { User, UserSchema } from "./User";
 import { MobileSuit } from "./MobileSuit";
 import { Comment } from "./Comment";
 
 export interface Thread extends Document {
-  threadAuthor: Schema.Types.ObjectId | string;
+  id: string;
+  threadAuthor: User;
   title: string;
   body: string;
   playStyle: "ガチ" | "エンジョイ";
@@ -12,7 +13,7 @@ export interface Thread extends Document {
   isVC: boolean;
   isPlaying: boolean;
   allowUsers?: Array<Schema.Types.ObjectId | string>;
-  useMS?: Array<Schema.Types.ObjectId | string>;
+  useMS?: Array<MobileSuit>; // IDじゃないとだめな理由ってなんですか? カードコンポーネントでとってくるときどうすりゃいいかわからん
   position: "前衛" | "後衛" | "どちらでも";
   tagCode: string;
   createdAt: string;
@@ -25,7 +26,7 @@ export interface Thread extends Document {
 
 export const ThreadSchema: Schema = new Schema(
   {
-    threadAuthor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    threadAuthor: { type: UserSchema, ref: "User", required: true },
     title: { type: String, required: true, max: 20 },
     body: { type: String, required: true, max: 140 },
     playStyle: { type: String, enum: ["ガチ", "エンジョイ"], required: true },

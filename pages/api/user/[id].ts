@@ -13,12 +13,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const user = await User.findOne({ twitter: id });
         res.status(200).json(user);
-
-        // res.status(200).json({
-        //   name: "馬場P",
-        //   grade: "民間人",
-        //   rank: "EXX",
-        // });
         break;
       } catch (err) {
         break;

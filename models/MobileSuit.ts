@@ -4,7 +4,7 @@ import { Series } from "./Series";
 export interface MobileSuit extends Document {
   name: string;
   cost: 1500 | 2000 | 2500 | 3000;
-  series: Schema.Types.ObjectId | string;
+  series: Series;
 }
 
 export const MobileSuitSchema: Schema = new Schema({

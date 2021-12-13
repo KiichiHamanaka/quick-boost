@@ -1,23 +1,24 @@
 import useSWR from "swr";
 import * as fetcher from "../lib/fetcher";
 import { User } from "../models/User";
-import { Find } from "../models/Find";
+import { Thread } from "../models/Thread";
+import { MobileSuit } from "../models/MobileSuit";
 
-export const useFind = (id: string) => {
-  const { data, error } = useSWR(`/api/find/${id}`, fetcher.fetchGet);
-
+export const useThread = (id: string) => {
+  const { data, error } = useSWR(`/api/thread/${id}`, fetcher.fetchGet);
+  const res: Thread = data;
   return {
-    find: data,
+    res,
     isLoading: !error && !data,
     isError: error,
   };
 };
 
-export const useFinds = () => {
-  const { data, error } = useSWR(`/api/find`, fetcher.fetchGet);
-  const res: Array<Find> = data;
+export const useThreads = () => {
+  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
+  const res: Array<Thread> = data;
   return {
-    finds: res,
+    res,
     isLoading: !error && !data,
     isError: error,
   };
@@ -25,10 +26,9 @@ export const useFinds = () => {
 
 export const useUser = (id: string) => {
   const { data, error } = useSWR(`/api/user/${id}`, fetcher.fetchGet);
-  const user: User = data;
-
+  const res: User = data;
   return {
-    user,
+    res,
     isLoading: !error && !data,
     isError: error,
   };
@@ -36,8 +36,9 @@ export const useUser = (id: string) => {
 
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
+  const res: Array<User> = data;
   return {
-    users: data,
+    res,
     isLoading: !error && !data,
     isError: error,
   };
@@ -45,8 +46,9 @@ export const useUsers = () => {
 
 export const useMobileSuits = () => {
   const { data, error } = useSWR(`/api/MS/`, fetcher.fetchGet);
+  const res: Array<MobileSuit> = data;
   return {
-    mobileSuits: data,
+    res,
     isLoading: !error && !data,
     isError: error,
   };

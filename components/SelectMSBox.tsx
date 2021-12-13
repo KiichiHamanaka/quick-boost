@@ -20,8 +20,8 @@ type option = {
 };
 
 const SelectMSBox = () => {
-  const { mobileSuits, isLoading, isError } = useMobileSuits();
-  const [MSList, setMSList] = useState<Array<MobileSuit>>(mobileSuits);
+  const { res, isLoading, isError } = useMobileSuits();
+  const [mobileSuits, setMobileSuits] = useState<Array<MobileSuit>>(res);
   const [params, setParams] = useState<option>({
     series: [],
     costs: [],
@@ -42,10 +42,10 @@ const SelectMSBox = () => {
     setSelectMobileSuits([...selectMobileSuits, MS]);
 
   const MSFilter = (params: option) => {
-    setMSList(
-      MSList.filter((MS) => params.costs.includes(MS.cost)).filter((MS) =>
-        params.series.includes(MS.series.name)
-      )
+    setMobileSuits(
+      mobileSuits
+        .filter((MS) => params.costs.includes(MS.cost))
+        .filter((MS) => params.series.includes(MS.series.name))
     );
   };
 
@@ -56,7 +56,7 @@ const SelectMSBox = () => {
   return (
     <div css={FindCardStyle}>
       主に使いたい機体を選択してください
-      {MSList.map((MS: MobileSuit, idx: number) => (
+      {mobileSuits.map((MS: MobileSuit, idx: number) => (
         <div key={idx} onClick={() => clickHandler(MS)}>
           <Image src={MSImagePath(MS.name, MS.series)} alt={MS.name} />
         </div>

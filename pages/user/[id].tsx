@@ -17,17 +17,18 @@ const UserId: React.FC = () => {
   const router = useRouter();
   const id: string = router.query.id as string;
 
-  const { user, isLoading, isError } = useUser(id);
+  const { res, isLoading, isError } = useUser(id);
 
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
   return (
     <div css={UserCardStyle}>
-      <div>{user.twitter}</div>
-      <div>{user.message}</div>
-      <div>{user.grade}</div>
-      <div>{user.rank}</div>
-      {user.favoriteMS!.map((MS: MobileSuit, idx: number) => (
+      <div>{res.twitterId}</div>
+      <div>{res.twitterName}</div>
+      <div>{res.grade}</div>
+      <div>{res.rank}</div>
+      <div>{res.bio}</div>
+      {res.favoriteMS!.map((MS: MobileSuit, idx: number) => (
         <div key={idx}>
           <div>{MS.name}</div>
           <div>{MS.series}</div>

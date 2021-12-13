@@ -8,7 +8,7 @@ import React from "react";
 
 type UserProps = Pick<
   User,
-  "twitter" | "handleName" | "message" | "grade" | "rank" | "favoriteMS"
+  "twitterId" | "twitterName" | "grade" | "rank" | "favoriteMS" | "bio"
 >;
 
 const UserCard = (props: UserProps) => {
@@ -21,10 +21,10 @@ const UserCard = (props: UserProps) => {
   `;
 
   return (
-    <Link href={`/user/${props.twitter}`} passHref>
+    <Link href={`/user/${props.twitterId}`} passHref>
       <div css={UserCardStyle}>
-        <div>{props.twitter}</div>
-        <div>{props.message}</div>
+        <div>{props.twitterName}</div>
+        <div>{props.bio}</div>
         <div>{props.grade}</div>
         <div>{props.rank}</div>
         {props.favoriteMS!.map((MS: MobileSuit, idx: number) => (
