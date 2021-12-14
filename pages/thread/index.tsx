@@ -10,7 +10,7 @@ type option = {
   sort: "ASC" | "DESC";
 };
 
-const FindIndex: React.FC = () => {
+const ThreadIndex: React.FC = () => {
   const { res, isLoading, isError } = useThreads();
   const [Threads, setThreads] = useState<Array<Thread>>(res);
   const [params, setParams] = useState<option>({
@@ -54,4 +54,4 @@ const FindIndex: React.FC = () => {
   );
 };
 
-export default FindIndex;
+export default ThreadIndex;

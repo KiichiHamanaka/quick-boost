@@ -6,6 +6,8 @@ export interface Comment extends Document {
   threadId: Schema.Types.ObjectId | string;
   comment: string;
   commentAuthor: Schema.Types.ObjectId | string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const CommentSchema: Schema = new Schema(

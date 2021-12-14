@@ -1,9 +1,10 @@
-import { Series } from "../models/Series";
+import { MobileSuit } from "../types/MobileSuit";
+import { Series } from "../types/Series";
 
-export const MSImagePath = (name: string, series: Series) => {
-  return `/MS/${series}/${series.name}`;
+export const MSImagePath = (MS: MobileSuit) => {
+  return `Assets/Image/MS/${MS.series.name}/${MS.name}`;
 };
 
-export const seriesImagePath = (series: string) => {
-  return `/Series/logo_${series}`;
+export const seriesImagePath = (series: Series) => {
+  return `Assets/Image/Series/logo_${series.name}`;
 };
