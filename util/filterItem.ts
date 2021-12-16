@@ -1,18 +1,17 @@
-//シリーズ名でフィルタ select
 import { MobileSuit } from "../types/MobileSuit";
-import { MSCost, MSName, SeriesName } from "../types/ValueObject";
-
-// ジェネリクスなんもわからん
-const nonNullable = <T>(value: T): value is NonNullable<T> => value != null;
+import { Cost } from "../types/Union";
+import { SeriesId } from "../ValueObject/SeriesVO";
+import { nonNullable } from "../types/util";
 
 export const filterMSsFromSeries = (
-  dict: { [K in number]?: MobileSuit },
-  sname: SeriesName
+  dict: (MobileSuit | undefined)[],
+  seriesId: SeriesId
 ): MobileSuit[] => {
+  // const sidValue: Array<number> = seriesId.map((sid) => sid.value);
   return Object.values(dict)
     .filter((MS) => {
       if (MS !== undefined) {
-        return MS.series.name === sname.value;
+        return seriesId === MS.series;
       } else {
         return;
       }
@@ -20,15 +19,15 @@ export const filterMSsFromSeries = (
     .filter(nonNullable);
 };
 
-//MS名でフィルタ input
+// MS名でフィルタ input
 export const filteredMSsFromMSName = (
   dict: (MobileSuit | undefined)[],
-  msName: MSName
+  msName: string
 ): MobileSuit[] => {
   return Object.values(dict)
     .filter((MS) => {
       if (MS !== undefined) {
-        return MS.series.name.includes(msName.value);
+        return msName.includes(MS.name);
       } else {
         return;
       }
@@ -36,15 +35,20 @@ export const filteredMSsFromMSName = (
     .filter(nonNullable);
 };
 
-// コストでフィルタ
-const filteredMSsFromMSCost = (
+// コストフィルタ
+export const filteredMSsFromMSCost = (
   dict: (MobileSuit | undefined)[],
-  msCost: MSCost
+  msCost: Cost
 ): MobileSuit[] => {
   return Object.values(dict)
     .filter((MS) => {
-      if (MS !== undefined) {
-        return MS.cost === msCost.value;
+      if (
+        msCost !== "ALL" &&
+        msCost !== "RANDOM" &&
+        msCost !== undefined &&
+        MS !== undefined
+      ) {
+        return msCost === MS.cost;
       } else {
         return;
       }

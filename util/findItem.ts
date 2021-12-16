@@ -1,22 +1,18 @@
 import { MobileSuit } from "../types/MobileSuit";
-import { MSID, MSName } from "../types/ValueObject";
+import { MSID } from "../ValueObject/MobileSuitVO";
+import { MSDict } from "../dict/MSDict";
+import { SeriesId } from "../ValueObject/SeriesVO";
+import { Series } from "../types/Series";
+import { SeriesDict } from "../dict/SeriesDict";
 
-export const findMSFromId = (
-  dict: { [K in number]?: MobileSuit },
-  msid: MSID
-): MobileSuit | undefined => {
-  return dict[msid.value];
+// DB干渉しない部分だけでいいかも 干渉部分はSWRで
+
+// MSIDを引数にとりMSを返す関数
+export const findMSfromMSID = (msid: MSID): MobileSuit | undefined => {
+  return Object.values(MSDict)[msid.value];
 };
 
-export const findMSsFromMSName = (
-  msArray: (MobileSuit | undefined)[],
-  msName: MSName
-): MobileSuit | undefined => {
-  return msArray.find((MS) => {
-    if (MS !== undefined) {
-      return MS.name.value.includes(msName.value);
-    } else {
-      return undefined;
-    }
-  });
+// MSIDを引数にとりSeriesを返す関数
+export const findSeriesfromSeriesID = (sid: SeriesId): Series | undefined => {
+  return Object.values(SeriesDict)[sid.value];
 };

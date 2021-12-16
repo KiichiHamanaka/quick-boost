@@ -1,6 +1,6 @@
-import { Cost, MSCost, MSID, MSName } from "../ValueObject/MobileSuitVO";
-import { DiscordID, TwitterID, TwitterName } from "../ValueObject/UserVO";
-import { SeriesName } from "../ValueObject/SeriesVO";
+import { MSID, MSName } from "../ValueObject/MobileSuitVO";
+import { DiscordID } from "../ValueObject/UserVO";
+import { SeriesId } from "../ValueObject/SeriesVO";
 
 export const applyDiscordID = (str: string): DiscordID => {
   return {
@@ -9,19 +9,19 @@ export const applyDiscordID = (str: string): DiscordID => {
   };
 };
 
-export const applyTwitterID = (str: string): TwitterID => {
-  return {
-    value: str,
-    _meta: "TwitterID",
-  };
-};
-
-export const applyTwitterName = (str: string): TwitterName => {
-  return {
-    value: str,
-    _meta: "TwitterName",
-  };
-};
+// export const applyTwitterID = (str: string): TwitterID => {
+//   return {
+//     value: str,
+//     _meta: "TwitterID",
+//   };
+// };
+//
+// export const applyTwitterName = (str: string): TwitterName => {
+//   return {
+//     value: str,
+//     _meta: "TwitterName",
+//   };
+// };
 
 export const applyMSID = (num: number): MSID => {
   return {
@@ -30,10 +30,10 @@ export const applyMSID = (num: number): MSID => {
   };
 };
 
-export const applySeriesName = (str: string): SeriesName => {
+export const applySeriesId = (num: number): SeriesId => {
   return {
-    value: str,
-    _meta: "SeriesName",
+    value: num,
+    _meta: "SeriesId",
   };
 };
 
@@ -44,9 +44,9 @@ export const applyMSName = (str: string): MSName => {
   };
 };
 
-export const applyMSCost = (cost: Cost): MSCost => {
-  return {
-    value: cost,
-    _meta: "MSCost",
-  };
-};
+// export const applyMSCost = (cost: Cost): MSCost => {
+//   return {
+//     value: cost,
+//     _meta: "MSCost",
+//   };
+// };

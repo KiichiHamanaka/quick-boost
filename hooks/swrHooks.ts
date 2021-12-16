@@ -1,11 +1,12 @@
 import useSWR from "swr";
 import * as fetcher from "../lib/fetcher";
-import { User } from "../models/User";
-import { Thread } from "../models/Thread";
-import { MobileSuit } from "../models/MobileSuit";
+import { User } from "../types/User";
+import { Thread } from "../types/Thread";
+import { UserID } from "../ValueObject/UserVO";
+import { ThreadID } from "../ValueObject/ThreadVO";
 
-export const useThread = (id: string) => {
-  const { data, error } = useSWR(`/api/thread/${id}`, fetcher.fetchGet);
+export const useThread = (tid: ThreadID) => {
+  const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
   const res: Thread = data;
   return {
     res,
@@ -24,8 +25,8 @@ export const useThreads = () => {
   };
 };
 
-export const useUser = (id: string) => {
-  const { data, error } = useSWR(`/api/user/${id}`, fetcher.fetchGet);
+export const useUser = (uid: UserID) => {
+  const { data, error } = useSWR(`/api/user/${uid.value}`, fetcher.fetchGet);
   const res: User = data;
   return {
     res,
@@ -37,16 +38,6 @@ export const useUser = (id: string) => {
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
   const res: Array<User> = data;
-  return {
-    res,
-    isLoading: !error && !data,
-    isError: error,
-  };
-};
-
-export const useMobileSuits = () => {
-  const { data, error } = useSWR(`/api/MS/`, fetcher.fetchGet);
-  const res: Array<MobileSuit> = data;
   return {
     res,
     isLoading: !error && !data,

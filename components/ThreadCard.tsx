@@ -1,25 +1,25 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { MobileSuit } from "../models/MobileSuit";
 import { MSImagePath } from "../util/returnPath";
-import { Thread } from "../models/Thread";
 import Image from "next/image";
+import { User } from "../types/User";
+import { Schema } from "mongoose";
+import { GameMode, PlayStyle, Position } from "../types/Union";
+import { MobileSuit } from "../types/MobileSuit";
 
-type ThreadProps = Pick<
-  Thread,
-  | "id"
-  | "threadAuthor"
-  | "title"
-  | "playStyle" //色
-  | "useMS"
-  | "isVC"
-  | "allowUsers"
-  | "position"
-  | "startedAt"
-  | "finishedAt"
-  | "isPlaying"
-  | "gameMode" //色
->;
+type ThreadProps = {
+  ThreadId: Schema.Types.ObjectId;
+  threadAuthor: User;
+  title: string;
+  playStyle: PlayStyle; //色
+  useMS: Array<MobileSuit>;
+  isVC: boolean;
+  position: Position;
+  startedAt: string;
+  finishedAt: string;
+  isPlaying: boolean;
+  gameMode: GameMode; //色
+};
 
 const ThreadCard = (props: ThreadProps) => {
   const bgColor = props.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
@@ -32,23 +32,18 @@ const ThreadCard = (props: ThreadProps) => {
   `;
 
   return (
-    <Link href={`/thread/${props.id}`} passHref>
+    <Link href={`/thread/${props.ThreadId}`} passHref>
       <div css={FindCardStyle}>
+        {props.isPlaying ? <p>現在プレイ中！</p> : <p>現在募集中！</p>}
         <div>{props.threadAuthor.twitterName}</div>
-        <div>ひとこと：{props.title}</div>
+        <div>{props.title}</div>
         <div>階級：{props.threadAuthor.grade}</div>
         <div>ランク：{props.threadAuthor.rank}</div>
         <div>モード：{props.gameMode}</div>
         {props.useMS!.map((MS: MobileSuit, idx: number) => (
           <div key={idx}>
             <div>{MS.name}</div>
-            <div>{MS.series.name}</div>
-            <Image
-              src={MSImagePath(MS.name, MS.series)}
-              alt={MS.name}
-              width={50}
-              height={50}
-            />
+            <Image src={MSImagePath(MS)} alt={MS.name} width={50} height={50} />
           </div>
         ))}
         {props.isVC ? (

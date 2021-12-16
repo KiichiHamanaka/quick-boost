@@ -1,15 +1,24 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { MobileSuit } from "../models/MobileSuit";
 import { MSImagePath } from "../util/returnPath";
-import { User } from "../models/User";
 import Image from "next/image";
 import React from "react";
+import { MobileSuit } from "../types/MobileSuit";
+import { UserBio } from "../ValueObject/UserVO";
 
-type UserProps = Pick<
-  User,
-  "twitterId" | "twitterName" | "grade" | "rank" | "favoriteMS" | "bio"
->;
+// type PickUser = Pick<
+//   User,
+//   "twitterId" | "twitterName" | "grade" | "rank" | "favoriteMS" | "bio"
+// >;
+
+type UserProps = {
+  twitterId: string;
+  twitterName: string;
+  grade?: string;
+  rank?: string;
+  favoriteMS?: Array<MobileSuit>;
+  bio?: UserBio;
+};
 
 const UserCard = (props: UserProps) => {
   const UserCardStyle = css`
@@ -31,12 +40,7 @@ const UserCard = (props: UserProps) => {
           <div key={idx}>
             <div>{MS.name}</div>
             <div>{MS.series}</div>
-            <Image
-              src={MSImagePath(MS.name, MS.series)}
-              alt={MS.name}
-              width={50}
-              height={50}
-            />
+            <Image src={MSImagePath(MS)} alt={MS.name} width={50} height={50} />
           </div>
         ))}
       </div>

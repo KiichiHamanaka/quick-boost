@@ -2,7 +2,9 @@ import { model, Schema, Document, Model, models } from "mongoose";
 import { Grade } from "../types/Grade";
 import { Rank } from "../types/Rank";
 import { MobileSuit } from "../types/MobileSuit";
-import { OpenSNSConfig } from "../ValueObject/UserVO";
+
+import { MSIdSchema, UserIdSchema } from "./Id";
+import { OpenSNS } from "../types/Union";
 
 export interface User extends Document {
   twitterId: string;
@@ -10,7 +12,7 @@ export interface User extends Document {
   grade?: Grade;
   rank?: Rank;
   discordId?: string;
-  openSNS: OpenSNSConfig;
+  openSNS: OpenSNS;
   favoriteMS?: Array<MobileSuit>;
   bio?: string;
   createdAt: string;
@@ -19,6 +21,7 @@ export interface User extends Document {
 
 export const UserSchema: Schema = new Schema(
   {
+    _id: { type: UserIdSchema, required: true },
     twitterId: {
       type: String,
       required: true,
@@ -27,15 +30,15 @@ export const UserSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    grade: { type: String }, //直す
-    rank: { type: String }, //直す
+    grade: { type: Number }, //直す
+    rank: { type: Number }, //直す
     discordId: String,
     openSNS: {
       type: String,
       enum: ["Open", "FriendsOnly", "No"],
       required: true,
     },
-    favoriteMS: [{ type: String, ref: "MobileSuit" }], //直す
+    favoriteMS: [{ type: MSIdSchema, required: true }],
     bio: {
       type: String,
     },

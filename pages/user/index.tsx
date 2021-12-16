@@ -4,7 +4,6 @@ import { useUsers } from "../../hooks/swrHooks";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { User } from "../../models/User";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

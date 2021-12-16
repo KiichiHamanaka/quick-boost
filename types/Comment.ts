@@ -1,15 +1,12 @@
-import {
-  CommentAuthorValue,
-  CommentID,
-  CommentValue,
-} from "../ValueObject/CommentVO";
+import { CommentID } from "../ValueObject/CommentVO";
 import { ThreadID } from "../ValueObject/ThreadVO";
+import { UserID } from "../ValueObject/UserVO";
 
 export type Comment = {
   _id: CommentID;
   threadId: ThreadID;
-  comment: CommentValue;
-  commentAuthor: CommentAuthorValue;
+  comment: string;
+  commentAuthor: UserID;
   createdAt: string;
   updatedAt: string;
 };

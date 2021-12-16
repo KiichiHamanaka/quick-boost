@@ -1,17 +1,17 @@
 import { Schema } from "mongoose";
-import { UserID } from "./UserVO";
 
 export type CommentID = {
   value: Schema.Types.ObjectId;
   _meta: "CommentID";
 };
 
-export type CommentValue = {
+//いる
+export type Comment = {
   value: string;
-  _meta: "CommentValue";
+  _meta: "Comment";
 };
 
-export type CommentAuthorValue = {
-  value: UserID;
-  _meta: "CommentAuthor";
-};
+// export type CommentAuthor = {
+//   value: UserID;
+//   _meta: "CommentAuthor";
+// };

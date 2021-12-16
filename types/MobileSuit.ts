@@ -1,7 +1,10 @@
-import { MSCost, MSName, MSSeries } from "../ValueObject/MobileSuitVO";
+import { Cost } from "./Union";
+import { SeriesId } from "../ValueObject/SeriesVO";
+import { MSID } from "../ValueObject/MobileSuitVO";
 
 export type MobileSuit = {
-  name: MSName;
-  cost: MSCost;
-  series: MSSeries;
+  id: MSID;
+  name: string;
+  cost: Cost;
+  series: SeriesId;
 };

@@ -1,6 +1,6 @@
-import { SeriesName } from "./ValueObject";
+import { SeriesId } from "../ValueObject/SeriesVO";
 
 export type Series = {
-  // sortNum: number;
-  name: SeriesName;
+  seriesId: SeriesId;
+  name: string;
 };
