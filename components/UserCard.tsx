@@ -16,7 +16,7 @@ type UserProps = {
   twitterName: string;
   grade?: string;
   rank?: string;
-  favoriteMS?: Array<MobileSuit>;
+  favoriteMS: Array<MobileSuit>;
   bio?: UserBio;
 };
 

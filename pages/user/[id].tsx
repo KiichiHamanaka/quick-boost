@@ -22,7 +22,6 @@ const UserId: React.FC = () => {
 
   const { user, isLoadingUser, isErrorUser } = useUser(uid);
   const fms =
-    user.favoriteMS &&
     user.favoriteMS
       .map((msid) => findMobileSuitFromMSID(msid))
       .filter(nonNullable);

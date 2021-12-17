@@ -1,19 +1,17 @@
-import { model, Schema, Document, Model, models } from "mongoose";
-import { Grade } from "../types/Grade";
-import { Rank } from "../types/Rank";
-import { MobileSuit } from "../types/MobileSuit";
+import {Document, model, Model, models, Schema} from "mongoose";
+import {MobileSuit} from "../types/MobileSuit";
 
-import { MSIdSchema, UserIdSchema } from "./Id";
-import { OpenSNS } from "../types/Union";
+import {MSIdSchema, UserIdSchema} from "./Id";
+import {OpenSNSSettings} from "../types/Union";
 
 export interface User extends Document {
   twitterId: string;
   twitterName: string;
-  grade?: Grade;
-  rank?: Rank;
+  grade?: string;
+  rank?: string;
   discordId?: string;
-  openSNS: OpenSNS;
-  favoriteMS?: Array<MobileSuit>;
+  openSNSSettings: OpenSNSSettings;
+  favoriteMS: Array<MobileSuit>;
   bio?: string;
   createdAt: string;
   updatedAt: string;

@@ -21,7 +21,6 @@ const UserIndex: React.FC = () => {
     <div>
       {users?.map((user, idx) => {
         const fms =
-          user.favoriteMS &&
           user.favoriteMS
             .map((msid) => findMobileSuitFromMSID(msid))
             .filter(nonNullable);
