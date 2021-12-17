@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { Thread } from "../../models/Thread";
-import { MobileSuit } from "../../models/MobileSuit";
+import { MobileSuit } from "../../types/MobileSuit";
+import { findMobileSuitFromMSID } from "../../util/findItem";
+import { nonNullable } from "../../types/util";
 
 type option = {
   startedAt: Date | null;
@@ -11,42 +13,49 @@ type option = {
 };
 
 const ThreadIndex: React.FC = () => {
-  const { res, isLoading, isError } = useThreads();
-  const [Threads, setThreads] = useState<Array<Thread>>(res);
+  const { threads, isLoadingThreads, isErrorThreads } = useThreads();
+  const [Threads, setThreads] = useState<Array<Thread>>();
   const [params, setParams] = useState<option>({
     startedAt: null,
     useMS: [],
     sort: "DESC",
-  });
+  }); //ユーザーがフィルタしたいパラメータ
+
+  useEffect(() => {
+    setThreads(
+        threads.filter(thread => thread.)
+    ); //Threads をフィルタする
+  }, params);
   // useEffect(() => {
   //   setThreads(
   //       res.filter(thread => thread.)
-  //   ); //Finds をフィルタする
+  //   ); //Threads をフィルタする
   // }, params);
-  if (isLoading) return <div>Loading Animation</div>;
-  if (isError) return <div>Error</div>;
-
-  // const aaa = (args:string) => {
-  //   setParams()
-  // }
+  if (isLoadingThreads) return <div>Loading Animation</div>;
+  if (isErrorThreads) return <div>Error</div>;
 
   return (
     <div>
-      {Threads?.map((thread, idx) => {
+      {threads?.map((thread, idx) => {
         return (
           <ThreadCard
             key={idx}
-            id={thread.id}
-            useMS={thread.useMS}
+            ThreadId={thread._id}
+            useMS={
+              thread.useMS &&
+              thread.useMS
+                .map((msid) => msid && findMobileSuitFromMSID(msid))
+                .filter(nonNullable)
+            }
             playStyle={thread.playStyle}
             title={thread.title}
             threadAuthor={thread.threadAuthor}
             isVC={thread.isVC}
-            startedAt={"2022-12-12"}
-            finishedAt={"2022-12-12"}
+            startedAt={thread.startedAt}
+            finishedAt={thread.finishedAt}
             isPlaying={false}
-            position={"どちらでも"}
-            gameMode={"ランクマッチ"}
+            position={thread.position}
+            gameMode={thread.gameMode}
           />
         );
       })}

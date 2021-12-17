@@ -4,24 +4,26 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { createFind } from "../../lib/create";
+import { createThread } from "../../lib/create";
+import { PlayStyle, ThreadStyle } from "../../types/Union";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Tokyo");
 
 type FormValues = {
-  message: string;
+  title: string;
   body: string;
-  enjoyType: string;
-  isVC: string;
+  playStyle: PlayStyle;
+  threadStyle: ThreadStyle;
+  isVC: boolean;
   wantToUse: string;
   position: string;
   start_at: string;
   end_at: string;
 };
 
-const FindNew: React.FC = () => {
+const ThreadNew: React.FC = () => {
   const { data: session, status } = useSession();
   const { register, handleSubmit } = useForm<FormValues>();
   const loading = status === "loading";
@@ -30,19 +32,20 @@ const FindNew: React.FC = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const req = {
       ...data,
-      author: session!.user.user,
+      threadAuthor: session!.user.user,
       allowUsers: [],
       created_at: dayjs(Date.now()).format("YYYY-MM-DD-HH-mm-ss"),
       isPlaying: false,
     };
-    createFind(req);
+    createThread(req);
   };
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("message")} />
+        <input {...register("title")} />
         <input {...register("body")} />
-        <input {...register("enjoyType")} />
+        <input {...register("playStyle")} />
+        <input {...register("threadStyle")} />
         <input {...register("isVC")} />
         <input {...register("wantToUse")} />
         <input {...register("position")} />
@@ -55,4 +58,4 @@ const FindNew: React.FC = () => {
   );
 };
 
-export default FindNew;
+export default ThreadNew;
