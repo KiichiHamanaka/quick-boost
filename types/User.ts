@@ -1,8 +1,12 @@
 import { DiscordID, UserBio, UserID } from "../ValueObject/UserVO";
 import { MSID } from "../ValueObject/MobileSuitVO";
 import { OpenSNS } from "./Union";
+import { Document } from "mongoose";
+import { Grade } from "./Grade";
+import { Rank } from "./Rank";
+import { MobileSuit } from "./MobileSuit";
 
-export type User = {
+export interface User extends Document {
   _id: UserID;
   twitterId: string;
   twitterName: string;
@@ -14,4 +18,4 @@ export type User = {
   bio?: UserBio;
   createdAt: string;
   updatedAt: string;
-};
+}

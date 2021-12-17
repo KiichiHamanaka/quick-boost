@@ -1,6 +1,24 @@
 import { MSID, MSName } from "../ValueObject/MobileSuitVO";
-import { DiscordID } from "../ValueObject/UserVO";
+import { DiscordID, UserID } from "../ValueObject/UserVO";
 import { SeriesId } from "../ValueObject/SeriesVO";
+import { ThreadID } from "../ValueObject/ThreadVO";
+import { Schema } from "mongoose";
+
+export const applyUserID = (str: string): UserID => {
+  const objId = new Schema.Types.ObjectId(str);
+  return {
+    value: objId,
+    _meta: "UserID",
+  };
+};
+
+export const applyThreadID = (str: string): ThreadID => {
+  const objId = new Schema.Types.ObjectId(str);
+  return {
+    value: objId,
+    _meta: "ThreadID",
+  };
+};
 
 export const applyDiscordID = (str: string): DiscordID => {
   return {

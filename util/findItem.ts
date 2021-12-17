@@ -8,11 +8,11 @@ import { SeriesDict } from "../dict/SeriesDict";
 // DB干渉しない部分だけでいいかも 干渉部分はSWRで
 
 // MSIDを引数にとりMSを返す関数
-export const findMSfromMSID = (msid: MSID): MobileSuit | undefined => {
+export const findMobileSuitFromMSID = (msid: MSID): MobileSuit | undefined => {
   return Object.values(MSDict)[msid.value];
 };
 
 // MSIDを引数にとりSeriesを返す関数
-export const findSeriesfromSeriesID = (sid: SeriesId): Series | undefined => {
+export const findSeriesFromSeriesID = (sid: SeriesId): Series | undefined => {
   return Object.values(SeriesDict)[sid.value];
 };

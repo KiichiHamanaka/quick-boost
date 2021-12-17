@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Find } from "../models/Find";
 import { User } from "../models/User";
+import { Thread } from "../types/Thread";
 
 export const createUser = (user: User) => {
   axios.post("/api/user", user).then((res) => {
@@ -8,8 +8,8 @@ export const createUser = (user: User) => {
   });
 };
 
-export const createFind = (find: Find) => {
-  axios.put("/api/find", find).then((res) => {
+export const createThread = (thread: Thread) => {
+  axios.put("/api/thread", thread).then((res) => {
     console.log("response body:", res.data);
   });
 };

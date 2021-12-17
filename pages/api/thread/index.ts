@@ -11,8 +11,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const finds = await Tnread.find();
-        res.status(200).json(finds);
+        const threads = await Tnread.find();
+        res.status(200).json(threads);
         break;
       } catch (err) {
         console.error(err);
@@ -21,8 +21,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "POST": {
       try {
-        const find = await Tnread.create(req.body);
-        res.status(200).json(find);
+        const thread = await Tnread.create(req.body);
+        res.status(200).json(thread);
         break;
       } catch (e) {
         break;
@@ -30,8 +30,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "PUT": {
       try {
-        const find = await Tnread.create(req.body);
-        res.status(200).json(find);
+        const thread = await Tnread.create(req.body);
+        res.status(200).json(thread);
         break;
       } catch (e) {
         break;

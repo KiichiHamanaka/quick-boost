@@ -1,6 +1,29 @@
-import { Model, model, models, Schema } from "mongoose";
-import { Thread } from "../types/Thread";
+import { Document, Model, model, models, Schema } from "mongoose";
 import { MSIdSchema, ThreadIdSchema, UserIdSchema } from "./Id";
+import { ThreadID } from "../ValueObject/ThreadVO";
+import { UserID } from "../ValueObject/UserVO";
+import { GameMode, PlayStyle, Position, ThreadStyle } from "../types/Union";
+import { MSID } from "../ValueObject/MobileSuitVO";
+
+export interface Thread extends Document {
+  _id: ThreadID;
+  threadAuthor: UserID;
+  title: string;
+  body: string;
+  playStyle: PlayStyle;
+  threadStyle: ThreadStyle;
+  isVC: boolean;
+  isPlaying: boolean;
+  allowUsers?: Array<UserID>;
+  useMS: Array<MSID>;
+  position: Position;
+  gameMode: GameMode;
+  tagCode: string;
+  createdAt: string;
+  updatedAt: string;
+  startedAt: string;
+  finishedAt: string;
+}
 
 export const ThreadSchema: Schema = new Schema(
   {

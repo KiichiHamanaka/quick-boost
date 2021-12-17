@@ -4,7 +4,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import { css } from "@emotion/react";
 import { MSImagePath } from "../../util/returnPath";
-import { MobileSuit } from "../../models/MobileSuit";
+import { applyUserID } from "../../util/applyValueObject";
+import { findMobileSuitFromMSID } from "../../util/findItem";
+import { nonNullable } from "../../types/util";
 
 const UserCardStyle = css`
   width: 400px;
@@ -16,30 +18,33 @@ const UserCardStyle = css`
 const UserId: React.FC = () => {
   const router = useRouter();
   const id: string = router.query.id as string;
+  const uid = applyUserID(id);
 
-  const { res, isLoading, isError } = useUser(id);
-
-  if (isLoading) return <div>Loading Animation</div>;
-  if (isError) return <div>Error</div>;
+  const { user, isLoadingUser, isErrorUser } = useUser(uid);
+  const fms =
+    user.favoriteMS &&
+    user.favoriteMS
+      .map((msid) => findMobileSuitFromMSID(msid))
+      .filter(nonNullable);
+  if (isLoadingUser) return <div>Loading Animation</div>;
+  if (isErrorUser) return <div>Error</div>;
   return (
     <div css={UserCardStyle}>
-      <div>{res.twitterId}</div>
-      <div>{res.twitterName}</div>
-      <div>{res.grade}</div>
-      <div>{res.rank}</div>
-      <div>{res.bio}</div>
-      {res.favoriteMS!.map((MS: MobileSuit, idx: number) => (
-        <div key={idx}>
-          <div>{MS.name}</div>
-          <div>{MS.series}</div>
+      <div>{user.twitterId}</div>
+      <div>{user.twitterName}</div>
+      <div>{user.grade}</div>
+      <div>{user.rank}</div>
+      <div>{user.bio}</div>
+      {fms &&
+        fms.map((MS, idx) => (
           <Image
-            src={MSImagePath(MS.name, MS.series)}
+            key={idx}
+            src={MSImagePath(MS)}
             alt={MS.name}
             width={50}
             height={50}
           />
-        </div>
-      ))}
+        ))}
     </div>
   );
 };

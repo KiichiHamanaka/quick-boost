@@ -7,40 +7,40 @@ import { ThreadID } from "../ValueObject/ThreadVO";
 
 export const useThread = (tid: ThreadID) => {
   const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
-  const res: Thread = data;
+  const thread: Thread = data;
   return {
-    res,
-    isLoading: !error && !data,
-    isError: error,
+    thread,
+    isLoadingThread: !error && !data,
+    isErrorThread: error,
   };
 };
 
 export const useThreads = () => {
   const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
-  const res: Array<Thread> = data;
+  const threads: Array<Thread> = data;
   return {
-    res,
-    isLoading: !error && !data,
-    isError: error,
+    threads,
+    isLoadingThreads: !error && !data,
+    isErrorThreads: error,
   };
 };
 
 export const useUser = (uid: UserID) => {
   const { data, error } = useSWR(`/api/user/${uid.value}`, fetcher.fetchGet);
-  const res: User = data;
+  const user: User = data;
   return {
-    res,
-    isLoading: !error && !data,
-    isError: error,
+    user,
+    isLoadingUser: !error && !data,
+    isErrorUser: error,
   };
 };
 
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
-  const res: Array<User> = data;
+  const users: Array<User> = data;
   return {
-    res,
-    isLoading: !error && !data,
-    isError: error,
+    users,
+    isLoadingUsers: !error && !data,
+    isErrorUsers: error,
   };
 };

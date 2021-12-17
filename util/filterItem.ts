@@ -7,31 +7,17 @@ export const filterMSsFromSeries = (
   dict: (MobileSuit | undefined)[],
   seriesId: SeriesId
 ): MobileSuit[] => {
-  // const sidValue: Array<number> = seriesId.map((sid) => sid.value);
   return Object.values(dict)
-    .filter((MS) => {
-      if (MS !== undefined) {
-        return seriesId === MS.series;
-      } else {
-        return;
-      }
-    })
+    .filter((MS) => MS && seriesId === MS.series)
     .filter(nonNullable);
 };
 
-// MS名でフィルタ input
 export const filteredMSsFromMSName = (
   dict: (MobileSuit | undefined)[],
   msName: string
 ): MobileSuit[] => {
   return Object.values(dict)
-    .filter((MS) => {
-      if (MS !== undefined) {
-        return msName.includes(MS.name);
-      } else {
-        return;
-      }
-    })
+    .filter((MS) => MS && msName.includes(MS.name))
     .filter(nonNullable);
 };
 
@@ -49,8 +35,6 @@ export const filteredMSsFromMSCost = (
         MS !== undefined
       ) {
         return msCost === MS.cost;
-      } else {
-        return;
       }
     })
     .filter(nonNullable);

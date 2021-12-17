@@ -3,16 +3,16 @@ import Link from "next/link";
 import { MSImagePath } from "../util/returnPath";
 import Image from "next/image";
 import { User } from "../types/User";
-import { Schema } from "mongoose";
 import { GameMode, PlayStyle, Position } from "../types/Union";
 import { MobileSuit } from "../types/MobileSuit";
+import { ThreadID } from "../ValueObject/ThreadVO";
 
 type ThreadProps = {
-  ThreadId: Schema.Types.ObjectId;
+  ThreadId: ThreadID;
   threadAuthor: User;
   title: string;
   playStyle: PlayStyle; //色
-  useMS: Array<MobileSuit>;
+  useMS?: Array<MobileSuit>;
   isVC: boolean;
   position: Position;
   startedAt: string;
@@ -23,7 +23,7 @@ type ThreadProps = {
 
 const ThreadCard = (props: ThreadProps) => {
   const bgColor = props.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
-  const FindCardStyle = css`
+  const ThreadCardStyle = css`
     width: 400px;
     border: solid 1px #2d2d2d;
     border-radius: 4px;
@@ -33,7 +33,7 @@ const ThreadCard = (props: ThreadProps) => {
 
   return (
     <Link href={`/thread/${props.ThreadId}`} passHref>
-      <div css={FindCardStyle}>
+      <div css={ThreadCardStyle}>
         {props.isPlaying ? <p>現在プレイ中！</p> : <p>現在募集中！</p>}
         <div>{props.threadAuthor.twitterName}</div>
         <div>{props.title}</div>
