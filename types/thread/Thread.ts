@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
-import { UserID } from "../ValueObject/UserVO";
-import { ThreadID } from "../ValueObject/ThreadVO";
-import { GameMode, PlayStyle, Position, ThreadStyle } from "./Union";
-import { MSID } from "../ValueObject/MobileSuitVO";
+import { UserID } from "../UserVO";
+import { ThreadID } from "./ThreadVO";
+import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
+import { MSID } from "../MobileSuitVO";
 
 export interface Thread extends Document {
   _id: ThreadID;

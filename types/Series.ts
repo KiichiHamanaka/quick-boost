@@ -1,4 +1,4 @@
-import { SeriesId } from "../ValueObject/SeriesVO";
+import { SeriesId } from "./SeriesVO";
 
 export type Series = {
   seriesId: SeriesId;

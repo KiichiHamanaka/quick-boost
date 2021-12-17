@@ -1,6 +1,6 @@
-import { CommentID } from "../ValueObject/CommentVO";
-import { ThreadID } from "../ValueObject/ThreadVO";
-import { UserID } from "../ValueObject/UserVO";
+import { CommentID } from "./CommentVO";
+import { ThreadID } from "./ThreadVO";
+import { UserID } from "../UserVO";
 
 export type Comment = {
   _id: CommentID;

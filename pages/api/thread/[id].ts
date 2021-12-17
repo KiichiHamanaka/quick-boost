@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Thread from "../../../models/Thread";
-import connectDB from "../../../lib/atlas";
+import Thread from "../../../db/models/Thread";
+import connectDB from "../../../db/atlas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();

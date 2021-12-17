@@ -4,7 +4,7 @@ import { MSImagePath } from "../util/returnPath";
 import Image from "next/image";
 import React from "react";
 import { MobileSuit } from "../types/MobileSuit";
-import { UserBio } from "../ValueObject/UserVO";
+import { UserBio } from "../types/UserVO";
 
 // type PickUser = Pick<
 //   User,

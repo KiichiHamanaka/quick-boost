@@ -1,4 +1,4 @@
-import { Rank } from "../types/Rank";
+import { Rank } from "../../types/Rank";
 
 export const RankDict: { [K in number]?: Rank } = {
   1: {

@@ -4,7 +4,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { createThread } from "../../lib/create";
+import { createThread } from "../api/create";
 import { PlayStyle, ThreadStyle } from "../../types/Union";
 
 dayjs.extend(utc);

@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import { User } from "../models/User";
+import { User } from "../db/models/User";
 
 declare module "next-auth" {
   /**

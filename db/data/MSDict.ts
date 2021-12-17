@@ -1,4 +1,4 @@
-import { MobileSuit } from "../types/MobileSuit";
+import { MobileSuit } from "../../types/MobileSuit";
 
 export const MSDict: { [K in number]?: MobileSuit } = {
   1: {

@@ -1,4 +1,4 @@
-import { Grade } from "../types/Grade";
+import { Grade } from "../../types/Grade";
 
 export const GradeDict: { [K in number]?: Grade } = {
   1: {

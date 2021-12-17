@@ -1,8 +1,8 @@
 import {Document, model, Model, models, Schema} from "mongoose";
-import {MobileSuit} from "../types/MobileSuit";
 
 import {MSIdSchema, UserIdSchema} from "./Id";
-import {OpenSNSSettings} from "../types/Union";
+import {OpenSNSSettings} from "../../types/Union";
+import {MSID} from "../../types/MobileSuitVO";
 
 export interface User extends Document {
   twitterId: string;
@@ -11,7 +11,7 @@ export interface User extends Document {
   rank?: string;
   discordId?: string;
   openSNSSettings: OpenSNSSettings;
-  favoriteMS: Array<MobileSuit>;
+  favoriteMSIDs: Array<MSID>;
   bio?: string;
   createdAt: string;
   updatedAt: string;

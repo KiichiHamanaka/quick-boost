@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
-import { Thread } from "../../models/Thread";
+import { Thread } from "../../db/models/Thread";
 import { MobileSuit } from "../../types/MobileSuit";
 import { findMobileSuitFromMSID } from "../../util/findItem";
 import { nonNullable } from "../../types/util";

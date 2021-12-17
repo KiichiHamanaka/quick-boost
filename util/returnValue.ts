@@ -1,7 +1,7 @@
-import { MSID } from "../ValueObject/MobileSuitVO";
-import { MSDict } from "../dict/MSDict";
-import { SeriesDict } from "../dict/SeriesDict";
-import { SeriesId } from "../ValueObject/SeriesVO";
+import { MSID } from "../types/MobileSuitVO";
+import { MSDict } from "../db/data/MSDict";
+import { SeriesDict } from "../db/data/SeriesDict";
+import { SeriesId } from "../types/SeriesVO";
 
 export const getMSNameFromMSID = (msid: MSID): string | undefined => {
   const arr = Object.values(MSDict);

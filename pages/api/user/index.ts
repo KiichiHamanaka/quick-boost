@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import User from "../../../models/User";
-import connectDB from "../../../lib/atlas";
+import User from "../../../db/models/User";
+import connectDB from "../../../db/atlas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();

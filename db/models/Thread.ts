@@ -1,9 +1,9 @@
 import { Document, Model, model, models, Schema } from "mongoose";
 import { MSIdSchema, ThreadIdSchema, UserIdSchema } from "./Id";
-import { ThreadID } from "../ValueObject/ThreadVO";
-import { UserID } from "../ValueObject/UserVO";
-import { GameMode, PlayStyle, Position, ThreadStyle } from "../types/Union";
-import { MSID } from "../ValueObject/MobileSuitVO";
+import { ThreadID } from "../../types/thread/ThreadVO";
+import { UserID } from "../../types/UserVO";
+import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
+import { MSID } from "../../types/MobileSuitVO";
 
 export interface Thread extends Document {
   _id: ThreadID;

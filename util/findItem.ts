@@ -1,9 +1,9 @@
 import { MobileSuit } from "../types/MobileSuit";
-import { MSID } from "../ValueObject/MobileSuitVO";
-import { MSDict } from "../dict/MSDict";
-import { SeriesId } from "../ValueObject/SeriesVO";
+import { MSID } from "../types/MobileSuitVO";
+import { MSDict } from "../db/data/MSDict";
+import { SeriesId } from "../types/SeriesVO";
 import { Series } from "../types/Series";
-import { SeriesDict } from "../dict/SeriesDict";
+import { SeriesDict } from "../db/data/SeriesDict";
 
 // DB干渉しない部分だけでいいかも 干渉部分はSWRで
 

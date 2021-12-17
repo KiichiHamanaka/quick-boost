@@ -1,5 +1,5 @@
-import { DiscordID, UserBio, UserID } from "../ValueObject/UserVO";
-import { MSID } from "../ValueObject/MobileSuitVO";
+import { DiscordID, UserBio, UserID } from "./UserVO";
+import { MSID } from "./MobileSuitVO";
 import {OpenSNSSettings} from "./Union";
 
 export interface User  {

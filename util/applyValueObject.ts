@@ -1,7 +1,7 @@
-import { MSID, MSName } from "../ValueObject/MobileSuitVO";
-import { DiscordID, UserID } from "../ValueObject/UserVO";
-import { SeriesId } from "../ValueObject/SeriesVO";
-import { ThreadID } from "../ValueObject/ThreadVO";
+import { MSID, MSName } from "../types/MobileSuitVO";
+import { DiscordID, UserID } from "../types/UserVO";
+import { SeriesId } from "../types/SeriesVO";
+import { ThreadID } from "../types/thread/ThreadVO";
 import { Schema } from "mongoose";
 
 export const applyUserID = (str: string): UserID => {

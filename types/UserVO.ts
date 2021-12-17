@@ -5,25 +5,18 @@ export type UserID = {
   _meta: "UserID";
 };
 
+export const applyUserID = (str: string): UserID => {
+  const objId = new Schema.Types.ObjectId(str);
+  return {
+    value: objId,
+    _meta: "UserID",
+  };
+};
+
 export type UserBio = {
   value: string;
   _meta: "UserBio";
 };
-
-// export type OpenSNS = {
-//   value: "Open" | "FriendsOnly" | "No";
-//   _meta: "OpenSNS";
-// };
-
-// export type UserGrade = {
-//   value: Grade;
-//   _meta: "UserGrade";
-// };
-
-// export type UserRank = {
-//   value: Rank;
-//   _meta: "UserRank";
-// };
 
 export type DiscordID = {
   value: string;

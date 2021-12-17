@@ -1,6 +1,6 @@
 import { Cost } from "./Union";
-import { SeriesId } from "../ValueObject/SeriesVO";
-import { MSID } from "../ValueObject/MobileSuitVO";
+import { SeriesId } from "./SeriesVO";
+import { MSID } from "./MobileSuitVO";
 
 export type MobileSuit = {
   id: MSID;

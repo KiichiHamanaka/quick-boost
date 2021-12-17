@@ -1,9 +1,9 @@
 import useSWR from "swr";
-import * as fetcher from "../lib/fetcher";
+import * as fetcher from "../pages/api/fetcher";
 import { User } from "../types/User";
-import { Thread } from "../types/Thread";
-import { UserID } from "../ValueObject/UserVO";
-import { ThreadID } from "../ValueObject/ThreadVO";
+import { Thread } from "../types/thread/Thread";
+import { UserID } from "../types/UserVO";
+import { ThreadID } from "../types/thread/ThreadVO";
 
 export const useThread = (tid: ThreadID) => {
   const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);

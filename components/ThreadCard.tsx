@@ -5,7 +5,7 @@ import Image from "next/image";
 import { User } from "../types/User";
 import { GameMode, PlayStyle, Position } from "../types/Union";
 import { MobileSuit } from "../types/MobileSuit";
-import { ThreadID } from "../ValueObject/ThreadVO";
+import { ThreadID } from "../types/thread/ThreadVO";
 
 type ThreadProps = {
   ThreadId: ThreadID;

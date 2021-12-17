@@ -7,15 +7,15 @@ import {
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { Cost } from "../types/Union";
-import { MSDict } from "../dict/MSDict";
-import { SeriesDict } from "../dict/SeriesDict";
+import { MSDict } from "../db/data/MSDict";
+import { SeriesDict } from "../db/data/SeriesDict";
 import {
   filteredMSsFromMSCost,
   filteredMSsFromMSName,
   filterMSsFromSeries,
 } from "../util/filterItem";
-import { SeriesId } from "../ValueObject/SeriesVO";
-import { MSID } from "../ValueObject/MobileSuitVO";
+import { SeriesId } from "../types/SeriesVO";
+import { MSID } from "../types/MobileSuitVO";
 import { useUser } from "../hooks/swrHooks";
 import { nonNullable } from "../types/util";
 import { MobileSuit } from "../types/MobileSuit";

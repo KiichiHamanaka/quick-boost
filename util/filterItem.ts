@@ -1,6 +1,6 @@
 import { MobileSuit } from "../types/MobileSuit";
 import { Cost } from "../types/Union";
-import { SeriesId } from "../ValueObject/SeriesVO";
+import { SeriesId } from "../types/SeriesVO";
 import { nonNullable } from "../types/util";
 
 export const filterMSsFromSeries = (

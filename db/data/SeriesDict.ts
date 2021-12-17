@@ -1,4 +1,4 @@
-import { Series } from "../types/Series";
+import { Series } from "../../types/Series";
 
 export const SeriesDict: { [K in number]?: Series } = {
   1: {
