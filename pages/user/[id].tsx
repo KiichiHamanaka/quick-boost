@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { css } from "@emotion/react";
-import { MSImagePath } from "../../util/returnPath";
-import { applyUserID } from "../../util/applyValueObject";
-import { findMobileSuitFromMSID } from "../../util/findItem";
+
 import { nonNullable } from "../../types/util";
+import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
+import { applyUserID } from "../../types/User";
 
 const UserCardStyle = css`
   width: 400px;
@@ -21,10 +21,9 @@ const UserId: React.FC = () => {
   const uid = applyUserID(id);
 
   const { user, isLoadingUser, isErrorUser } = useUser(uid);
-  const fms =
-    user.favoriteMS
-      .map((msid) => findMobileSuitFromMSID(msid))
-      .filter(nonNullable);
+  const fms = user.favoriteMS
+    .map((msid) => findMobileSuitFromMSID(msid))
+    .filter(nonNullable);
   if (isLoadingUser) return <div>Loading Animation</div>;
   if (isErrorUser) return <div>Error</div>;
   return (

@@ -1,8 +1,11 @@
-import {Document, model, Model, models, Schema} from "mongoose";
+import { Document, model, Model, models, Schema } from "mongoose";
 
-import {MSIdSchema, UserIdSchema} from "./Id";
-import {OpenSNSSettings} from "../../types/Union";
-import {MSID} from "../../types/MobileSuitVO";
+import { OpenSNSSettings } from "../../types/Union";
+
+export const UserIdSchema: Schema = new Schema({
+  value: Schema.Types.ObjectId,
+  _meta: "UserID",
+});
 
 export interface User extends Document {
   twitterId: string;
@@ -11,7 +14,7 @@ export interface User extends Document {
   rank?: string;
   discordId?: string;
   openSNSSettings: OpenSNSSettings;
-  favoriteMSIDs: Array<MSID>;
+  favoriteMSIDs: Array<number>;
   bio?: string;
   createdAt: string;
   updatedAt: string;
@@ -31,12 +34,12 @@ export const UserSchema: Schema = new Schema(
     grade: { type: Number }, //直す
     rank: { type: Number }, //直す
     discordId: String,
-    openSNS: {
+    openSNSSettings: {
       type: String,
       enum: ["Open", "FriendsOnly", "No"],
       required: true,
     },
-    favoriteMS: [{ type: MSIdSchema, required: true }],
+    favoriteMS: [Number],
     bio: {
       type: String,
     },

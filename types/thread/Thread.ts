@@ -1,12 +1,9 @@
-import { Document } from "mongoose";
-import { UserID } from "../UserVO";
-import { ThreadID } from "./ThreadVO";
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
-import { MSID } from "../MobileSuitVO";
+import { User, UserID } from "../User";
 
-export interface Thread extends Document {
+export interface Thread {
   _id: ThreadID;
-  threadAuthor: UserID;
+  threadAuthor: User;
   title: string;
   body: string;
   playStyle: PlayStyle;
@@ -14,7 +11,7 @@ export interface Thread extends Document {
   isVC: boolean;
   isPlaying: boolean;
   allowUsers?: Array<UserID>;
-  useMS?: Array<MSID>;
+  useMS?: Array<number>;
   position: Position;
   gameMode: GameMode;
   tagCode: string;
@@ -23,3 +20,15 @@ export interface Thread extends Document {
   startedAt: string;
   finishedAt: string;
 }
+
+export type ThreadID = {
+  value: string;
+  _meta: "ThreadID";
+};
+
+export const applyThreadID = (str: string): ThreadID => {
+  return {
+    value: str,
+    _meta: "ThreadID",
+  };
+};

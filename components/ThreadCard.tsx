@@ -1,11 +1,10 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { MSImagePath } from "../util/returnPath";
 import Image from "next/image";
 import { User } from "../types/User";
 import { GameMode, PlayStyle, Position } from "../types/Union";
-import { MobileSuit } from "../types/MobileSuit";
-import { ThreadID } from "../types/thread/ThreadVO";
+import { MobileSuit, MSImagePath } from "../types/MobileSuit";
+import { ThreadID } from "../types/thread/Thread";
 
 type ThreadProps = {
   ThreadId: ThreadID;

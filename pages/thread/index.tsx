@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { Thread } from "../../db/models/Thread";
-import { MobileSuit } from "../../types/MobileSuit";
-import { findMobileSuitFromMSID } from "../../util/findItem";
+import { findMobileSuitFromMSID, MobileSuit } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 
 type option = {
@@ -21,11 +20,11 @@ const ThreadIndex: React.FC = () => {
     sort: "DESC",
   }); //ユーザーがフィルタしたいパラメータ
 
-  useEffect(() => {
-    setThreads(
-        threads.filter(thread => thread.)
-    ); //Threads をフィルタする
-  }, params);
+  // useEffect(() => {
+  //   setThreads(
+  //       threads.filter(thread => thread.)
+  //   ); //Threads をフィルタする
+  // }, params);
   // useEffect(() => {
   //   setThreads(
   //       res.filter(thread => thread.)

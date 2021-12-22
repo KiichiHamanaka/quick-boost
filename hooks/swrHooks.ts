@@ -1,9 +1,7 @@
 import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
-import { User } from "../types/User";
-import { Thread } from "../types/thread/Thread";
-import { UserID } from "../types/UserVO";
-import { ThreadID } from "../types/thread/ThreadVO";
+import { User, UserID } from "../types/User";
+import { Thread, ThreadID } from "../types/thread/Thread";
 
 export const useThread = (tid: ThreadID) => {
   const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
@@ -22,6 +20,16 @@ export const useThreads = () => {
     threads,
     isLoadingThreads: !error && !data,
     isErrorThreads: error,
+  };
+};
+
+export const useComments = (tid: ThreadID) => {
+  const { data, error } = useSWR(`/api/comment/${tid.value}`, fetcher.fetchGet);
+  const comments: Comment = data;
+  return {
+    comments,
+    isLoadingComments: !error && !data,
+    isErrorComments: error,
   };
 };
 

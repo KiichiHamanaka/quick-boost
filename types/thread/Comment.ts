@@ -1,6 +1,5 @@
-import { CommentID } from "./CommentVO";
-import { ThreadID } from "./ThreadVO";
-import { UserID } from "../UserVO";
+import { ThreadID } from "./Thread";
+import { UserID } from "../User";
 
 export type Comment = {
   _id: CommentID;
@@ -9,4 +8,9 @@ export type Comment = {
   commentAuthor: UserID;
   createdAt: string;
   updatedAt: string;
+};
+
+export type CommentID = {
+  value: string;
+  _meta: "CommentID";
 };

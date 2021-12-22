@@ -2,16 +2,16 @@ import { MobileSuit } from "../../types/MobileSuit";
 
 export const MSDict: { [K in number]?: MobileSuit } = {
   1: {
-    id: { value: 1, _meta: "MSID" },
+    id: 1,
     name: "ガンダム",
     cost: "2000",
-    series: { value: 1, _meta: "SeriesId" },
+    series: 1,
   },
   2: {
-    id: { value: 2, _meta: "MSID" },
+    id: 1,
     name: "ガンダム",
     cost: "2000",
-    series: { value: 1, _meta: "SeriesId" },
+    series: 1,
   },
 };
 

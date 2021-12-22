@@ -1,21 +1,22 @@
 import { model, Schema, Document, Model, models } from "mongoose";
-import { User } from "./User";
-import { Thread } from "./Thread";
+import { User, UserIdSchema } from "./User";
+import { ThreadID } from "../../types/thread/Thread";
+import { ThreadIdSchema } from "./Thread";
 
 export interface Comment extends Document {
-  threadId: Schema.Types.ObjectId | string;
+  threadId: ThreadID;
   comment: string;
-  commentAuthor: Schema.Types.ObjectId | string;
+  commentAuthor: User;
   createdAt: string;
   updatedAt: string;
 }
 
 export const CommentSchema: Schema = new Schema(
   {
-    threadId: { type: Schema.Types.ObjectId, ref: "Thread", required: "true" },
+    threadId: { type: ThreadIdSchema, required: "true" },
     comment: { type: String, required: true, max: 20 },
     commentAuthor: {
-      type: Schema.Types.ObjectId,
+      type: UserIdSchema,
       ref: "User",
       required: "true",
     },

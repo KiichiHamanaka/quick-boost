@@ -4,8 +4,8 @@ import { useUsers } from "../../hooks/swrHooks";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { findMobileSuitFromMSID } from "../../util/findItem";
 import { nonNullable } from "../../types/util";
+import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -20,10 +20,9 @@ const UserIndex: React.FC = () => {
   return (
     <div>
       {users?.map((user, idx) => {
-        const fms =
-          user.favoriteMS
-            .map((msid) => findMobileSuitFromMSID(msid))
-            .filter(nonNullable);
+        const fms = user.favoriteMS
+          .map((msid) => findMobileSuitFromMSID(msid))
+          .filter(nonNullable);
         return (
           <UserCard
             key={idx}

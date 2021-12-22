@@ -2,10 +2,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { css } from "@emotion/react";
-import { MSImagePath } from "../../util/returnPath";
-import { useThread, useUser } from "../../hooks/swrHooks";
-import { applyThreadID } from "../../util/applyValueObject";
-import { findMobileSuitFromMSID } from "../../util/findItem";
+import { useComments, useThread, useUser } from "../../hooks/swrHooks";
+import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
+import { applyThreadID } from "../../types/thread/Thread";
+import { Comment } from "../../types/thread/Comment";
 
 const FindCardStyle = css`
   width: 400px;
@@ -20,11 +20,12 @@ const ThreadId = () => {
   const tid = applyThreadID(id);
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
-  const { user, isLoadingUser, isErrorUser } = useUser(thread.threadAuthor);
-
-  const isLoading = isLoadingThread && isLoadingUser;
-  const isError = isErrorThread && isErrorUser;
-
+  const { comments, isLoadingComments, isErrorComments } = useComments(
+    thread._id
+  );
+  const isLoading = isLoadingThread;
+  const isError = isErrorThread;
+  Comment;
   const tms =
     thread.useMS &&
     thread.useMS.map((msid) => msid && findMobileSuitFromMSID(msid));
@@ -34,11 +35,11 @@ const ThreadId = () => {
 
   return (
     <div css={FindCardStyle}>
-      <div>{user.twitterId}</div>
-      <div>{user.twitterName}</div>
+      <div>{thread.threadAuthor.twitterId}</div>
+      <div>{thread.threadAuthor.twitterName}</div>
       <div>{thread.title}</div>
-      <div>{user.grade}</div>
-      <div>{user.rank}</div>
+      <div>{thread.threadAuthor.grade}</div>
+      <div>{thread.threadAuthor.rank}</div>
       <div>{thread.body}</div>
       {tms &&
         tms.map(

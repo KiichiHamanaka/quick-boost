@@ -1,25 +1,20 @@
 import { css } from "@emotion/react";
-import {
-  costsImagePath,
-  MSImagePath,
-  seriesImagePath,
-} from "../util/returnPath";
+
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { Cost } from "../types/Union";
 import { MSDict } from "../db/data/MSDict";
 import { SeriesDict } from "../db/data/SeriesDict";
+import { nonNullable } from "../types/util";
 import {
+  costsImagePath,
   filteredMSsFromMSCost,
   filteredMSsFromMSName,
   filterMSsFromSeries,
-} from "../util/filterItem";
-import { SeriesId } from "../types/SeriesVO";
-import { MSID } from "../types/MobileSuitVO";
-import { useUser } from "../hooks/swrHooks";
-import { nonNullable } from "../types/util";
-import { MobileSuit } from "../types/MobileSuit";
-import { Series } from "../types/Series";
+  MobileSuit,
+  MSImagePath,
+} from "../types/MobileSuit";
+import { Series, seriesImagePath } from "../types/Series";
 
 /*
    ユーザー画面とスレッド作成時の二箇所で使いまわしたい
@@ -34,15 +29,15 @@ const SelectMSBox = () => {
   const seriesDict: Series[] = Object.values(SeriesDict).filter(nonNullable);
   const [mobileSuits, setMobileSuits] = useState<MobileSuit[]>(msDict);
   const [cost, setCost] = useState<Cost>("ALL");
-  const [seriesId, setSeriesId] = useState<SeriesId | null>(null);
-  const [msName, setMsName] = useState<string>("");
-  const [selectMobileSuitsId, setSelectMobileSuitsId] = useState<Array<MSID>>(
+  const [seriesId, setSeriesId] = useState<number | null>(null);
+  const [msName, setMsName] = useState<string | null>("");
+  const [selectMobileSuitsId, setSelectMobileSuitsId] = useState<Array<number>>(
     []
   );
   // const { res, isLoading, isError } = useUser(session.USERID);
   // const favList = res.favoriteMS;
 
-  const clickHandlerMSID = (msid: MSID) => {
+  const clickHandlerMSID = (msid: number) => {
     !selectMobileSuitsId.includes(msid)
       ? setSelectMobileSuitsId([...selectMobileSuitsId, msid])
       : setSelectMobileSuitsId(
@@ -50,7 +45,7 @@ const SelectMSBox = () => {
         );
   };
 
-  const filterMS = (cost: Cost, msName: string, sid: SeriesId | null) => {
+  const filterMS = (cost: Cost, msName: string | null, sid: number | null) => {
     if (sid) setMobileSuits(filterMSsFromSeries(mobileSuits, sid));
     if (cost !== "ALL")
       setMobileSuits(filteredMSsFromMSCost(mobileSuits, cost));

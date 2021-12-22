@@ -1,9 +1,13 @@
 import { Document, Model, model, models, Schema } from "mongoose";
-import { MSIdSchema, ThreadIdSchema, UserIdSchema } from "./Id";
-import { ThreadID } from "../../types/thread/ThreadVO";
-import { UserID } from "../../types/UserVO";
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
-import { MSID } from "../../types/MobileSuitVO";
+import { UserIdSchema } from "./User";
+import { ThreadID } from "../../types/thread/Thread";
+import { UserID } from "../../types/User";
+
+export const ThreadIdSchema: Schema = new Schema({
+  value: Schema.Types.ObjectId,
+  _meta: "ThreadId",
+});
 
 export interface Thread extends Document {
   _id: ThreadID;
@@ -14,8 +18,8 @@ export interface Thread extends Document {
   threadStyle: ThreadStyle;
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers?: Array<UserID>;
-  useMS: Array<MSID>;
+  allowUsers: Array<UserID>;
+  useMS: Array<number>;
   position: Position;
   gameMode: GameMode;
   tagCode: string;
@@ -35,8 +39,8 @@ export const ThreadSchema: Schema = new Schema(
     threadStyle: { type: String, enum: ["相方募集", "プラベ"], required: true },
     isVC: { type: Boolean, required: true },
     isPlaying: { type: Boolean, required: true },
-    allowUsers: [{ type: UserIdSchema, required: true }],
-    useMS: [{ type: MSIdSchema, required: true }],
+    allowUsers: [{ type: UserIdSchema }],
+    useMS: [{ type: Number }],
     position: {
       type: String,
       enum: ["前衛", "後衛", "どちらでも"],
