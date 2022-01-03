@@ -4,7 +4,7 @@ import { OpenSNSSettings } from "../../types/Union";
 
 export const UserIdSchema: Schema = new Schema({
   value: Schema.Types.ObjectId,
-  _meta: "UserID",
+  _meta: { type: String, enum: ["UserID"], required: true },
 });
 
 export interface User extends Document {
@@ -31,8 +31,8 @@ export const UserSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    grade: { type: Number }, //直す
-    rank: { type: Number }, //直す
+    grade: { type: Number },
+    rank: { type: Number },
     discordId: String,
     openSNSSettings: {
       type: String,
