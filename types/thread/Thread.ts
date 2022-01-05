@@ -10,8 +10,8 @@ export interface Thread {
   threadStyle: ThreadStyle;
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers?: Array<UserID>;
-  useMS?: Array<number>;
+  allowUsers: Array<UserID>;
+  useMS: Array<number>;
   position: Position;
   gameMode: GameMode;
   tagCode: string;

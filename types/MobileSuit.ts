@@ -47,18 +47,20 @@ export const filteredMSsFromMSCost = (
     .filter(nonNullable);
 };
 
-export const findMobileSuitFromMSID = (
-  msid: number
-): MobileSuit | undefined => {
+export const findMobileSuitFromMSID = (msid: number): MobileSuit => {
   return Object.values(MSDict)[msid];
 };
 
+export const fms = (msids: number[]): MobileSuit[] => {
+  return msids.map((msid) => findMobileSuitFromMSID(msid));
+};
+
 export const costsImagePath = (cost: Cost) => {
-  return `Assets/Image/costs/cost_${cost}`;
+  return `/assets/Image/Costs/cost_${cost}`;
 };
 
 export const MSImagePath = (MS: MobileSuit) => {
-  return `Assets/Image/MS/${getSeriesName(MS.series)}/${MS.name}`;
+  return `/assets/Image/MS/${getSeriesName(MS.series)}/${MS.name}.png`;
 };
 
 export const getMSNameFromMSID = (id: number): string | undefined => {
