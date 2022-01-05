@@ -10,7 +10,7 @@ const UserEdit: React.FC = () => {
   const data = {};
 
   const editUser = () => {
-    const user = loadingSession && session!.user.user; //twitter名にしろ
+    const user = loadingSession && session!.user.twitterName; //twitter名にしろ
     axios.put(`/api/user/${user}`, data).then((res) => {
       console.log(res.data);
     });
