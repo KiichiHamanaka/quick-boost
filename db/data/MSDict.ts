@@ -1,6 +1,6 @@
 import { MobileSuit } from "../../types/MobileSuit";
 
-export const MSDict: { [K in number]?: MobileSuit } = {
+export const MSDict: { [K in number]: MobileSuit } = {
   1: {
     id: 1,
     name: "ガンダム",
@@ -8,8 +8,8 @@ export const MSDict: { [K in number]?: MobileSuit } = {
     series: 1,
   },
   2: {
-    id: 1,
-    name: "ガンダム",
+    id: 2,
+    name: "シャア専用ザクⅡ",
     cost: "2000",
     series: 1,
   },
