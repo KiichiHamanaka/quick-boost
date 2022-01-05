@@ -11,7 +11,7 @@ type ThreadProps = {
   threadAuthor: User;
   title: string;
   playStyle: PlayStyle; //色
-  useMS?: Array<MobileSuit>;
+  useMS: Array<MobileSuit>;
   isVC: boolean;
   position: Position;
   startedAt: string;
@@ -39,12 +39,19 @@ const ThreadCard = (props: ThreadProps) => {
         <div>階級：{props.threadAuthor.grade}</div>
         <div>ランク：{props.threadAuthor.rank}</div>
         <div>モード：{props.gameMode}</div>
-        {props.useMS!.map((MS: MobileSuit, idx: number) => (
-          <div key={idx}>
-            <div>{MS.name}</div>
-            <Image src={MSImagePath(MS)} alt={MS.name} width={50} height={50} />
-          </div>
-        ))}
+        {props.useMS.map((MS: MobileSuit, idx: number) => {
+          return (
+            <div key={idx}>
+              <div>{MS.name}</div>
+              <Image
+                src={MSImagePath(MS)}
+                alt={MS.name}
+                width={50}
+                height={50}
+              />
+            </div>
+          );
+        })}
         {props.isVC ? (
           <Image src={"/assets/Logo/discord.jpeg"} alt={"VC可能"} />
         ) : (
