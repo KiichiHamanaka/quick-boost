@@ -1,53 +1,54 @@
 import useSWR from "swr";
-import * as fetcher from "../lib/fetcher";
-import { User } from "../models/User";
-import { Find } from "../models/Find";
+import * as fetcher from "../pages/api/fetcher";
+import { User, UserID } from "../types/User";
+import { Thread, ThreadID } from "../types/thread/Thread";
 
-export const useFind = (id: string) => {
-  const { data, error } = useSWR(`/api/find/${id}`, fetcher.fetchGet);
-
+export const useThread = (tid: ThreadID) => {
+  const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
+  const thread: Thread = data;
   return {
-    find: data,
-    isLoading: !error && !data,
-    isError: error,
+    thread,
+    isLoadingThread: !error && !data,
+    isErrorThread: error,
   };
 };
 
-export const useFinds = () => {
-  const { data, error } = useSWR(`/api/find`, fetcher.fetchGet);
-  const res: Array<Find> = data;
+export const useThreads = () => {
+  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
+  const threads: Array<Thread> = data;
   return {
-    finds: res,
-    isLoading: !error && !data,
-    isError: error,
+    threads,
+    isLoadingThreads: !error && !data,
+    isErrorThreads: error,
   };
 };
 
-export const useUser = (id: string) => {
-  const { data, error } = useSWR(`/api/user/${id}`, fetcher.fetchGet);
+export const useComments = (tid: ThreadID) => {
+  const { data, error } = useSWR(`/api/comment/${tid.value}`, fetcher.fetchGet);
+  const comments: Comment = data;
+  return {
+    comments,
+    isLoadingComments: !error && !data,
+    isErrorComments: error,
+  };
+};
+
+export const useUser = (uid: UserID) => {
+  const { data, error } = useSWR(`/api/user/${uid.value}`, fetcher.fetchGet);
   const user: User = data;
-
   return {
     user,
-    isLoading: !error && !data,
-    isError: error,
+    isLoadingUser: !error && !data,
+    isErrorUser: error,
   };
 };
 
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
+  const users: Array<User> = data;
   return {
-    users: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-};
-
-export const useMobileSuits = () => {
-  const { data, error } = useSWR(`/api/MS/`, fetcher.fetchGet);
-  return {
-    mobileSuits: data,
-    isLoading: !error && !data,
-    isError: error,
+    users,
+    isLoadingUsers: !error && !data,
+    isErrorUsers: error,
   };
 };

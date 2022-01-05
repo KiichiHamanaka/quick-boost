@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import User from "../../../models/User";
-import connectDB from "../../../lib/atlas";
+import User from "../../../db/models/User";
+import connectDB from "../../../db/atlas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
@@ -13,12 +13,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const user = await User.findOne({ twitter: id });
         res.status(200).json(user);
-
-        // res.status(200).json({
-        //   name: "馬場P",
-        //   grade: "民間人",
-        //   rank: "EXX",
-        // });
         break;
       } catch (err) {
         break;

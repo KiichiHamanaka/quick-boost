@@ -1,15 +1,23 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { MobileSuit } from "../models/MobileSuit";
-import { MSImagePath } from "../util/returnPath";
-import { User } from "../models/User";
 import Image from "next/image";
 import React from "react";
+import { MobileSuit, MSImagePath } from "../types/MobileSuit";
+import { UserBio } from "../types/User";
 
-type UserProps = Pick<
-  User,
-  "twitter" | "handleName" | "message" | "grade" | "rank" | "favoriteMS"
->;
+// type PickUser = Pick<
+//   User,
+//   "twitterId" | "twitterName" | "grade" | "rank" | "favoriteMS" | "bio"
+// >;
+
+type UserProps = {
+  twitterId: string;
+  twitterName: string;
+  grade?: string;
+  rank?: string;
+  favoriteMS: Array<MobileSuit>;
+  bio?: UserBio;
+};
 
 const UserCard = (props: UserProps) => {
   const UserCardStyle = css`
@@ -21,22 +29,17 @@ const UserCard = (props: UserProps) => {
   `;
 
   return (
-    <Link href={`/find/${props.twitter}`} passHref>
+    <Link href={`/user/${props.twitterId}`} passHref>
       <div css={UserCardStyle}>
-        <div>{props.twitter}</div>
-        <div>{props.message}</div>
+        <div>{props.twitterName}</div>
+        <div>{props.bio}</div>
         <div>{props.grade}</div>
         <div>{props.rank}</div>
         {props.favoriteMS!.map((MS: MobileSuit, idx: number) => (
           <div key={idx}>
             <div>{MS.name}</div>
             <div>{MS.series}</div>
-            <Image
-              src={MSImagePath(MS.name, MS.series)}
-              alt={MS.name}
-              width={50}
-              height={50}
-            />
+            <Image src={MSImagePath(MS)} alt={MS.name} width={50} height={50} />
           </div>
         ))}
       </div>

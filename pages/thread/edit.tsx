@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-const editFind:React.FC = () => {
+const editFind: React.FC = () => {
   const data = {};
   const aaa = () => {
-    axios.post("/api/find", data).then((res) => {
+    axios.post("/api/thread", data).then((res) => {
       console.log(res.data);
     });
   };

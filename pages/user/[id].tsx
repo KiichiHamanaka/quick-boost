@@ -1,10 +1,16 @@
 import { useUser } from "../../hooks/swrHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import { MSImagePath } from "../../util/returnPath";
-import { MobileSuit } from "../../models/MobileSuit";
+
+import { nonNullable } from "../../types/util";
+import {
+  findMobileSuitFromMSID,
+  MobileSuit,
+  MSImagePath,
+} from "../../types/MobileSuit";
+import { applyUserID } from "../../types/User";
 
 const UserCardStyle = css`
   width: 400px;
@@ -16,29 +22,40 @@ const UserCardStyle = css`
 const UserId: React.FC = () => {
   const router = useRouter();
   const id: string = router.query.id as string;
+  const uid = applyUserID(id);
 
-  const { user, isLoading, isError } = useUser(id);
+  const { user, isLoadingUser, isErrorUser } = useUser(uid);
+  const [favoriteMS, setFavoriteMS] = useState<MobileSuit[]>([]);
 
-  if (isLoading) return <div>Loading Animation</div>;
-  if (isError) return <div>Error</div>;
+  useEffect(() => {
+    if (user)
+      setFavoriteMS(
+        user.favoriteMS
+          .map((msid) => findMobileSuitFromMSID(msid))
+          .filter(nonNullable)
+      );
+  }, [user]);
+
+  if (isLoadingUser) return <div>Loading Animation</div>;
+  if (isErrorUser) return <div>Error</div>;
   return (
     <div css={UserCardStyle}>
-      <div>{user.twitter}</div>
-      <div>{user.message}</div>
+      <div>{user.twitterId}</div>
+      <div>{user.twitterName}</div>
       <div>{user.grade}</div>
       <div>{user.rank}</div>
-      {user.favoriteMS!.map((MS: MobileSuit, idx: number) => (
-        <div key={idx}>
-          <div>{MS.name}</div>
-          <div>{MS.series}</div>
-          <Image
-            src={MSImagePath(MS.name, MS.series)}
-            alt={MS.name}
-            width={50}
-            height={50}
-          />
-        </div>
-      ))}
+      <div>{user.bio}</div>
+      {favoriteMS.length
+        ? favoriteMS.map((MS, idx) => (
+            <Image
+              key={idx}
+              src={MSImagePath(MS)}
+              alt={MS.name}
+              width={50}
+              height={50}
+            />
+          ))
+        : "このユーザはお気に入りMSを設定していません"}
     </div>
   );
 };
