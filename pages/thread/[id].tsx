@@ -1,11 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import { useComments, useThread, useUser } from "../../hooks/swrHooks";
-import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
+import { useComments, useThread } from "../../hooks/swrHooks";
+import {
+  findMobileSuitFromMSID,
+  MobileSuit,
+  MSImagePath,
+} from "../../types/MobileSuit";
 import { applyThreadID } from "../../types/thread/Thread";
-import { Comment } from "../../types/thread/Comment";
 
 const FindCardStyle = css`
   width: 400px;
@@ -20,15 +23,14 @@ const ThreadId = () => {
   const tid = applyThreadID(id);
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
-  const { comments, isLoadingComments, isErrorComments } = useComments(
-    thread._id
-  );
+  // const { comments, isLoadingComments, isErrorComments } = useComments(tid);
   const isLoading = isLoadingThread;
   const isError = isErrorThread;
-  Comment;
-  const tms =
-    thread.useMS &&
-    thread.useMS.map((msid) => msid && findMobileSuitFromMSID(msid));
+  const [useMS, setUseMS] = useState<MobileSuit[]>([]);
+
+  useEffect(() => {
+    setUseMS(thread.useMS.map((msid) => findMobileSuitFromMSID(msid)));
+  }, [thread]);
 
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
@@ -41,8 +43,8 @@ const ThreadId = () => {
       <div>{thread.threadAuthor.grade}</div>
       <div>{thread.threadAuthor.rank}</div>
       <div>{thread.body}</div>
-      {tms &&
-        tms.map(
+      {useMS &&
+        useMS.map(
           (MS, idx) =>
             MS && (
               <Image

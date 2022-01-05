@@ -1,11 +1,15 @@
 import { useUser } from "../../hooks/swrHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 
 import { nonNullable } from "../../types/util";
-import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
+import {
+  findMobileSuitFromMSID,
+  MobileSuit,
+  MSImagePath,
+} from "../../types/MobileSuit";
 import { applyUserID } from "../../types/User";
 
 const UserCardStyle = css`
@@ -21,9 +25,17 @@ const UserId: React.FC = () => {
   const uid = applyUserID(id);
 
   const { user, isLoadingUser, isErrorUser } = useUser(uid);
-  const fms = user.favoriteMS
-    .map((msid) => findMobileSuitFromMSID(msid))
-    .filter(nonNullable);
+  const [favoriteMS, setFavoriteMS] = useState<MobileSuit[]>([]);
+
+  useEffect(() => {
+    if (user)
+      setFavoriteMS(
+        user.favoriteMS
+          .map((msid) => findMobileSuitFromMSID(msid))
+          .filter(nonNullable)
+      );
+  }, [user]);
+
   if (isLoadingUser) return <div>Loading Animation</div>;
   if (isErrorUser) return <div>Error</div>;
   return (
@@ -33,16 +45,17 @@ const UserId: React.FC = () => {
       <div>{user.grade}</div>
       <div>{user.rank}</div>
       <div>{user.bio}</div>
-      {fms &&
-        fms.map((MS, idx) => (
-          <Image
-            key={idx}
-            src={MSImagePath(MS)}
-            alt={MS.name}
-            width={50}
-            height={50}
-          />
-        ))}
+      {favoriteMS.length
+        ? favoriteMS.map((MS, idx) => (
+            <Image
+              key={idx}
+              src={MSImagePath(MS)}
+              alt={MS.name}
+              width={50}
+              height={50}
+            />
+          ))
+        : "このユーザはお気に入りMSを設定していません"}
     </div>
   );
 };
