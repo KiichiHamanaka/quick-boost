@@ -13,7 +13,7 @@ const Header = () => {
         <button
           onClick={() =>
             signIn("twitter", {
-              callbackUrl: "http://127.0.0.1:3000/thread",
+              callbackUrl: `${process.env.NEXTAUTH_URL}/thread`,
             })
           }
         >
