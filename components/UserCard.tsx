@@ -1,10 +1,9 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { MSImagePath } from "../util/returnPath";
 import Image from "next/image";
 import React from "react";
-import { MobileSuit } from "../types/MobileSuit";
-import { UserBio } from "../types/UserVO";
+import { MobileSuit, MSImagePath } from "../types/MobileSuit";
+import { UserBio } from "../types/User";
 
 // type PickUser = Pick<
 //   User,
