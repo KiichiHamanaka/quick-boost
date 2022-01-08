@@ -12,13 +12,13 @@ export type State = {
   selectMobileSuitsIds: number[];
 };
 
-export type Action =
+export type MSBoxAction =
   | { type: "cost"; cost: Cost }
   | { type: "seriesId"; seriesId: number | null }
   | { type: "msName"; msName: string | null }
   | { type: "useMS"; useMS: number };
 
-export const msBoxReducer = (state: State, action: Action) => {
+export const msBoxReducer = (state: State, action: MSBoxAction) => {
   switch (action.type) {
     case "cost":
       return {

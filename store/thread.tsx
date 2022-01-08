@@ -18,13 +18,13 @@ export const threadInitialState: State = {
   sort: "DESC",
 };
 
-export type Action =
+export type ThreadAction =
   | { type: "fetch"; threads: Thread[] }
   | { type: "sort"; sort: Sort }
   | { type: "reset"; state: State }
   | { type: "filterMS"; msid: number };
 
-export const threadReducer = (state: State, action: Action): State => {
+export const threadReducer = (state: State, action: ThreadAction): State => {
   switch (action.type) {
     case "fetch": // reset all state
       return {

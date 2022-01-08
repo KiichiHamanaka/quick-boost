@@ -22,7 +22,7 @@ const ThreadIndex: React.FC = () => {
   } else {
     return (
       <div>
-        {isShowMSBOX && <SelectMobileSuits dispatch={dispatch} />}
+        {isShowMSBOX && <SelectMobileSuits dispatch={dispatch} text={"探したいMSを選択してください"} />}
         <button onClick={() => setIsShowMSBOX(!isShowMSBOX)}>MSから探す</button>
         {state.threads
           ? state.threads.map((thread, idx) => {

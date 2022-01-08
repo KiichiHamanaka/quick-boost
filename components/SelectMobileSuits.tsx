@@ -5,6 +5,7 @@ import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import UseSelectMSBox from "../hooks/useSelectMSBox";
+import {ThreadAction} from "../store/thread";
 
 /*
    ユーザー画面とスレッド作成時、スレッドフィルタの3箇所で使いまわしたい
@@ -28,11 +29,12 @@ const FindCardStyle = css`
 const costs: Cost[] = ["ALL", "1500", "2000", "2500", "3000"];
 
 type MSBOXProps = {
-  dispatch: Dispatch<any>;
+  text: string
+  dispatch: Dispatch<ThreadAction>
 };
 
 export const SelectMobileSuits = (props: MSBOXProps) => {
-  const { mobileSuits, dispatch } = UseSelectMSBox();
+  const { mobileSuits, useMS, dispatch } = UseSelectMSBox();
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const [favMS, setFavMS] = useState<MobileSuit[]>([]);
@@ -48,6 +50,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   return (
     // <div css={FindCardStyle}>
     <div>
+      {props.text}
       {/*ヘッダ*/}
       {/*<div>*/}
       {/*  /!*シリーズ デカめのドロップダウン*!/*/}
@@ -84,9 +87,9 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
       {/*本体*/}
       {/*シリーズごとにMSを表示*/}
       {!isFav ? (
-        <MSList mobileSuits={mobileSuits} dispatch={props.dispatch} />
-      ) : favMS !== null ? (
-        <MSList mobileSuits={favMS} dispatch={props.dispatch} />
+        <MSList mobileSuits={mobileSuits} useMS={useMS} dispatch={dispatch} />
+      ) : favMS.length ? (
+        <MSList mobileSuits={favMS} useMS={useMS} dispatch={dispatch} />
       ) : (
         <div>お気に入りMSが登録されていません</div>
       )}

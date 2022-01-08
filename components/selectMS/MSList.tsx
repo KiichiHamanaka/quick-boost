@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
 import React, { Dispatch } from "react";
+import {MSBoxAction} from "../../store/selectMSBox";
 
 type Props = {
   mobileSuits: MobileSuit[];
-  dispatch: Dispatch<any>;
+  useMS: number[]
+  dispatch: Dispatch<MSBoxAction>;
 };
 
 const MSList = (props: Props) => {
@@ -15,7 +17,7 @@ const MSList = (props: Props) => {
           MS && (
             <div
               key={idx}
-              onClick={() => props.dispatch({ type: "filterMS", msids: MS.id })}
+              onClick={() => props.dispatch({ type: "useMS", useMS: MS.id })}
             >
               <Image
                 src={MSImagePath(MS)}

@@ -12,7 +12,7 @@ const UseSelectMSBox = () => {
 
   // フォームにしてuser/idにpostする
 
-  return { mobileSuits: state.mobileSuits, dispatch };
+  return { mobileSuits: state.mobileSuits, useMS: state.useMS, dispatch };
 };
 
 export default UseSelectMSBox;
