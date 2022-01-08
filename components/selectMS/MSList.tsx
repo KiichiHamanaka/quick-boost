@@ -10,13 +10,6 @@ type Props = {
   dispatch: Dispatch<MSBoxAction>;
 };
 
-const FindCardStyle = css`
-  width: 400px;
-  border: solid 1px #2d2d2d;
-  border-radius: 4px;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-`;
-
 const ChosenStyle = (b: boolean): SerializedStyles => {
   return b
     ? css``
