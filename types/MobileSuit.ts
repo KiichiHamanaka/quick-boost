@@ -51,8 +51,8 @@ export const findMobileSuitFromMSID = (msid: number): MobileSuit => {
   return Object.values(MSDict)[msid];
 };
 
-export const fms = (msids: number[]): MobileSuit[] => {
-  return msids.map((msid) => findMobileSuitFromMSID(msid));
+export const fms = (msids: number[]|undefined): MobileSuit[] => {
+  return msids != null ? msids.map((msid) => findMobileSuitFromMSID(msid)) : []
 };
 
 export const costsImagePath = (cost: Cost) => {
