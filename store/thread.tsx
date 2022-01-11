@@ -22,7 +22,7 @@ export type ThreadAction =
   | { type: "fetch"; threads: Thread[] }
   | { type: "sort"; sort: Sort }
   | { type: "reset"; state: State }
-  | { type: "filterMS"; msid: number };
+  | { type: "filterMS"; msids: number[] };
 
 export const threadReducer = (state: State, action: ThreadAction): State => {
   switch (action.type) {
@@ -41,13 +41,12 @@ export const threadReducer = (state: State, action: ThreadAction): State => {
         }),
       };
     case "reset": // reset all state
-      state = action.state;
-      return state;
+      return threadInitialState;
     case "filterMS":
       return {
         ...state,
         threads: state.threads.filter((thread) => {
-          thread.useMS.includes(action.msid);
+          thread.useMS.some((msid) => action.msids.includes(msid));
         }),
       };
     default:

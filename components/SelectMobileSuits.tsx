@@ -5,7 +5,7 @@ import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import UseSelectMSBox from "../hooks/useSelectMSBox";
-import {ThreadAction} from "../store/thread";
+import { ThreadAction } from "../store/thread";
 
 /*
    ユーザー画面とスレッド作成時、スレッドフィルタの3箇所で使いまわしたい
@@ -29,8 +29,8 @@ const FindCardStyle = css`
 const costs: Cost[] = ["ALL", "1500", "2000", "2500", "3000"];
 
 type MSBOXProps = {
-  text: string
-  dispatch: Dispatch<ThreadAction>
+  text: string;
+  dispatch: Dispatch<ThreadAction>;
 };
 
 export const SelectMobileSuits = (props: MSBOXProps) => {
@@ -41,6 +41,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
 
   useEffect(() => {
     if (session) setFavMS(fms(session.user.favoriteMSIDs));
+    props.dispatch({ type: "filterMS", msids: useMS });
   }, [session]);
 
   const [isCost, setIsCost] = useState<boolean>(false);
@@ -59,7 +60,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
       {/*      onMouseEnter={() => setIsSeries(!isSeries)}*/}
       {/*      onMouseLeave={() => setIsSeries(!isSeries)}*/}
       {/*    >*/}
-      {/*      {isSeries && <SeriesList dispatch={props.dispatch} />}*/}
+      {/*      {isSeries && <SeriesList dispatch={dispatch} />}*/}
       {/*    </div>*/}
       {/*  }*/}
       {/*  /!*コスト ドロップダウンメニュー*!/*/}

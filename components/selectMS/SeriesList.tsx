@@ -3,9 +3,10 @@ import React, { Dispatch } from "react";
 import { Series, seriesImagePath } from "../../types/Series";
 import { SeriesDict } from "../../db/data/SeriesDict";
 import { nonNullable } from "../../types/util";
+import { MSBoxAction } from "../../store/selectMSBox";
 
 type Props = {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch<MSBoxAction>;
 };
 
 const SeriesList = (props: Props) => {
@@ -13,7 +14,9 @@ const SeriesList = (props: Props) => {
   return (
     <div>
       {seriesDict.map((series, idx) => (
-        <Image key={idx} alt={series.name} src={seriesImagePath(series)} />
+        <div key={idx}>
+          <Image alt={series.name} src={seriesImagePath(series)} />
+        </div>
       ))}
     </div>
   );
