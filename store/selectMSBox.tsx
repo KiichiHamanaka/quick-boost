@@ -31,9 +31,12 @@ export const msBoxReducer = (state: State, action: MSBoxAction) => {
         seriesId: action.seriesId,
       };
     case "useMS":
+      const useMSList: Array<number> = state.useMS.includes(action.useMS)
+        ? state.useMS.filter((id) => id !== action.useMS)
+        : [...state.useMS, action.useMS];
       return {
         ...state,
-        useMS: [...state.useMS, action.useMS],
+        useMS: useMSList,
       };
     case "msName":
       return {

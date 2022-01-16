@@ -5,15 +5,35 @@ import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 import SelectMobileSuits from "../../components/SelectMobileSuits";
 import { threadInitialState, threadReducer } from "../../store/thread";
+import { Box, Modal } from "@material-ui/core";
+import { msBoxInitialState, msBoxReducer } from "../../store/selectMSBox";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const ThreadIndex: React.FC = () => {
   const { threads, isLoadingThreads, isErrorThreads } = useThreads();
 
-  const [state, dispatch] = useReducer(threadReducer, threadInitialState);
+  const [threadState, threadDispatch] = useReducer(
+    threadReducer,
+    threadInitialState
+  );
+  const [msBoxState, msBoxDispatch] = useReducer(
+    msBoxReducer,
+    msBoxInitialState
+  );
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch({ type: "fetch", threads: threads });
+    threadDispatch({ type: "fetch", threads: threads });
   }, [threads]);
 
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
@@ -22,10 +42,23 @@ const ThreadIndex: React.FC = () => {
   } else {
     return (
       <div>
-        {isShowMSBOX && <SelectMobileSuits dispatch={dispatch} text={"探したいMSを選択してください"} />}
-        <button onClick={() => setIsShowMSBOX(!isShowMSBOX)}>MSから探す</button>
-        {state.threads
-          ? state.threads.map((thread, idx) => {
+        <Modal
+          open={isShowMSBOX}
+          onClose={() => setIsShowMSBOX(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <SelectMobileSuits
+              dispatch={threadDispatch}
+              text={"探したいMSを選択してください"}
+            />
+          </Box>
+        </Modal>
+        <button onClick={() => setIsShowMSBOX(true)}>MSから探す</button>
+        選択中MS {msBoxState.useMS}
+        {threadState.threads
+          ? threadState.threads.map((thread, idx) => {
               return (
                 <ThreadCard
                   key={idx}
