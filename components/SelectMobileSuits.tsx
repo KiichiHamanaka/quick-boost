@@ -1,5 +1,11 @@
 import { css } from "@emotion/react";
-import React, { Dispatch, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Cost } from "../types/Union";
 import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
@@ -39,9 +45,21 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   const loading = status === "loading";
   const [favMS, setFavMS] = useState<MobileSuit[]>([]);
 
+  const favoriteMSMemo: MobileSuit[] = useMemo(
+    () => (session ? fms(session.user.favoriteMSIDs) : []),
+    [session]
+  );
+
+  const updateFavMS = useCallback(
+    () => setFavMS(favoriteMSMemo),
+    [favoriteMSMemo]
+  );
+
   useEffect(() => {
-    if (session) setFavMS(fms(session.user.favoriteMSIDs));
-    props.dispatch({ type: "filterMS", msids: useMS });
+    if (session) {
+      updateFavMS();
+      props.dispatch({ type: "filterMS", msids: useMS });
+    }
   }, [session]);
 
   const [isCost, setIsCost] = useState<boolean>(false);
