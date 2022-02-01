@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
 import React, { Dispatch, useMemo } from "react";
-import { MSBoxAction } from "../../store/selectMSBox";
+import { MSBoxAction } from "../../reducers/selectMSBox";
 import { css, SerializedStyles } from "@emotion/react";
 import {
   findSeriesFromSeriesID,
@@ -73,38 +73,5 @@ const MSList = (props: Props) => {
     </div>
   );
 };
-// const MSList = (props: Props) => {
-//   return (
-//     <div>
-//       {props.mobileSuits.map(
-//         (MS, idx: number) =>
-//           MS && (
-//             <div>
-//               {idx === 0 && (
-//                 <Image
-//                   src={seriesImagePath(findSeriesFromSeriesID(MS.series))}
-//                   alt={getSeriesName(MS.series)}
-//                   width={106}
-//                   height={52}
-//                 />
-//               )}
-//               <div
-//                 css={ChosenStyle(props.useMS.includes(MS.id))}
-//                 onClick={() => props.dispatch({ type: "useMS", useMS: MS.id })}
-//               >
-//                 <Image
-//                   src={MSImagePath(MS)}
-//                   alt={MS.name}
-//                   loading={"lazy"}
-//                   width={106}
-//                   height={52}
-//                 />
-//               </div>
-//             </div>
-//           )
-//       )}
-//     </div>
-//   );
-// };
 
 export default React.memo(MSList);

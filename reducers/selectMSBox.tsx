@@ -3,7 +3,7 @@ import { Cost } from "../types/Union";
 import { MSDict } from "../db/data/MSDict";
 import { nonNullable } from "../types/util";
 
-export type State = {
+export type msBoxState = {
   mobileSuits: MobileSuit[];
   cost: Cost;
   useMS: number[];
@@ -18,7 +18,7 @@ export type MSBoxAction =
   | { type: "msName"; msName: string | null }
   | { type: "useMS"; useMS: number };
 
-export const msBoxReducer = (state: State, action: MSBoxAction) => {
+export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
   switch (action.type) {
     case "cost":
       return {
@@ -48,7 +48,7 @@ export const msBoxReducer = (state: State, action: MSBoxAction) => {
   }
 };
 
-export const msBoxInitialState: State = {
+export const msBoxInitialState: msBoxState = {
   mobileSuits: Object.values(MSDict).filter(nonNullable),
   useMS: [],
   cost: "ALL",

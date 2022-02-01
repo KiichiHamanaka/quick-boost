@@ -3,13 +3,8 @@ import React, { Dispatch } from "react";
 import { Series, seriesImagePath } from "../../types/Series";
 import { SeriesDict } from "../../db/data/SeriesDict";
 import { nonNullable } from "../../types/util";
-import { MSBoxAction } from "../../store/selectMSBox";
 
-type Props = {
-  dispatch: Dispatch<MSBoxAction>;
-};
-
-const SeriesList = (props: Props) => {
+const SeriesList = () => {
   const seriesDict: Series[] = Object.values(SeriesDict).filter(nonNullable);
   return (
     <div>

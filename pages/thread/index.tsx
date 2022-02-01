@@ -4,9 +4,9 @@ import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 import SelectMobileSuits from "../../components/SelectMobileSuits";
-import { threadInitialState, threadReducer } from "../../store/thread";
+import { threadInitialState, threadReducer } from "../../reducers/thread";
 import { Box, Modal } from "@material-ui/core";
-import { msBoxInitialState, msBoxReducer } from "../../store/selectMSBox";
+import { msBoxInitialState, msBoxReducer } from "../../reducers/selectMSBox";
 
 const style = {
   position: "absolute" as "absolute",

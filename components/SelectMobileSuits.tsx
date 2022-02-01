@@ -11,7 +11,7 @@ import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import UseSelectMSBox from "../hooks/useSelectMSBox";
-import { ThreadAction } from "../store/thread";
+import { ThreadAction } from "../reducers/thread";
 
 /*
    ユーザー画面とスレッド作成時、スレッドフィルタの3箇所で使いまわしたい
