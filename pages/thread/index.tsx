@@ -4,39 +4,43 @@ import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 import SelectMobileSuits from "../../components/SelectMobileSuits";
-import { threadInitialState, threadReducer } from "../../reducers/thread";
 import { Box, Modal } from "@material-ui/core";
-import { msBoxInitialState, msBoxReducer } from "../../reducers/selectMSBox";
+import useSelectMSBox from "../../hooks/useSelectMSBox";
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
 };
 
 const ThreadIndex: React.FC = () => {
-  const { threads, isLoadingThreads, isErrorThreads } = useThreads();
+  const {
+    threads,
+    isLoadingThreads,
+    isErrorThreads,
+    threadState,
+    threadDispatch,
+  } = useThreads();
 
-  const [threadState, threadDispatch] = useReducer(
-    threadReducer,
-    threadInitialState
-  );
-  const [msBoxState, msBoxDispatch] = useReducer(
-    msBoxReducer,
-    msBoxInitialState
-  );
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+  const { mobileSuits, useMS } = useSelectMSBox();
 
   useEffect(() => {
     threadDispatch({ type: "fetch", threads: threads });
   }, [threads]);
 
+  useEffect(() => {
+    threadDispatch({ type: "filterMS", msids: useMS });
+    console.log("filter one!");
+  }, [useMS]);
+
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
+
   if (isLoadingThreads) {
     return <div>ロードなう　アニメにせんかい</div>;
   } else {
@@ -56,33 +60,35 @@ const ThreadIndex: React.FC = () => {
           </Box>
         </Modal>
         <button onClick={() => setIsShowMSBOX(true)}>MSから探す</button>
-        選択中MS {msBoxState.useMS}
-        {threadState.threads
-          ? threadState.threads.map((thread, idx) => {
-              return (
-                <ThreadCard
-                  key={idx}
-                  ThreadId={thread._id}
-                  useMS={
-                    thread.useMS
-                      ? thread.useMS
-                          .map((msid) => findMobileSuitFromMSID(msid))
-                          .filter(nonNullable)
-                      : []
-                  }
-                  playStyle={thread.playStyle}
-                  title={thread.title}
-                  threadAuthor={thread.threadAuthor}
-                  isVC={thread.isVC}
-                  startedAt={thread.startedAt}
-                  finishedAt={thread.finishedAt}
-                  isPlaying={false}
-                  position={thread.position}
-                  gameMode={thread.gameMode}
-                />
-              );
-            })
-          : "なんもない"}
+        選択中MS {useMS}
+        <div>
+          {threadState.threads.length
+            ? threadState.threads.map((thread, idx) => {
+                return (
+                  <ThreadCard
+                    key={idx}
+                    ThreadId={thread._id}
+                    useMS={
+                      thread.useMS.length
+                        ? thread.useMS
+                            .map((msid) => findMobileSuitFromMSID(msid))
+                            .filter(nonNullable)
+                        : []
+                    }
+                    playStyle={thread.playStyle}
+                    title={thread.title}
+                    threadAuthor={thread.threadAuthor}
+                    isVC={thread.isVC}
+                    startedAt={thread.startedAt}
+                    finishedAt={thread.finishedAt}
+                    isPlaying={false}
+                    position={thread.position}
+                    gameMode={thread.gameMode}
+                  />
+                );
+              })
+            : "なんもない"}
+        </div>
       </div>
     );
   }

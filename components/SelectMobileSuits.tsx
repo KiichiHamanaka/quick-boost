@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import React, {
   Dispatch,
   useCallback,
@@ -6,33 +5,11 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Cost } from "../types/Union";
 import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import UseSelectMSBox from "../hooks/useSelectMSBox";
 import { ThreadAction } from "../reducers/thread";
-
-/*
-   ユーザー画面とスレッド作成時、スレッドフィルタの3箇所で使いまわしたい
-   モーダル
-   お気に入り機体から選ぶも必要？
-   favoriteはsessionから持ってくる？
-   検索ボックスとコストセレクタ,シリーズセレクタが必要
-   useSWRでuser情報を持ってくるそっからfavMSのid取得して
-   favListに突っ込む
-   ホバー時(onMouseEnter)にプルダウン
- */
-
-const FindCardStyle = css`
-  width: 400px;
-  border: solid 1px #2d2d2d;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-`;
-
-const costs: Cost[] = ["ALL", "1500", "2000", "2500", "3000"];
 
 type MSBOXProps = {
   text: string;
@@ -69,7 +46,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   return (
     // <div css={FindCardStyle}>
     <div>
-      {props.text}
+      <p>{props.text}</p>
       {/*ヘッダ*/}
       {/*<div>*/}
       {/*  /!*シリーズ デカめのドロップダウン*!/*/}

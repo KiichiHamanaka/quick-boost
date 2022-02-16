@@ -2,6 +2,8 @@ import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
 import { User, UserID } from "../types/User";
 import { Thread, ThreadID } from "../types/thread/Thread";
+import { useReducer } from "react";
+import { threadInitialState, threadReducer } from "../reducers/thread";
 
 export const useThread = (tid: ThreadID) => {
   const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
@@ -14,12 +16,20 @@ export const useThread = (tid: ThreadID) => {
 };
 
 export const useThreads = () => {
+  //threadsは全部 threadStateは分割データ
   const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
-  const threads: Array<Thread> = data;
+  const threads: Array<Thread> = data || [];
+  const [threadState, threadDispatch] = useReducer(
+    threadReducer,
+    threadInitialState
+  );
+  console.log(threads);
   return {
     threads,
     isLoadingThreads: !error && !data,
     isErrorThreads: error,
+    threadState,
+    threadDispatch,
   };
 };
 
