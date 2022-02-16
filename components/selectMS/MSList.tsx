@@ -8,6 +8,7 @@ import {
   getSeriesName,
   seriesImagePath,
 } from "../../types/Series";
+import { Button, Grid } from "@material-ui/core";
 
 type Props = {
   mobileSuits: MobileSuit[];
@@ -17,12 +18,9 @@ type Props = {
 
 const ChosenStyle = (choose: boolean): SerializedStyles => {
   return choose
-    ? css`
-        width: 106px;
-        border: 3px solid yellow;
-      `
+    ? css``
     : css`
-        width: 106px;
+        filter: grayscale(100%);
       `;
 };
 
@@ -43,33 +41,52 @@ const MSList = (props: Props) => {
       {GroupedMS.map(
         (MSArray, MSArrayKey: number) =>
           MSArray && (
-            <div key={MSArrayKey}>
-              <Image
-                src={seriesImagePath(findSeriesFromSeriesID(MSArray[0].series))}
-                alt={getSeriesName(MSArray[0].series)}
-                width={106}
-                height={52}
-              />
-              {MSArray.map((MS, MSKey) => (
-                <div
-                  key={MSKey}
-                  css={ChosenStyle(props.useMS.includes(MS.id))}
-                  onClick={() =>
-                    props.dispatch({ type: "useMS", useMS: MS.id })
-                  }
-                >
-                  <Image
-                    src={MSImagePath(MS)}
-                    alt={MS.name}
-                    loading={"lazy"}
-                    width={106}
-                    height={52}
-                  />
-                </div>
-              ))}
-            </div>
+            <Grid
+              container
+              spacing={1}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              key={MSArrayKey}
+            >
+              <Grid item xs={2}>
+                <Image
+                  src={seriesImagePath(
+                    findSeriesFromSeriesID(MSArray[0].series)
+                  )}
+                  alt={getSeriesName(MSArray[0].series)}
+                  width={106}
+                  height={80}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <Grid container key={MSArrayKey}>
+                  {MSArray.map((MS, MSKey) => (
+                    <div
+                      key={MSKey}
+                      css={ChosenStyle(props.useMS.includes(MS.id))}
+                      onClick={() =>
+                        props.dispatch({ type: "useMS", useMS: MS.id })
+                      }
+                    >
+                      <Image
+                        src={MSImagePath(MS)}
+                        alt={MS.name}
+                        loading={"lazy"}
+                        width={106}
+                        height={52}
+                      />
+                    </div>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
           )
       )}
+      <Grid container justifyContent="flex-end">
+        <Button variant="outlined">決定</Button>
+        <Button variant="outlined">リセット</Button>
+      </Grid>
     </div>
   );
 };
