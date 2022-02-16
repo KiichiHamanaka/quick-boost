@@ -9,4 +9,8 @@ export const SeriesDict: { [K in number]: Series } = {
     seriesId: 2,
     name: "z",
   },
+  3: {
+    seriesId: 3,
+    name: "zz",
+  },
 };
