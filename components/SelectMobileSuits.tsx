@@ -8,15 +8,13 @@ import React, {
 import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
-import UseSelectMSBox from "../hooks/useSelectMSBox";
 import { ThreadAction } from "../reducers/thread";
+import { useThreads } from "../hooks/swrHooks";
+import useSelectMSBox from "../hooks/useSelectMSBox";
 
-type MSBOXProps = {
-  threadDispatch: Dispatch<ThreadAction>;
-};
-
-export const SelectMobileSuits = (props: MSBOXProps) => {
-  const { mobileSuits, useMS, dispatch } = UseSelectMSBox();
+export const SelectMobileSuits = () => {
+  const { threadDispatch } = useThreads();
+  const { mobileSuits, useMS, dispatch } = useSelectMSBox();
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const [favMS, setFavMS] = useState<MobileSuit[]>([]);
@@ -34,7 +32,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   useEffect(() => {
     if (session) {
       updateFavMS();
-      props.threadDispatch({ type: "filterMS", msids: useMS });
+      threadDispatch({ type: "filterMS", msids: useMS });
     }
   }, [session]);
 
@@ -81,9 +79,9 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
       {/*本体*/}
       {/*シリーズごとにMSを表示*/}
       {!isFav ? (
-        <MSList mobileSuits={mobileSuits} useMS={useMS} dispatch={dispatch} />
+        <MSList mobileSuits={mobileSuits} useMS={useMS} />
       ) : favMS.length ? (
-        <MSList mobileSuits={favMS} useMS={useMS} dispatch={dispatch} />
+        <MSList mobileSuits={favMS} useMS={useMS} />
       ) : (
         <div>お気に入りMSが登録されていません</div>
       )}

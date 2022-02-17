@@ -1,12 +1,14 @@
 import { Box, FormControl, InputLabel, NativeSelect } from "@mui/material";
-import React from "react";
+import React, { Dispatch } from "react";
 
-type Props = {
+type Props<T, U> = {
   labelName: string;
   menuItem: Array<string>;
+  dispatch?: Dispatch<T>;
+  actionList?: Array<U>;
 };
 
-const InputBox = (props: Props) => {
+const InputBox = (props: Props<any, any>) => {
   return (
     <Box sx={{ maxWidth: 120 }}>
       <FormControl fullWidth>

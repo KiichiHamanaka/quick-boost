@@ -5,25 +5,24 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
   Stack,
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import { State, ThreadAction } from "../../reducers/thread";
-import React, { Dispatch, useState } from "react";
+import React, { useState } from "react";
 import { LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DatePicker from "@mui/lab/DatePicker";
+import { useThreads } from "../../hooks/swrHooks";
 
 type Props = {
   open: boolean;
   setOpen: (bool: boolean) => void;
-  threadState: State;
-  threadDispatch: Dispatch<ThreadAction>;
 };
 
 const DateSearchDialog = (props: Props) => {
+  const { threadDispatch } = useThreads();
+
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -81,8 +80,8 @@ const DateSearchDialog = (props: Props) => {
         <Button
           variant="outlined"
           onClick={() => {
-            props.threadDispatch({ type: "startedAt", startedAt: "reset" });
-            props.threadDispatch({ type: "finishedAt", finishedAt: "reset" });
+            threadDispatch({ type: "startedAt", startedAt: "reset" });
+            threadDispatch({ type: "finishedAt", finishedAt: "reset" });
             props.setOpen(false);
           }}
         >

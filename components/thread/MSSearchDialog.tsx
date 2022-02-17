@@ -8,18 +8,15 @@ import {
   Stack,
 } from "@mui/material";
 import SelectMobileSuits from "../SelectMobileSuits";
-import { ThreadAction } from "../../reducers/thread";
-import { MSBoxAction } from "../../reducers/selectMSBox";
-import { Dispatch } from "react";
+import useSelectMSBox from "../../hooks/useSelectMSBox";
 
 type Props = {
   open: boolean;
   setOpen: (bool: boolean) => void;
-  threadDispatch: Dispatch<ThreadAction>;
-  msDispatch: Dispatch<MSBoxAction>;
 };
 
 const MSSearchDialog = (props: Props) => {
+  const { dispatch } = useSelectMSBox();
   return (
     <Dialog
       open={props.open}
@@ -33,7 +30,7 @@ const MSSearchDialog = (props: Props) => {
           <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
             使いたいMSを選択してください
           </DialogContentText>
-          <SelectMobileSuits threadDispatch={props.threadDispatch} />
+          <SelectMobileSuits />
         </Stack>
       </DialogContent>
       <DialogActions>
@@ -43,7 +40,7 @@ const MSSearchDialog = (props: Props) => {
         <Button
           variant="outlined"
           onClick={() => {
-            props.msDispatch({ type: "useMS", useMS: "reset" });
+            dispatch({ type: "useMS", useMS: "reset" });
             props.setOpen(false);
           }}
         >

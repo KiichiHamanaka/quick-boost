@@ -3,19 +3,10 @@ import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
-
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import MSDialog from "../../components/thread/MSSearchDialog";
-
 import DateSearchDialog from "../../components/thread/DateSearchDialog";
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  NativeSelect,
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import InputBox from "../../components/InputBox";
 
 const gameMode: Array<string> = [
@@ -24,7 +15,7 @@ const gameMode: Array<string> = [
   "カジュアル",
   "クロブフェス",
 ];
-
+const playStyle: Array<string> = ["ガチ", "エンジョイ"];
 const position: Array<string> = ["どちらでも", "前衛", "後衛"];
 
 const ThreadIndex: React.FC = () => {
@@ -35,11 +26,11 @@ const ThreadIndex: React.FC = () => {
     threadState,
     threadDispatch,
   } = useThreads();
+  const { useMS } = useSelectMSBox();
 
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
-  const { mobileSuits, useMS, dispatch } = useSelectMSBox();
 
   useEffect(() => {
     threadDispatch({ type: "fetch", threads: threads });
@@ -56,21 +47,20 @@ const ThreadIndex: React.FC = () => {
   } else {
     return (
       <Grid>
-        <MSDialog
-          msDispatch={dispatch}
-          threadDispatch={threadDispatch}
-          setOpen={setIsShowMSBOX}
-          open={isShowMSBOX}
-        />
+        <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
         <DateSearchDialog
-          threadState={threadState}
-          threadDispatch={threadDispatch}
           setOpen={setIsShowDateSearchDialog}
           open={isShowDateSearchDialog}
         />
         <Grid container spacing={2}>
           <Grid item>
             <InputBox labelName={"ゲームモード"} menuItem={gameMode} />
+          </Grid>
+          <Grid item>
+            <InputBox labelName={"立ち回り"} menuItem={position} />
+          </Grid>
+          <Grid item>
+            <InputBox labelName={"プレイスタイル"} menuItem={playStyle} />
           </Grid>
           <Grid item>
             <InputBox labelName={"立ち回り"} menuItem={position} />

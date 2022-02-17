@@ -9,11 +9,11 @@ import {
   seriesImagePath,
 } from "../../types/Series";
 import { Grid } from "@mui/material";
+import useSelectMSBox from "../../hooks/useSelectMSBox";
 
 type Props = {
   mobileSuits: MobileSuit[];
   useMS: number[];
-  dispatch: Dispatch<MSBoxAction>;
 };
 
 const ChosenStyle = (choose: boolean): SerializedStyles => {
@@ -31,6 +31,8 @@ const SeriesImageStyle = css`
 `;
 
 const MSList = (props: Props) => {
+  const { dispatch } = useSelectMSBox();
+
   const GroupedMS: MobileSuit[][] = useMemo(() => {
     const array: MobileSuit[][] = [];
     props.mobileSuits.forEach((MS) => {
@@ -72,7 +74,7 @@ const MSList = (props: Props) => {
                         key={MSKey}
                         css={ChosenStyle(props.useMS.includes(MS.id))}
                         onClick={() =>
-                          props.dispatch({ type: "useMS", useMS: MS.id })
+                          dispatch({ type: "useMS", useMS: MS.id })
                         }
                       >
                         <Image
