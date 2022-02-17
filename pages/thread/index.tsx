@@ -4,10 +4,11 @@ import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import MSDialog from "../../components/thread/MSSearchDialog";
-import DateSearchDialog from "../../components/thread/DateSearchDialog";
+import MSDialog from "../../components/dialog/MSSearchDialog";
+import DateSearchDialog from "../../components/dialog/DateSearchDialog";
 import { Button, Grid } from "@mui/material";
 import InputBox from "../../components/InputBox";
+import ShowMSImage from "../../components/selectMS/showMSImager";
 
 const gameMode: Array<string> = [
   "ALL",
@@ -74,6 +75,9 @@ const ThreadIndex: React.FC = () => {
             </Button>
           </Grid>
         </Grid>
+        <ShowMSImage
+          MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+        />
         <div>
           {threadState.threads.length
             ? threadState.threads.map((thread, idx) => {

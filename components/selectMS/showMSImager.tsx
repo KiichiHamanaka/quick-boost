@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
 import React from "react";
 
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 
 type Props = {
@@ -11,21 +11,29 @@ type Props = {
 
 const ShowMSImage = (props: Props) => {
   const { dispatch } = useSelectMSBox();
-  return (
-    <Grid justifyContent="center" alignItems="center">
-      {props.MobileSuits.map((ms, idx) => (
-        <Image
-          key={idx}
-          src={MSImagePath(ms)}
-          alt={ms.name}
-          onClick={() => dispatch({ type: "useMS", useMS: ms.id })}
-          loading={"lazy"}
-          width={106}
-          height={52}
-        />
-      ))}
-    </Grid>
-  );
+  return props.MobileSuits.length ? (
+    <Box
+      sx={{
+        border: 1,
+        borderRadius: 1,
+        minHeight: "70px",
+      }}
+    >
+      <Grid justifyContent="center" alignItems="center">
+        {props.MobileSuits.map((ms, idx) => (
+          <Image
+            key={idx}
+            src={MSImagePath(ms)}
+            alt={ms.name}
+            onClick={() => dispatch({ type: "useMS", useMS: ms.id })}
+            loading={"lazy"}
+            width={106}
+            height={52}
+          />
+        ))}
+      </Grid>
+    </Box>
+  ) : null;
 };
 
-export default React.memo(ShowMSImage);
+export default ShowMSImage;
