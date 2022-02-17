@@ -29,8 +29,12 @@ const Header = () => {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
+          {/*<Button color="inherit" onClick={() => signOut()}>*/}
+          {/*  ログアウト*/}
+          {/*</Button>*/}
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {/* ロゴに変更 + */}
           Quick-Boost
         </Typography>
         {!session && (
@@ -48,9 +52,7 @@ const Header = () => {
         {session && (
           <>
             <Avatar alt={session.user.name} src={session.user.image} />
-            <Button color="inherit" onClick={() => signOut()}>
-              ログアウト
-            </Button>
+            {/*userpageへ飛ぶ処理の追加*/}
           </>
         )}
       </Toolbar>

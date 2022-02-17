@@ -10,6 +10,8 @@ import {
 } from "../../types/MobileSuit";
 import { applyThreadID } from "../../types/thread/Thread";
 
+//クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
+
 const FindCardStyle = css`
   width: 400px;
   border: solid 1px #2d2d2d;

@@ -8,11 +8,15 @@ import React, {
 import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
-import { ThreadAction } from "../reducers/thread";
 import { useThreads } from "../hooks/swrHooks";
 import useSelectMSBox from "../hooks/useSelectMSBox";
+import { Cost } from "../types/Union";
+import { Series } from "../types/Series";
+import { Input } from "@mui/material";
 
 export const SelectMobileSuits = () => {
+  // ここにコスト,シリーズ,FavMSフィルタをつける
+
   const { threadDispatch } = useThreads();
   const { mobileSuits, useMS, dispatch } = useSelectMSBox();
   const { data: session, status } = useSession();
@@ -32,17 +36,23 @@ export const SelectMobileSuits = () => {
   useEffect(() => {
     if (session) {
       updateFavMS();
-      threadDispatch({ type: "filterMS", msids: useMS });
     }
   }, [session]);
 
-  const [isCost, setIsCost] = useState<boolean>(false);
-  const [isSeries, setIsSeries] = useState<boolean>(false);
+  const [isCost, setIsCost] = useState<Cost>("ALL");
+  const [isSeries, setIsSeries] = useState<Series | null>(null);
   const [isFav, setIsFav] = useState<boolean>(false);
+  const [word, setWord] = useState<string | null>(null);
+
+  const filterByName = (ms: MobileSuit[], arg: string) => {
+    return ms.filter((ms) => ms.name.includes(arg));
+  };
+
   if (loading) return null;
   return (
     // <div css={FindCardStyle}>
     <div>
+      コスト シリーズ お気に入り 名前検索
       {/*ヘッダ*/}
       {/*<div>*/}
       {/*  /!*シリーズ デカめのドロップダウン*!/*/}
@@ -78,6 +88,7 @@ export const SelectMobileSuits = () => {
       {/*</div>*/}
       {/*本体*/}
       {/*シリーズごとにMSを表示*/}
+      <Input />
       {!isFav ? (
         <MSList mobileSuits={mobileSuits} useMS={useMS} />
       ) : favMS.length ? (

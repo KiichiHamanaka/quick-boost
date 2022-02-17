@@ -9,7 +9,6 @@ export type msBoxState = {
   useMS: number[];
   seriesId: number | null;
   msName: string | null;
-  selectMobileSuitsIds: number[];
 };
 
 export type MSBoxAction =
@@ -21,10 +20,15 @@ export type MSBoxAction =
 export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
   switch (action.type) {
     case "cost":
-      return {
-        ...state,
-        cost: action.cost,
-      };
+      switch (action.cost) {
+        case "ALL":
+          return {
+            ...state,
+            cost: action.cost,
+          };
+        default:
+          return state;
+      }
     case "seriesId":
       return {
         ...state,
@@ -60,5 +64,4 @@ export const msBoxInitialState: msBoxState = {
   cost: "ALL",
   seriesId: null,
   msName: "",
-  selectMobileSuitsIds: [],
 };

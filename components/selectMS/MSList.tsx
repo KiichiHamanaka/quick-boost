@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-import React, { Dispatch, useMemo } from "react";
-import { MSBoxAction } from "../../reducers/selectMSBox";
+import React, { useMemo } from "react";
 import { css, SerializedStyles } from "@emotion/react";
 import {
   findSeriesFromSeriesID,

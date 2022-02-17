@@ -26,6 +26,12 @@ export type ThreadAction =
   | { type: "reset"; state: State }
   | { type: "filterMS"; msids: number[] };
 
+//startedAtの変更などでthreadsが再度上書きされる際
+//元のデータが残っていないため戻らないのでは
+
+//案2 ここではフィルター条件だけ持ち
+//親コンポーネント側でこれを使ってフィルタするようにする
+
 export const threadReducer = (state: State, action: ThreadAction): State => {
   switch (action.type) {
     case "fetch": // reset all state
@@ -68,8 +74,6 @@ export const threadReducer = (state: State, action: ThreadAction): State => {
           (thread) => thread.finishedAt > action.finishedAt
         ),
       };
-    case "reset": // reset all state
-      return threadInitialState;
     case "filterMS":
       return {
         ...state,

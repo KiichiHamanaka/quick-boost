@@ -10,7 +10,7 @@ type Props<T, U> = {
 
 const InputBox = (props: Props<any, any>) => {
   return (
-    <Box sx={{ maxWidth: 120 }}>
+    <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
           {props.labelName}
