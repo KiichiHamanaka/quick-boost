@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Stack,
 } from "@mui/material";
 import SelectMobileSuits from "../SelectMobileSuits";
 import { ThreadAction } from "../../reducers/thread";
@@ -18,7 +19,7 @@ type Props = {
   msDispatch: Dispatch<MSBoxAction>;
 };
 
-const MSDialog = (props: Props) => {
+const MSSearchDialog = (props: Props) => {
   return (
     <Dialog
       open={props.open}
@@ -26,13 +27,14 @@ const MSDialog = (props: Props) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <DialogTitle id="scroll-dialog-title">
-        探したいMSを選択してください
-      </DialogTitle>
+      <DialogTitle id="scroll-dialog-title">MS検索</DialogTitle>
       <DialogContent>
-        <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
+        <Stack spacing={2}>
+          <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
+            使いたいMSを選択してください
+          </DialogContentText>
           <SelectMobileSuits threadDispatch={props.threadDispatch} />
-        </DialogContentText>
+        </Stack>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={() => props.setOpen(false)}>
@@ -52,4 +54,4 @@ const MSDialog = (props: Props) => {
   );
 };
 
-export default MSDialog;
+export default MSSearchDialog;

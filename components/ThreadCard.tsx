@@ -14,8 +14,8 @@ type ThreadProps = {
   useMS: Array<MobileSuit>;
   isVC: boolean;
   position: Position;
-  startedAt: string;
-  finishedAt: string;
+  startedAt: Date;
+  finishedAt: Date;
   isPlaying: boolean;
   gameMode: GameMode; //色
 };

@@ -2,7 +2,7 @@ import { Thread } from "../types/thread/Thread";
 
 type Sort = "ASC" | "DESC";
 
-type State = {
+export type State = {
   threads: Thread[];
   startedAt: Date | null;
   finishedAt: Date | null;
@@ -21,6 +21,8 @@ export const threadInitialState: State = {
 export type ThreadAction =
   | { type: "fetch"; threads: Thread[] }
   | { type: "sort"; sort: Sort }
+  | { type: "startedAt"; startedAt: Date | "reset" }
+  | { type: "finishedAt"; finishedAt: Date | "reset" }
   | { type: "reset"; state: State }
   | { type: "filterMS"; msids: number[] };
 
@@ -39,6 +41,32 @@ export const threadReducer = (state: State, action: ThreadAction): State => {
           if (a.startedAt < b.startedAt) return 1;
           return 0;
         }),
+      };
+    case "startedAt":
+      if (action.startedAt === "reset") {
+        return {
+          ...state,
+          startedAt: threadInitialState.startedAt,
+        };
+      }
+      return {
+        ...state,
+        threads: state.threads.filter(
+          (thread) => thread.startedAt > action.startedAt
+        ),
+      };
+    case "finishedAt":
+      if (action.finishedAt === "reset") {
+        return {
+          ...state,
+          finishedAt: threadInitialState.finishedAt,
+        };
+      }
+      return {
+        ...state,
+        threads: state.threads.filter(
+          (thread) => thread.finishedAt > action.finishedAt
+        ),
       };
     case "reset": // reset all state
       return threadInitialState;

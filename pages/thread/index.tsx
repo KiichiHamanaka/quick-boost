@@ -1,17 +1,31 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
-import SelectMobileSuits from "../../components/SelectMobileSuits";
 
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import DatePicker from "@mui/lab/DatePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import MSDialog from "../../components/thread/MSDialog";
+import MSDialog from "../../components/thread/MSSearchDialog";
 
-import { Button, TextField, TextFieldProps } from "@mui/material";
-import { LocalizationProvider } from "@mui/lab";
+import DateSearchDialog from "../../components/thread/DateSearchDialog";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  NativeSelect,
+} from "@mui/material";
+import InputBox from "../../components/InputBox";
+
+const gameMode: Array<string> = [
+  "ALL",
+  "ランクマッチ",
+  "カジュアル",
+  "クロブフェス",
+];
+
+const position: Array<string> = ["どちらでも", "前衛", "後衛"];
 
 const ThreadIndex: React.FC = () => {
   const {
@@ -22,10 +36,10 @@ const ThreadIndex: React.FC = () => {
     threadDispatch,
   } = useThreads();
 
+  const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
+    useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { mobileSuits, useMS, dispatch } = useSelectMSBox();
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
 
   useEffect(() => {
     threadDispatch({ type: "fetch", threads: threads });
@@ -41,46 +55,35 @@ const ThreadIndex: React.FC = () => {
     return <div>ロードなう アニメにせんかい</div>;
   } else {
     return (
-      <div>
+      <Grid>
         <MSDialog
           msDispatch={dispatch}
           threadDispatch={threadDispatch}
           setOpen={setIsShowMSBOX}
           open={isShowMSBOX}
         />
-        {"ここの部分を検索用の別コンポーネントに"}
-        <div>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              disableFuture
-              label="開始日時"
-              openTo="year"
-              views={["year", "month", "day"]}
-              value={startDate}
-              onChange={(newValue: React.SetStateAction<Date | null>) => {
-                setStartDate(newValue);
-              }}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & TextFieldProps
-              ) => <TextField {...params} />}
-            />
-            <DatePicker
-              disableFuture
-              label="終了日時"
-              openTo="year"
-              views={["year", "month", "day"]}
-              value={endDate}
-              onChange={(newValue: React.SetStateAction<Date | null>) => {
-                setEndDate(newValue);
-              }}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & TextFieldProps
-              ) => <TextField {...params} />}
-            />
-            <Button onClick={() => setIsShowMSBOX(true)}>MS</Button>
-          </LocalizationProvider>
-        </div>
-
+        <DateSearchDialog
+          threadState={threadState}
+          threadDispatch={threadDispatch}
+          setOpen={setIsShowDateSearchDialog}
+          open={isShowDateSearchDialog}
+        />
+        <Grid container spacing={2}>
+          <Grid item>
+            <InputBox labelName={"ゲームモード"} menuItem={gameMode} />
+          </Grid>
+          <Grid item>
+            <InputBox labelName={"立ち回り"} menuItem={position} />
+          </Grid>
+          <Grid item>
+            <Button onClick={() => setIsShowMSBOX(true)}>MS検索</Button>
+          </Grid>
+          <Grid item>
+            <Button onClick={() => setIsShowDateSearchDialog(true)}>
+              日付検索
+            </Button>
+          </Grid>
+        </Grid>
         <div>
           {threadState.threads.length
             ? threadState.threads.map((thread, idx) => {
@@ -109,7 +112,7 @@ const ThreadIndex: React.FC = () => {
               })
             : "なんもない"}
         </div>
-      </div>
+      </Grid>
     );
   }
 };

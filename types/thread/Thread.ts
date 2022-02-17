@@ -15,10 +15,10 @@ export interface Thread {
   position: Position;
   gameMode: GameMode;
   tagCode: string;
-  createdAt: string;
-  updatedAt: string;
-  startedAt: string;
-  finishedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+  startedAt: Date;
+  finishedAt: Date;
 }
 
 export type ThreadID = {
