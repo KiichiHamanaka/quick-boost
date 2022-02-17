@@ -1,19 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { PlayStyle, ThreadStyle } from "../../types/Union";
-import {
-  findMobileSuitFromMSID,
-  MobileSuit,
-  MSImagePath,
-} from "../../types/MobileSuit";
-import { MSDict } from "../../db/data/MSDict";
-import { nonNullable } from "../../types/util";
-import UseSelectMSBox from "../../hooks/useSelectMSBox";
-import Image from "next/image";
+import { findMobileSuitFromMSID, MobileSuit } from "../../types/MobileSuit";
+import MSDialog from "../../components/dialog/MSSearchDialog";
+import useSelectMSBox from "../../hooks/useSelectMSBox";
+import { Box, Button, Typography } from "@mui/material";
+import ShowMSImage from "../../components/selectMS/showMSImager";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -33,39 +29,45 @@ type FormValues = {
 
 const ThreadNew: React.FC = () => {
   const { data: session, status } = useSession();
-  const { mobileSuits, dispatch } = UseSelectMSBox();
   const { register, handleSubmit } = useForm<FormValues>();
+  const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+  const { useMS } = useSelectMSBox();
   const loading = status === "loading";
   if (loading) return null; //ログイン画面に飛ばす
-
-  const msDict: MobileSuit[] = Object.values(MSDict).filter(nonNullable);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const req = {
       ...data,
       threadAuthor: session!.user,
       allowUsers: [],
-      created_at: dayjs(Date.now()).format("YYYY-MM-DD-HH-mm-ss"),
+      useMS,
       isPlaying: false,
     };
   };
   return (
     <div>
+      <Typography>スレッド作成のぺーじ</Typography>
+      <Button onClick={() => setIsShowMSBOX(true)}>MS選択</Button>
+      <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
       <form onSubmit={handleSubmit(onSubmit)}>
+        スレッド名
         <input {...register("title")} />
+        本文
         <input {...register("body")} />
+        プレイスタイル
         <input {...register("playStyle")} />
+        スレッドスタイル
         <input {...register("threadStyle")} />
+        VC有無
         <input {...register("isVC")} />
-        <input {...register("wantToUse")} />
-        {mobileSuits &&
-          mobileSuits.map((MS, idx) => (
-            <Image key={idx} src={MSImagePath(MS)} alt={MS.name} />
-          ))}
-        {/*<Image src={} alt={"使用機体を追加"} />*/}
+        <ShowMSImage
+          MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+        />
+        募集立ち回り
         <input {...register("position")} />
+        開始日
         <input {...register("start_at")} />
-        開始日と終了日は同一である必要があります
+        終了日
         <input {...register("end_at")} />
         <input type="submit" />
       </form>
