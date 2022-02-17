@@ -16,7 +16,7 @@ export type MSBoxAction =
   | { type: "cost"; cost: Cost }
   | { type: "seriesId"; seriesId: number | null }
   | { type: "msName"; msName: string | null }
-  | { type: "useMS"; useMS: number };
+  | { type: "useMS"; useMS: number | "reset" };
 
 export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
   switch (action.type) {
@@ -31,6 +31,12 @@ export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
         seriesId: action.seriesId,
       };
     case "useMS":
+      if (action.useMS === "reset") {
+        return {
+          ...state,
+          useMS: [],
+        };
+      }
       const useMSList: Array<number> = state.useMS.includes(action.useMS)
         ? state.useMS.filter((id) => id !== action.useMS)
         : [...state.useMS, action.useMS];

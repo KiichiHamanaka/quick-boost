@@ -4,19 +4,14 @@ import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import { nonNullable } from "../../types/util";
 import SelectMobileSuits from "../../components/SelectMobileSuits";
-import { Box, Modal } from "@material-ui/core";
-import useSelectMSBox from "../../hooks/useSelectMSBox";
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+import useSelectMSBox from "../../hooks/useSelectMSBox";
+import DatePicker from "@mui/lab/DatePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import MSDialog from "../../components/thread/MSDialog";
+
+import { Button, TextField, TextFieldProps } from "@mui/material";
+import { LocalizationProvider } from "@mui/lab";
 
 const ThreadIndex: React.FC = () => {
   const {
@@ -28,7 +23,9 @@ const ThreadIndex: React.FC = () => {
   } = useThreads();
 
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
-  const { mobileSuits, useMS } = useSelectMSBox();
+  const { mobileSuits, useMS, dispatch } = useSelectMSBox();
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
 
   useEffect(() => {
     threadDispatch({ type: "fetch", threads: threads });
@@ -36,31 +33,54 @@ const ThreadIndex: React.FC = () => {
 
   useEffect(() => {
     threadDispatch({ type: "filterMS", msids: useMS });
-    console.log("filter one!");
   }, [useMS]);
 
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
 
   if (isLoadingThreads) {
-    return <div>ロードなう　アニメにせんかい</div>;
+    return <div>ロードなう アニメにせんかい</div>;
   } else {
     return (
       <div>
-        <Modal
+        <MSDialog
+          msDispatch={dispatch}
+          threadDispatch={threadDispatch}
+          setOpen={setIsShowMSBOX}
           open={isShowMSBOX}
-          onClose={() => setIsShowMSBOX(false)}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <SelectMobileSuits
-              dispatch={threadDispatch}
-              text={"探したいMSを選択してください"}
+        />
+        {"ここの部分を検索用の別コンポーネントに"}
+        <div>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              disableFuture
+              label="開始日時"
+              openTo="year"
+              views={["year", "month", "day"]}
+              value={startDate}
+              onChange={(newValue: React.SetStateAction<Date | null>) => {
+                setStartDate(newValue);
+              }}
+              renderInput={(
+                params: JSX.IntrinsicAttributes & TextFieldProps
+              ) => <TextField {...params} />}
             />
-          </Box>
-        </Modal>
-        <button onClick={() => setIsShowMSBOX(true)}>MSから探す</button>
-        選択中MS {useMS}
+            <DatePicker
+              disableFuture
+              label="終了日時"
+              openTo="year"
+              views={["year", "month", "day"]}
+              value={endDate}
+              onChange={(newValue: React.SetStateAction<Date | null>) => {
+                setEndDate(newValue);
+              }}
+              renderInput={(
+                params: JSX.IntrinsicAttributes & TextFieldProps
+              ) => <TextField {...params} />}
+            />
+            <Button onClick={() => setIsShowMSBOX(true)}>MS</Button>
+          </LocalizationProvider>
+        </div>
+
         <div>
           {threadState.threads.length
             ? threadState.threads.map((thread, idx) => {

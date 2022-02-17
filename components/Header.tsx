@@ -1,4 +1,14 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
 const Header = () => {
   // ハンバーガーメニューも作りたい
   // li追加していく感じで
@@ -7,27 +17,44 @@ const Header = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   if (loading) return null;
+  console.log(session);
   return (
-    <div>
-      {!session && (
-        <button
-          onClick={() =>
-            signIn("twitter", {
-              callbackUrl: `${process.env.NEXTAUTH_URL}/thread`,
-            })
-          }
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          sx={{ mr: 2 }}
         >
-          Twitter ログイン
-        </button>
-      )}
-      {session && (
-        <>
-          <img src={session.image} alt={"aaaa"} width={50} height={50} />
-          {session.name}さん
-          <button onClick={() => signOut()}>ログアウト</button>
-        </>
-      )}
-    </div>
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Quick-Boost
+        </Typography>
+        {!session && (
+          <Button
+            color="inherit"
+            onClick={() =>
+              signIn("twitter", {
+                callbackUrl: `${process.env.NEXTAUTH_URL}/thread`,
+              })
+            }
+          >
+            ログイン
+          </Button>
+        )}
+        {session && (
+          <>
+            <Avatar alt={session.user.name} src={session.user.image} />
+            <Button color="inherit" onClick={() => signOut()}>
+              ログアウト
+            </Button>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 

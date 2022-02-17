@@ -12,8 +12,7 @@ import UseSelectMSBox from "../hooks/useSelectMSBox";
 import { ThreadAction } from "../reducers/thread";
 
 type MSBOXProps = {
-  text: string;
-  dispatch: Dispatch<ThreadAction>;
+  threadDispatch: Dispatch<ThreadAction>;
 };
 
 export const SelectMobileSuits = (props: MSBOXProps) => {
@@ -35,7 +34,7 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   useEffect(() => {
     if (session) {
       updateFavMS();
-      props.dispatch({ type: "filterMS", msids: useMS });
+      props.threadDispatch({ type: "filterMS", msids: useMS });
     }
   }, [session]);
 
@@ -46,7 +45,6 @@ export const SelectMobileSuits = (props: MSBOXProps) => {
   return (
     // <div css={FindCardStyle}>
     <div>
-      <p>{props.text}</p>
       {/*ヘッダ*/}
       {/*<div>*/}
       {/*  /!*シリーズ デカめのドロップダウン*!/*/}
