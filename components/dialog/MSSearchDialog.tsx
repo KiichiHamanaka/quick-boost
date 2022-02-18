@@ -13,6 +13,7 @@ import useSelectMSBox from "../../hooks/useSelectMSBox";
 type Props = {
   open: boolean;
   setOpen: (bool: boolean) => void;
+  text?: string;
 };
 
 const MSSearchDialog = (props: Props) => {
@@ -21,6 +22,8 @@ const MSSearchDialog = (props: Props) => {
     <Dialog
       open={props.open}
       onClose={() => props.setOpen(false)}
+      fullWidth
+      maxWidth="sm"
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

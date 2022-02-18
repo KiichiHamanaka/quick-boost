@@ -48,13 +48,8 @@ const MSList = (props: Props) => {
       {GroupedMS.map(
         (MSArray, MSArrayKey: number) =>
           MSArray && (
-            <div>
-              <Grid
-                container
-                justifyContent="center"
-                alignItems="center"
-                key={MSArrayKey}
-              >
+            <div key={MSArrayKey}>
+              <Grid container justifyContent="center" alignItems="center">
                 <Grid item xs={2}>
                   <div css={SeriesImageStyle}>
                     <Image
