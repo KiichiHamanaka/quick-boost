@@ -107,7 +107,7 @@ export const SelectMobileSuits = () => {
             <MenuItem value={"ALL"}>ALL</MenuItem>
             {Object.values(SeriesDict).map((s, idx) => (
               <MenuItem key={idx} value={s.seriesId}>
-                {s.name}
+                {s.title}
               </MenuItem>
             ))}
           </Select>

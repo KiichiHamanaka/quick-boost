@@ -3,6 +3,7 @@ import { SeriesDict } from "../db/data/SeriesDict";
 export type Series = {
   seriesId: number;
   name: string;
+  title: string;
 };
 
 export const findSeriesFromSeriesID = (sid: number): Series => {
