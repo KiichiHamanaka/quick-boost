@@ -1,34 +1,93 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-import React, { Dispatch } from "react";
+import React, { useMemo } from "react";
+import { css, SerializedStyles } from "@emotion/react";
+import {
+  findSeriesFromSeriesID,
+  getSeriesName,
+  seriesImagePath,
+} from "../../types/Series";
+import { Grid } from "@mui/material";
+import useSelectMSBox from "../../hooks/useSelectMSBox";
 
 type Props = {
   mobileSuits: MobileSuit[];
-  dispatch: Dispatch<any>;
+  useMS: number[];
 };
 
+const ChosenStyle = (choose: boolean): SerializedStyles => {
+  return choose
+    ? css``
+    : css`
+        filter: grayscale(100%);
+      `;
+};
+
+const SeriesImageStyle = css`
+  position: relative;
+  width: auto;
+  height: 52px;
+`;
+
 const MSList = (props: Props) => {
+  const { dispatch } = useSelectMSBox();
+
+  const GroupedMS: MobileSuit[][] = useMemo(() => {
+    const array: MobileSuit[][] = [];
+    props.mobileSuits.forEach((MS) => {
+      if (array[MS.series - 1] === undefined) {
+        array[MS.series - 1] = [];
+      }
+      array[MS.series - 1].push(MS);
+    });
+    return array;
+  }, [props.mobileSuits]);
+
   return (
-    <div>
-      {props.mobileSuits.map(
-        (MS, idx: number) =>
-          MS && (
-            <div
-              key={idx}
-              onClick={() => props.dispatch({ type: "filterMS", msids: MS.id })}
-            >
-              <Image
-                src={MSImagePath(MS)}
-                alt={MS.name}
-                width="212"
-                height="104"
-                layout="intrinsic"
-              />
+    <Grid justifyContent="center" alignItems="center">
+      {GroupedMS.map(
+        (MSArray, MSArrayKey: number) =>
+          MSArray && (
+            <div key={MSArrayKey}>
+              <Grid container justifyContent="center" alignItems="center">
+                <Grid item xs={2}>
+                  <div css={SeriesImageStyle}>
+                    <Image
+                      src={seriesImagePath(
+                        findSeriesFromSeriesID(MSArray[0].series)
+                      )}
+                      alt={getSeriesName(MSArray[0].series)}
+                      layout={"fill"}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={10}>
+                  <Grid container key={MSArrayKey}>
+                    {MSArray.map((MS, MSKey) => (
+                      <div
+                        key={MSKey}
+                        css={ChosenStyle(props.useMS.includes(MS.id))}
+                        onClick={() =>
+                          dispatch({ type: "useMS", useMS: MS.id })
+                        }
+                      >
+                        <Image
+                          src={MSImagePath(MS)}
+                          alt={MS.name}
+                          loading={"lazy"}
+                          width={106}
+                          height={52}
+                        />
+                      </div>
+                    ))}
+                  </Grid>
+                </Grid>
+              </Grid>
             </div>
           )
       )}
-    </div>
+    </Grid>
   );
 };
 
-export default MSList;
+export default React.memo(MSList);

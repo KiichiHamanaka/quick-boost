@@ -4,16 +4,14 @@ import { Series, seriesImagePath } from "../../types/Series";
 import { SeriesDict } from "../../db/data/SeriesDict";
 import { nonNullable } from "../../types/util";
 
-type Props = {
-  dispatch: Dispatch<any>;
-};
-
-const SeriesList = (props: Props) => {
+const SeriesList = () => {
   const seriesDict: Series[] = Object.values(SeriesDict).filter(nonNullable);
   return (
     <div>
       {seriesDict.map((series, idx) => (
-        <Image key={idx} alt={series.name} src={seriesImagePath(series)} />
+        <div key={idx}>
+          <Image alt={series.name} src={seriesImagePath(series)} />
+        </div>
       ))}
     </div>
   );

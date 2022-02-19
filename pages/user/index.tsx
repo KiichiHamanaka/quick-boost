@@ -12,6 +12,8 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Tokyo");
 
 // const date = dayjs().tz().format("YYYY-MM-DD-HH-mm-ss");
+// このページいらんくね？
+// 検索ページにする
 
 const UserIndex: React.FC = () => {
   const { users, isLoadingUsers, isErrorUsers } = useUsers();

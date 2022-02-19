@@ -9,13 +9,13 @@ const UserEdit: React.FC = () => {
   const loadingSession = status === "loading";
   const data = {};
 
-  const editUser = () => {
-    const user = loadingSession && session!.user.twitterName; //twitter名にしろ
-    axios.put(`/api/user/${user}`, data).then((res) => {
-      console.log(res.data);
-    });
-    router.push("/user/edit");
-  };
+  // const editUser = () => {
+  //   const user = loadingSession && session!.user.twitterName; //twitter名にしろ
+  //   axios.put(`/api/user/${user}`, data).then((res) => {
+  //     console.log(res.data);
+  //   });
+  //   router.push("/user/edit");
+  // };
 
   return <div>あしだまだだよ</div>;
 };

@@ -48,11 +48,11 @@ export const filteredMSsFromMSCost = (
 };
 
 export const findMobileSuitFromMSID = (msid: number): MobileSuit => {
-  return Object.values(MSDict)[msid];
+  return Object.values(MSDict)[msid - 1];
 };
 
-export const fms = (msids: number[]): MobileSuit[] => {
-  return msids.map((msid) => findMobileSuitFromMSID(msid));
+export const fms = (msids: number[] | undefined): MobileSuit[] => {
+  return msids != null ? msids.map((msid) => findMobileSuitFromMSID(msid)) : [];
 };
 
 export const costsImagePath = (cost: Cost) => {

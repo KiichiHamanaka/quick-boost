@@ -5,8 +5,8 @@ export default NextAuth({
   secret: process.env.SECRET,
   providers: [
     TwitterProvider({
-      clientId: process.env.TWITTER_CLIENT_ID,
-      clientSecret: process.env.TWITTER_CLIENT_SECRET,
+      clientId: process.env.TWITTER_CLIENT_ID as string,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {

@@ -1,18 +1,15 @@
-import { useReducer } from "react";
-import { msBoxInitialState, msBoxReducer } from "../store/selectMSBox";
+import { useContext } from "react";
+import { MsBoxContext } from "../contexts/msBoxContext";
+import { msBoxInitialState } from "../reducers/selectMSBox";
 
 const UseSelectMSBox = () => {
-  const [state, dispatch] = useReducer(msBoxReducer, msBoxInitialState);
-
-  // const callFM = useCallback(
-  //     () => filterMS(cost, msName, seriesId),
-  //     () => filterMS(cost, msName, seriesId),
-  //     [cost, msName, seriesId]
-  // );
-
-  // フォームにしてuser/idにpostする
-
-  return { mobileSuits: state.mobileSuits, dispatch };
+  const { state, dispatch } = useContext(MsBoxContext);
+  return {
+    state,
+    mobileSuits: msBoxInitialState,
+    useMS: state.useMS,
+    dispatch,
+  };
 };
 
 export default UseSelectMSBox;

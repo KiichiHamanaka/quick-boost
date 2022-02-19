@@ -1,93 +1,78 @@
-import { css } from "@emotion/react";
-import React, { Dispatch, useEffect, useState } from "react";
-import { Cost } from "../types/Union";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { fms, MobileSuit } from "../types/MobileSuit";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
-import UseSelectMSBox from "../hooks/useSelectMSBox";
+import useSelectMSBox from "../hooks/useSelectMSBox";
+import { Input } from "@mui/material";
+import SeriesInputBox from "./selectMS/SeriesInputBox";
+import CostInputBox from "./selectMS/CostInputBox";
 
-/*
-   ユーザー画面とスレッド作成時、スレッドフィルタの3箇所で使いまわしたい
-   モーダル
-   お気に入り機体から選ぶも必要？
-   favoriteはsessionから持ってくる？
-   検索ボックスとコストセレクタ,シリーズセレクタが必要
-   useSWRでuser情報を持ってくるそっからfavMSのid取得して
-   favListに突っ込む
-   ホバー時(onMouseEnter)にプルダウン
- */
-
-const FindCardStyle = css`
-  width: 400px;
-  border: solid 1px #2d2d2d;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-`;
-
-const costs: Cost[] = ["ALL", "1500", "2000", "2500", "3000"];
-
-type MSBOXProps = {
-  dispatch: Dispatch<any>;
-};
-
-export const SelectMobileSuits = (props: MSBOXProps) => {
-  const { mobileSuits, dispatch } = UseSelectMSBox();
+export const SelectMobileSuits = () => {
+  const { state, mobileSuits, useMS, dispatch } = useSelectMSBox();
   const { data: session, status } = useSession();
   const loading = status === "loading";
-  const [favMS, setFavMS] = useState<MobileSuit[]>([]);
+  // const [favMS, setFavMS] = useState<MobileSuit[]>([]);
+  //
+  // const favoriteMSMemo: MobileSuit[] = useMemo(
+  //   () => (session ? fms(session.user.favoriteMSIDs) : []),
+  //   [session]
+  // );
+  //
+  // const updateFavMS = useCallback(
+  //   () => setFavMS(favoriteMSMemo),
+  //   [favoriteMSMemo]
+  // );
+  //
+  // useEffect(() => {
+  //   if (session) {
+  //     updateFavMS();
+  //   }
+  // }, [session]);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    dispatch({ type: "msName", msName: event.target.value });
+  };
+
+  const [isFav, setIsFav] = useState<boolean>(false);
+
+  const initialMS = mobileSuits.mobileSuits;
+  const [ms, setMS] = useState(initialMS);
 
   useEffect(() => {
-    if (session) setFavMS(fms(session.user.favoriteMSIDs));
-  }, [session]);
+    let result = initialMS;
+    if (state.cost !== "ALL") {
+      result = result.filter((m) => m.cost === state.cost);
+    }
+    if (state.seriesId !== "ALL") {
+      result = result.filter((m) => m.series === state.seriesId);
+    }
+    if (state.msName !== "") {
+      result = result.filter((m) => m.name.includes(state.msName));
+    }
+    console.log(state);
+    setMS(result);
+  }, [state]);
 
-  const [isCost, setIsCost] = useState<boolean>(false);
-  const [isSeries, setIsSeries] = useState<boolean>(false);
-  const [isFav, setIsFav] = useState<boolean>(false);
   if (loading) return null;
   return (
-    // <div css={FindCardStyle}>
     <div>
-      {/*ヘッダ*/}
-      {/*<div>*/}
-      {/*  /!*シリーズ デカめのドロップダウン*!/*/}
-      {/*  {*/}
-      {/*    <div*/}
-      {/*      onMouseEnter={() => setIsSeries(!isSeries)}*/}
-      {/*      onMouseLeave={() => setIsSeries(!isSeries)}*/}
-      {/*    >*/}
-      {/*      {isSeries && <SeriesList dispatch={props.dispatch} />}*/}
-      {/*    </div>*/}
-      {/*  }*/}
-      {/*  /!*コスト ドロップダウンメニュー*!/*/}
-      {/*  {*/}
-      {/*    <div*/}
-      {/*      onMouseEnter={() => setIsCost(!isCost)}*/}
-      {/*      onMouseLeave={() => setIsCost(!isCost)}*/}
-      {/*    >*/}
-      {/*      {isCost &&*/}
-      {/*        costs.map((cost: Cost, idx) => (*/}
-      {/*          <Image*/}
-      {/*            key={idx}*/}
-      {/*            alt={cost}*/}
-      {/*            src={costsImagePath(cost)}*/}
-      {/*            onClick={() => dispatch({ type: "cost", cost: cost })}*/}
-      {/*          />*/}
-      {/*        ))}*/}
-      {/*    </div>*/}
-      {/*  }*/}
-      {/*  /!*お気に入りMSリストボタン*!/*/}
-      {/*  /!*<Image src={!isFav ? "" : ""} onClick={() => setIsFav(!isFav)} />*!/*/}
-      {/*  /!*検索バー*!/*/}
-      {/*  <input type="text" name="name" />*/}
-      {/*</div>*/}
-      {/*本体*/}
-      {/*シリーズごとにMSを表示*/}
+      <SeriesInputBox />
+      <CostInputBox />
+      <Input onChange={handleChange} />
       {!isFav ? (
-        <MSList mobileSuits={mobileSuits} dispatch={props.dispatch} />
-      ) : favMS !== null ? (
-        <MSList mobileSuits={favMS} dispatch={props.dispatch} />
+        <MSList mobileSuits={ms} useMS={useMS} />
       ) : (
+        // ) : favMS.length ? (
+        //   <MSList mobileSuits={favMS} useMS={useMS} />
         <div>お気に入りMSが登録されていません</div>
       )}
     </div>

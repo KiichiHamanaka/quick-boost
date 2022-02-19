@@ -2,13 +2,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import { useComments, useThread } from "../../hooks/swrHooks";
+import { useComments, useThread, useUser } from "../../hooks/swrHooks";
 import {
   findMobileSuitFromMSID,
   MobileSuit,
   MSImagePath,
 } from "../../types/MobileSuit";
 import { applyThreadID } from "../../types/thread/Thread";
+import mongoose from "mongoose";
+
+//クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
 
 const FindCardStyle = css`
   width: 400px;
@@ -19,38 +22,36 @@ const FindCardStyle = css`
 
 const ThreadId = () => {
   const router = useRouter();
-  const id: string = router.query.id as string;
+  const id = router.query.id as string;
   const tid = applyThreadID(id);
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
+  // const { user, isErrorUser, isLoadingUser } = useUser(thread.threadAuthor);
   // const { comments, isLoadingComments, isErrorComments } = useComments(tid);
   const isLoading = isLoadingThread;
   const isError = isErrorThread;
-  const [useMS, setUseMS] = useState<MobileSuit[]>([]);
-
-  useEffect(() => {
-    setUseMS(thread.useMS.map((msid) => findMobileSuitFromMSID(msid)));
-  }, [thread]);
 
   if (isLoading) return <div>Loading Animation</div>;
   if (isError) return <div>Error</div>;
+  console.log(thread);
 
   return (
     <div css={FindCardStyle}>
-      <div>{thread.threadAuthor.twitterId}</div>
-      <div>{thread.threadAuthor.twitterName}</div>
-      <div>{thread.title}</div>
-      <div>{thread.threadAuthor.grade}</div>
-      <div>{thread.threadAuthor.rank}</div>
+      {id}
+      {/*<div>@{user.twitterId}</div>*/}
+      {/*<div>{user.twitterName}</div>*/}
+      {/*<div>タイトル:{thread.title}</div>*/}
+      {/*{user.grade && <div>{user.grade}</div>}*/}
+      {/*{user.rank && <div>{user.rank}</div>}*/}
       <div>{thread.body}</div>
-      {useMS &&
-        useMS.map(
+      {thread.useMS &&
+        thread.useMS.map(
           (MS, idx) =>
             MS && (
               <Image
                 key={idx}
-                src={MSImagePath(MS)}
-                alt={MS.name}
+                src={MSImagePath(findMobileSuitFromMSID(MS))}
+                alt={findMobileSuitFromMSID(MS).name}
                 width={50}
                 height={50}
               />
