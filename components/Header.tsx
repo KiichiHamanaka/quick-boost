@@ -51,6 +51,7 @@ const Header = () => {
         )}
         {session && (
           <>
+            {session.name}
             <Avatar alt={session.user.name} src={session.user.image} />
             {/*userpageへ飛ぶ処理の追加*/}
           </>

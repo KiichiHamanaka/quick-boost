@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Thread from "../../../db/models/Thread";
 import connectDB from "../../../db/atlas";
+import { applyThreadID } from "../../../types/thread/Thread";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
@@ -11,36 +12,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        // console.log(`id is ${id}`);
-        if (typeof id === "string") {
-          const find = await Thread.findById(id);
-          res.status(200).json(find);
-          // console.log(thread);
-        }
-        // const thread = await Find.findById(numId);
-        //
-        // res.status(200).json(thread);
-        // console.log(thread);
-        // res.status(200).json({
-        //   id: 1,
-        //   name: "ぼしゅゅ",
-        //   user: {
-        //     name: "馬場P",
-        //     grade: "民間人",
-        //     rank: "EXX",
-        //   },
-        //   message: "逃げないで戦ってください",
-        //   body:
-        //     "　宇宙世紀００７９。人類が、増えすぎた人口を宇宙に移民させるようになって、すでに半世紀。地球から最も遠い宇宙都市サイド３は、ジオン公国を名乗り地球連邦政府に独立戦争を挑んできた。1ヶ月余りの戦いでジオン公国と連邦軍は、総人口の半分を死に至らしめ、連邦軍劣勢のまま戦争は膠着状態に陥る。\n" +
-        //     "　サイド７の少年アムロ・レイは、ジオン軍の奇襲をきっかけに偶然、連邦軍の新型モビルスーツ・ガンダムに乗り込み、パイロットとなる。戦火を生き残るため、戦艦ホワイトベースで少年少女たちとともに軍人としての戦いを強いられていくうちに、やがて“ニュータイプ”として覚醒していく。",
-        //   mobileSuites: [
-        //     {
-        //       name: "ガンダム",
-        //       series: "機動戦士ガンダム",
-        //       imagePath: "/assets/ms/1.png",
-        //     },
-        //   ],
-        // });
+        console.log(applyThreadID(id as string));
+        const find = await Thread.findById(applyThreadID(id as string));
+        console.log(find);
+        res.status(200).json(find);
         break;
       } catch (e) {
         console.error(e);

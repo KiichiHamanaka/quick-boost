@@ -6,7 +6,7 @@ import { useReducer } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
 
 export const useThread = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/thread/${tid.value}`, fetcher.fetchGet);
+  const { data, error } = useSWR(`/api/thread/${tid._id}`, fetcher.fetchGet);
   const thread: Thread = data;
   return {
     thread,
@@ -16,14 +16,12 @@ export const useThread = (tid: ThreadID) => {
 };
 
 export const useThreads = () => {
-  //threadsは全部 threadStateは分割データ
   const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
   const threads: Array<Thread> = data || [];
   const [threadState, threadDispatch] = useReducer(
     threadReducer,
     threadInitialState
   );
-  console.log(threads);
   return {
     threads,
     isLoadingThreads: !error && !data,
@@ -34,7 +32,7 @@ export const useThreads = () => {
 };
 
 export const useComments = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/comment/${tid.value}`, fetcher.fetchGet);
+  const { data, error } = useSWR(`/api/comment/${tid._id}`, fetcher.fetchGet);
   const comments: Comment = data;
   return {
     comments,
@@ -44,7 +42,7 @@ export const useComments = (tid: ThreadID) => {
 };
 
 export const useUser = (uid: UserID) => {
-  const { data, error } = useSWR(`/api/user/${uid.value}`, fetcher.fetchGet);
+  const { data, error } = useSWR(`/api/user/${uid._id}`, fetcher.fetchGet);
   const user: User = data;
   return {
     user,

@@ -5,7 +5,7 @@ import { ThreadID } from "../../types/thread/Thread";
 import { UserID } from "../../types/User";
 
 export const ThreadIdSchema: Schema = new Schema({
-  value: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   _meta: { type: String, enum: ["ThreadID"], required: true },
 });
 

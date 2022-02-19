@@ -18,23 +18,23 @@ export const SelectMobileSuits = () => {
   const { state, mobileSuits, useMS, dispatch } = useSelectMSBox();
   const { data: session, status } = useSession();
   const loading = status === "loading";
-  const [favMS, setFavMS] = useState<MobileSuit[]>([]);
-
-  const favoriteMSMemo: MobileSuit[] = useMemo(
-    () => (session ? fms(session.user.favoriteMSIDs) : []),
-    [session]
-  );
-
-  const updateFavMS = useCallback(
-    () => setFavMS(favoriteMSMemo),
-    [favoriteMSMemo]
-  );
-
-  useEffect(() => {
-    if (session) {
-      updateFavMS();
-    }
-  }, [session]);
+  // const [favMS, setFavMS] = useState<MobileSuit[]>([]);
+  //
+  // const favoriteMSMemo: MobileSuit[] = useMemo(
+  //   () => (session ? fms(session.user.favoriteMSIDs) : []),
+  //   [session]
+  // );
+  //
+  // const updateFavMS = useCallback(
+  //   () => setFavMS(favoriteMSMemo),
+  //   [favoriteMSMemo]
+  // );
+  //
+  // useEffect(() => {
+  //   if (session) {
+  //     updateFavMS();
+  //   }
+  // }, [session]);
 
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -70,9 +70,9 @@ export const SelectMobileSuits = () => {
       <Input onChange={handleChange} />
       {!isFav ? (
         <MSList mobileSuits={ms} useMS={useMS} />
-      ) : favMS.length ? (
-        <MSList mobileSuits={favMS} useMS={useMS} />
       ) : (
+        // ) : favMS.length ? (
+        //   <MSList mobileSuits={favMS} useMS={useMS} />
         <div>お気に入りMSが登録されていません</div>
       )}
     </div>

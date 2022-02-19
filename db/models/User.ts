@@ -3,7 +3,7 @@ import { Document, model, Model, models, Schema } from "mongoose";
 import { OpenSNSSettings } from "../../types/Union";
 
 export const UserIdSchema: Schema = new Schema({
-  value: Schema.Types.ObjectId,
+  _id: Schema.Types.ObjectId,
   _meta: { type: String, enum: ["UserID"], required: true },
 });
 

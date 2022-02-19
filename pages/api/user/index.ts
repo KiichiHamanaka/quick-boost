@@ -42,11 +42,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const user = await User.create(req.body);
         res.status(201).json({ success: true, data: user });
-        // リダイレクト
         break;
       } catch (e) {
         console.error(e);
-        // リダイレクト
         break;
       }
     }

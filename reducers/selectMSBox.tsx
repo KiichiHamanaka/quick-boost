@@ -15,7 +15,7 @@ export type MSBoxAction =
   | { type: "cost"; cost: Cost }
   | { type: "seriesId"; seriesId: number | "ALL" }
   | { type: "msName"; msName: string }
-  | { type: "mobileSuits"; mobileSuits: MobileSuit[] | "reset" }
+  | { type: "mobileSuits"; mobileSuits: MobileSuit[] }
   | { type: "useMS"; useMS: number | "reset" };
 
 export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
@@ -61,8 +61,8 @@ export const msBoxReducer = (state: msBoxState, action: MSBoxAction) => {
 
 export const msBoxInitialState: msBoxState = {
   mobileSuits: Object.values(MSDict).filter(nonNullable),
-  useMS: [],
   cost: "ALL",
+  useMS: [],
   seriesId: "ALL",
   msName: "",
 };

@@ -16,7 +16,7 @@ type UserProps = {
   grade?: string;
   rank?: string;
   favoriteMS: Array<MobileSuit>;
-  bio?: UserBio;
+  bio?: string;
 };
 
 const UserCard = (props: UserProps) => {

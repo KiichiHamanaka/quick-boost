@@ -1,30 +1,33 @@
-import { Box, FormControl, InputLabel, NativeSelect } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { Dispatch } from "react";
 
 type Props<T, U> = {
   labelName: string;
   menuItem: Array<string>;
+  dv?: any;
+  handleChange?: any;
   dispatch?: Dispatch<T>;
   actionList?: Array<U>;
 };
 
 const InputBox = (props: Props<any, any>) => {
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: "200px" }}>
       <FormControl fullWidth>
-        <InputLabel variant="standard" htmlFor="uncontrolled-native">
-          {props.labelName}
-        </InputLabel>
-        <NativeSelect
-          inputProps={{
-            name: props.labelName,
-            id: "uncontrolled-native",
-          }}
+        <InputLabel id="demo-simple-select-label">{props.labelName}</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label={props.labelName}
+          defaultValue={props.dv}
+          onChange={props.handleChange}
         >
           {props.menuItem.map((item, idx) => (
-            <option key={idx}>{item}</option>
+            <MenuItem key={idx} value={item}>
+              {item}
+            </MenuItem>
           ))}
-        </NativeSelect>
+        </Select>
       </FormControl>
     </Box>
   );

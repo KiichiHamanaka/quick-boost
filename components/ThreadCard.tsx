@@ -1,63 +1,45 @@
-import { css } from "@emotion/react";
 import Link from "next/link";
 import Image from "next/image";
-import { User } from "../types/User";
-import { GameMode, PlayStyle, Position } from "../types/Union";
-import { MobileSuit, MSImagePath } from "../types/MobileSuit";
-import { ThreadID } from "../types/thread/Thread";
+import { Thread } from "../types/thread/Thread";
+import { findMobileSuitFromMSID, MSImagePath } from "../types/MobileSuit";
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
 type ThreadProps = {
-  ThreadId: ThreadID;
-  threadAuthor: User;
-  title: string;
-  playStyle: PlayStyle; //色
-  useMS: Array<MobileSuit>;
-  isVC: boolean;
-  position: Position;
-  startedAt: Date;
-  finishedAt: Date;
-  isPlaying: boolean;
-  gameMode: GameMode; //色
+  thread: Thread;
 };
 
 const ThreadCard = (props: ThreadProps) => {
-  const bgColor = props.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
-  const ThreadCardStyle = css`
-    width: 400px;
-    border: solid 1px #2d2d2d;
-    border-radius: 4px;
-    background-color: ${bgColor};
-    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-  `;
+  // const bgColor = props.thread.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
 
   return (
-    <Link href={`/thread/${props.ThreadId}`} passHref>
-      <div css={ThreadCardStyle}>
-        {props.isPlaying ? <p>現在プレイ中！</p> : <p>現在募集中！</p>}
-        <div>{props.threadAuthor.twitterName}</div>
-        <div>{props.title}</div>
-        <div>階級：{props.threadAuthor.grade}</div>
-        <div>ランク：{props.threadAuthor.rank}</div>
-        <div>モード：{props.gameMode}</div>
-        {props.useMS.map((MS: MobileSuit, idx: number) => {
-          return (
-            <div key={idx}>
-              <div>{MS.name}</div>
-              <Image
-                src={MSImagePath(MS)}
-                alt={MS.name}
-                width={50}
-                height={50}
-              />
-            </div>
-          );
-        })}
-        {props.isVC ? (
-          <Image src={"/assets/Logo/discord.jpeg"} alt={"VC可能"} />
+    <Link href={`/thread/${props.thread._id?._id}`} passHref>
+      <Box sx={{ minWidth: "sx", height: "100px", border: 1 }}>
+        {props.thread._id?._id}
+        {/*{props.thread.isPlaying ? <p>現在プレイ中！</p> : <p>現在募集中！</p>}*/}
+        {/*<div>{props.thread.threadAuthor.value}</div>*/}
+        {/*<div>{props.thread}</div>*/}
+        {/*<div>モード：{props.thread.gameMode}</div>*/}
+        {!!props.thread.useMS.length ? (
+          props.thread.useMS.map((ms, idx) => (
+            <Image
+              key={idx}
+              src={MSImagePath(findMobileSuitFromMSID(ms))}
+              alt={findMobileSuitFromMSID(ms).name}
+              loading={"lazy"}
+              width={106}
+              height={52}
+            />
+          ))
         ) : (
-          <Image src={"/assets/cantDiscord.png"} alt={"VC不可"} />
+          <Typography>Nothing</Typography>
         )}
-      </div>
+        {/*{props.thread.isVC ? (*/}
+        {/*  <Image src={"/assets/Logo/discord.jpeg"} alt={"VC可能"} />*/}
+        {/*) : (*/}
+        {/*  <Image src={"/assets/cantDiscord.png"} alt={"VC不可"} />*/}
+        {/*)}*/}
+      </Box>
     </Link>
   );
 };

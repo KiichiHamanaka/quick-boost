@@ -1,9 +1,10 @@
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
-import { User, UserID } from "../User";
+import { UserID } from "../User";
+import mongoose from "mongoose";
 
 export interface Thread {
-  _id: ThreadID;
-  threadAuthor: User;
+  _id?: ThreadID;
+  threadAuthor: UserID;
   title: string;
   body: string;
   playStyle: PlayStyle;
@@ -15,20 +16,27 @@ export interface Thread {
   position: Position;
   gameMode: GameMode;
   tagCode: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   startedAt: Date;
   finishedAt: Date;
 }
 
 export type ThreadID = {
-  value: string;
+  _id: mongoose.Types.ObjectId;
   _meta: "ThreadID";
+};
+
+export const newThreadID = (): ThreadID => {
+  return {
+    _id: new mongoose.Types.ObjectId(),
+    _meta: "ThreadID",
+  };
 };
 
 export const applyThreadID = (str: string): ThreadID => {
   return {
-    value: str,
+    _id: new mongoose.Types.ObjectId(str),
     _meta: "ThreadID",
   };
 };

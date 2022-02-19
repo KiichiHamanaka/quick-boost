@@ -11,6 +11,6 @@ export type Comment = {
 };
 
 export type CommentID = {
-  value: string;
+  _id: string;
   _meta: "CommentID";
 };

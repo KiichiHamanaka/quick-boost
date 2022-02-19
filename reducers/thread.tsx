@@ -1,4 +1,5 @@
 import { Thread } from "../types/thread/Thread";
+import { GameMode, Position } from "../types/Union";
 
 type Sort = "ASC" | "DESC";
 
@@ -7,6 +8,8 @@ export type State = {
   startedAt: Date | null;
   finishedAt: Date | null;
   useMS: Array<number>;
+  gameMode: GameMode;
+  position: Position;
   sort: Sort;
 };
 
@@ -15,22 +18,20 @@ export const threadInitialState: State = {
   startedAt: null,
   finishedAt: null,
   useMS: [],
+  gameMode: "ランクマッチ",
+  position: "どちらでも",
   sort: "DESC",
 };
 
 export type ThreadAction =
   | { type: "fetch"; threads: Thread[] }
   | { type: "sort"; sort: Sort }
-  | { type: "startedAt"; startedAt: Date | "reset" }
-  | { type: "finishedAt"; finishedAt: Date | "reset" }
+  | { type: "startedAt"; startedAt: Date | null | "reset" }
+  | { type: "finishedAt"; finishedAt: Date | null | "reset" }
+  | { type: "gameMode"; gameMode: GameMode }
+  | { type: "position"; position: Position }
   | { type: "reset"; state: State }
   | { type: "filterMS"; msids: number[] };
-
-//startedAtの変更などでthreadsが再度上書きされる際
-//元のデータが残っていないため戻らないのでは
-
-//案2 ここではフィルター条件だけ持ち
-//親コンポーネント側でこれを使ってフィルタするようにする
 
 export const threadReducer = (state: State, action: ThreadAction): State => {
   switch (action.type) {
@@ -54,26 +55,24 @@ export const threadReducer = (state: State, action: ThreadAction): State => {
           ...state,
           startedAt: threadInitialState.startedAt,
         };
+      } else {
+        return {
+          ...state,
+          startedAt: action.startedAt,
+        };
       }
-      return {
-        ...state,
-        threads: state.threads.filter(
-          (thread) => thread.startedAt > action.startedAt
-        ),
-      };
     case "finishedAt":
       if (action.finishedAt === "reset") {
         return {
           ...state,
           finishedAt: threadInitialState.finishedAt,
         };
+      } else {
+        return {
+          ...state,
+          finishedAt: action.finishedAt,
+        };
       }
-      return {
-        ...state,
-        threads: state.threads.filter(
-          (thread) => thread.finishedAt > action.finishedAt
-        ),
-      };
     case "filterMS":
       return {
         ...state,

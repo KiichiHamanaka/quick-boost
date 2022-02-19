@@ -1,6 +1,6 @@
 import axios from "axios";
-import { User } from "../../db/models/User";
 import { Thread } from "../../types/thread/Thread";
+import { User } from "../../types/User";
 
 export const createUser = (user: User) => {
   axios.post("/api/user", user).then((res) => {
@@ -9,7 +9,7 @@ export const createUser = (user: User) => {
 };
 
 export const createThread = (thread: Thread) => {
-  axios.put("/api/thread", thread).then((res) => {
+  axios.post("/api/thread", thread).then((res) => {
     console.log("response body:", res.data);
   });
 };

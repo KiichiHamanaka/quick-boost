@@ -21,10 +21,7 @@ type Props = {
 };
 
 const DateSearchDialog = (props: Props) => {
-  const { threadDispatch } = useThreads();
-
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const { threadState, threadDispatch } = useThreads();
 
   return (
     <Dialog
@@ -47,9 +44,9 @@ const DateSearchDialog = (props: Props) => {
                 label="開始日時"
                 openTo="year"
                 views={["year", "month", "day"]}
-                value={startDate}
-                onChange={(newValue: React.SetStateAction<Date | null>) => {
-                  setStartDate(newValue);
+                value={threadState.startedAt}
+                onChange={(newValue) => {
+                  threadDispatch({ type: "startedAt", startedAt: newValue });
                 }}
                 renderInput={(
                   params: JSX.IntrinsicAttributes & TextFieldProps
@@ -61,9 +58,9 @@ const DateSearchDialog = (props: Props) => {
                 label="終了日時"
                 openTo="year"
                 views={["year", "month", "day"]}
-                value={endDate}
-                onChange={(newValue: React.SetStateAction<Date | null>) => {
-                  setEndDate(newValue);
+                value={threadState.finishedAt}
+                onChange={(newValue) => {
+                  threadDispatch({ type: "finishedAt", finishedAt: newValue });
                 }}
                 renderInput={(
                   params: JSX.IntrinsicAttributes & TextFieldProps
