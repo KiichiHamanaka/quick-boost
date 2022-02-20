@@ -12,9 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        console.log(applyThreadID(id as string));
-        const find = await Thread.findById(applyThreadID(id as string));
-        console.log(find);
+        const tid = applyThreadID(id as string);
+        const find = await Thread.findOne({ "_id._id": tid._id });
         res.status(200).json(find);
         break;
       } catch (e) {

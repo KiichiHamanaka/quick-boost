@@ -27,15 +27,6 @@ const UserId: React.FC = () => {
   const { user, isLoadingUser, isErrorUser } = useUser(uid);
   const [favoriteMS, setFavoriteMS] = useState<MobileSuit[]>([]);
 
-  useEffect(() => {
-    if (user)
-      setFavoriteMS(
-        user.favoriteMS
-          .map((msid) => findMobileSuitFromMSID(msid))
-          .filter(nonNullable)
-      );
-  }, [user]);
-
   if (isLoadingUser) return <div>Loading Animation</div>;
   if (isErrorUser) return <div>Error</div>;
   return (

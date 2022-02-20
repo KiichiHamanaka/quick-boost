@@ -9,7 +9,7 @@ import {
   MSImagePath,
 } from "../../types/MobileSuit";
 import { applyThreadID } from "../../types/thread/Thread";
-import mongoose from "mongoose";
+import { applyUserID } from "../../types/User";
 
 //クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
 
@@ -28,12 +28,9 @@ const ThreadId = () => {
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
   // const { user, isErrorUser, isLoadingUser } = useUser(thread.threadAuthor);
   // const { comments, isLoadingComments, isErrorComments } = useComments(tid);
-  const isLoading = isLoadingThread;
-  const isError = isErrorThread;
 
-  if (isLoading) return <div>Loading Animation</div>;
-  if (isError) return <div>Error</div>;
-  console.log(thread);
+  if (isLoadingThread) return <div>Loading Animation</div>;
+  if (isErrorThread) return <div>Error</div>;
 
   return (
     <div css={FindCardStyle}>
