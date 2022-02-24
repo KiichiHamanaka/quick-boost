@@ -3,13 +3,9 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { useComments, useThread, useUser } from "../../hooks/swrHooks";
-import {
-  findMobileSuitFromMSID,
-  MobileSuit,
-  MSImagePath,
-} from "../../types/MobileSuit";
+import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
 import { applyThreadID } from "../../types/thread/Thread";
-import { applyUserID } from "../../types/User";
+import { Box, Typography } from "@mui/material";
 
 //クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
 
@@ -33,28 +29,52 @@ const ThreadId = () => {
   if (isErrorThread) return <div>Error</div>;
 
   return (
-    <div css={FindCardStyle}>
-      {id}
-      {/*<div>@{user.twitterId}</div>*/}
-      {/*<div>{user.twitterName}</div>*/}
-      {/*<div>タイトル:{thread.title}</div>*/}
-      {/*{user.grade && <div>{user.grade}</div>}*/}
-      {/*{user.rank && <div>{user.rank}</div>}*/}
-      <div>{thread.body}</div>
-      {thread.useMS &&
-        thread.useMS.map(
-          (MS, idx) =>
-            MS && (
-              <Image
-                key={idx}
-                src={MSImagePath(findMobileSuitFromMSID(MS))}
-                alt={findMobileSuitFromMSID(MS).name}
-                width={50}
-                height={50}
-              />
-            )
+    <Box sx={{ minWidth: "sx", maxWidth: "500px", border: 1 }}>
+      <Typography>{thread.title}</Typography>
+      {thread.isPlaying ? (
+        <Typography>現在プレイ中！</Typography>
+      ) : (
+        <Typography>現在募集中！</Typography>
+      )}
+      <div>モード：{thread.gameMode}</div>
+      <Box>{thread.body}</Box>
+      <Box>
+        {!!thread.useMS ? (
+          thread.useMS.map((ms, idx) => (
+            <Image
+              key={idx}
+              src={MSImagePath(findMobileSuitFromMSID(ms))}
+              alt={findMobileSuitFromMSID(ms).name}
+              loading={"lazy"}
+              width={106}
+              height={52}
+            />
+          ))
+        ) : (
+          <Typography>Nothing</Typography>
         )}
-    </div>
+      </Box>
+      <Typography>タッグコード:{thread.tagCode}</Typography>
+      <Typography>開始日時:{thread.startedAt}</Typography>
+      <Typography>終了日時:{thread.finishedAt}</Typography>
+      <Typography>作成日:{thread.createdAt}</Typography>
+      {thread.isVC ? (
+        <Image
+          src={"/assets/Image/Logo/discord.jpeg"}
+          alt={"VC可能"}
+          width={50}
+          height={50}
+        />
+      ) : (
+        <Image
+          src={"/assets/Image/Logo/discord.jpeg"}
+          alt={"VC不可"}
+          width={50}
+          height={50}
+        />
+      )}
+      コメントエリアのコンポーネント
+    </Box>
   );
 };
 export default ThreadId;
