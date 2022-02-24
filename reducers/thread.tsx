@@ -80,6 +80,16 @@ export const threadReducer = (state: State, action: ThreadAction): State => {
           thread.useMS.some((msid) => action.msids.includes(msid));
         }),
       };
+    case "gameMode":
+      return {
+        ...state,
+        gameMode: action.gameMode,
+      };
+    case "position":
+      return {
+        ...state,
+        position: action.position,
+      };
     default:
       return state;
   }

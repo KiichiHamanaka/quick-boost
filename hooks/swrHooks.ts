@@ -2,8 +2,9 @@ import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
 import { User, UserID } from "../types/User";
 import { Thread, ThreadID } from "../types/thread/Thread";
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
+import useSelectMSBox from "./useSelectMSBox";
 
 export const useThread = (tid: ThreadID) => {
   const { data, error } = useSWR(`/api/thread/${tid._id}`, fetcher.fetchGet);
@@ -22,8 +23,40 @@ export const useThreads = () => {
     threadReducer,
     threadInitialState
   );
+  const [result, setResult] = useState<Thread[]>(data || []);
+  const { state, useMS } = useSelectMSBox();
+
+  useEffect(() => {
+    let tmp = threads;
+    if (threadState.gameMode !== "何でも") {
+      tmp = tmp.filter((t) => t.gameMode === threadState.gameMode);
+    }
+    // if (threadState.startedAt !== null) {
+    //   // @ts-ignore
+    //   result = result.filter((t) => t.startedAt >= threadState.startedAt);
+    // }
+    // if (threadState.finishedAt !== null) {
+    //   result = result.filter((t) => t.finishedAt <= threadState.finishedAt);
+    // }
+    if (threadState.position !== "どちらでも") {
+      tmp = tmp.filter((t) => t.position === threadState.position);
+    }
+    if (useMS.length) {
+      tmp = tmp.filter((t) => t.useMS.some((ms) => useMS.includes(ms)));
+    }
+    // if (threadState.sort === "ASC") {
+    //   result = result.sort((a, b) => {
+    //     if (a.startedAt < b.startedAt) return -1;
+    //     if (a.startedAt < b.startedAt) return 1;
+    //     return 0;
+    //   });
+    // }
+    setResult(tmp);
+  }, [state.useMS, threadState, data]);
+
   return {
     threads,
+    result,
     isLoadingThreads: !error && !data,
     isErrorThreads: error,
     threadState,

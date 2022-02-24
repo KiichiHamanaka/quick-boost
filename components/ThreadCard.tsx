@@ -14,31 +14,47 @@ const ThreadCard = (props: ThreadProps) => {
 
   return (
     <Link href={`/thread/${props.thread._id?._id}`} passHref>
-      <Box sx={{ minWidth: "sx", height: "100px", border: 1 }}>
-        {props.thread._id?._id}
-        {/*{props.thread.isPlaying ? <p>現在プレイ中！</p> : <p>現在募集中！</p>}*/}
-        {/*<div>{props.thread.threadAuthor.value}</div>*/}
-        {/*<div>{props.thread}</div>*/}
-        {/*<div>モード：{props.thread.gameMode}</div>*/}
-        {!!props.thread.useMS.length ? (
-          props.thread.useMS.map((ms, idx) => (
-            <Image
-              key={idx}
-              src={MSImagePath(findMobileSuitFromMSID(ms))}
-              alt={findMobileSuitFromMSID(ms).name}
-              loading={"lazy"}
-              width={106}
-              height={52}
-            />
-          ))
+      <Box sx={{ minWidth: "sx", maxWidth: "500px", border: 1 }}>
+        <Typography>{props.thread.title}</Typography>
+        {props.thread.isPlaying ? (
+          <Typography>現在プレイ中！</Typography>
         ) : (
-          <Typography>Nothing</Typography>
+          <Typography>現在募集中！</Typography>
         )}
-        {/*{props.thread.isVC ? (*/}
-        {/*  <Image src={"/assets/Logo/discord.jpeg"} alt={"VC可能"} />*/}
-        {/*) : (*/}
-        {/*  <Image src={"/assets/cantDiscord.png"} alt={"VC不可"} />*/}
-        {/*)}*/}
+        <div>モード：{props.thread.gameMode}</div>
+        <Box>
+          {!!props.thread.useMS ? (
+            props.thread.useMS.map((ms, idx) => (
+              <Image
+                key={idx}
+                src={MSImagePath(findMobileSuitFromMSID(ms))}
+                alt={findMobileSuitFromMSID(ms).name}
+                loading={"lazy"}
+                width={106}
+                height={52}
+              />
+            ))
+          ) : (
+            <Typography>Nothing</Typography>
+          )}
+        </Box>
+        {props.thread.isVC ? (
+          <Image
+            src={"/assets/Image/Logo/discord.jpeg"}
+            alt={"VC可能"}
+            width={50}
+            height={50}
+          />
+        ) : (
+          <Image
+            src={"/assets/Image/Logo/discord.jpeg"}
+            alt={"VC不可"}
+            width={50}
+            height={50}
+          />
+        )}
+        <Typography>開始日時:{props.thread.startedAt}</Typography>
+        <Typography>終了日時:{props.thread.finishedAt}</Typography>
       </Box>
     </Link>
   );

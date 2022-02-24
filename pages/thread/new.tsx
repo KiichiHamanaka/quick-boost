@@ -10,6 +10,9 @@ import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import { Box, Button, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
+import { createThread } from "../api/create";
+import { newThreadID } from "../../types/thread/Thread";
+import { newUserID } from "../../types/User";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -35,6 +38,30 @@ const ThreadNew: React.FC = () => {
   const loading = status === "loading";
   if (loading) return null; //ログイン画面に飛ばす
 
+  const makeThread = () => {
+    createThread({
+      _id: newThreadID(),
+      threadAuthor: newUserID(),
+      title: "あくしろ",
+      body: "ちんぽちんぽちんぽ",
+      playStyle: "ガチ",
+      threadStyle: "相方募集",
+      isVC: true,
+      isPlaying: false,
+      allowUsers: [],
+      useMS: [
+        Math.floor(Math.random() * 30),
+        Math.floor(Math.random() * 30),
+        Math.floor(Math.random() * 30),
+      ],
+      position: "どちらでも",
+      gameMode: "何でも",
+      tagCode: "21212121",
+      startedAt: new Date(),
+      finishedAt: new Date(),
+    });
+  };
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const req = {
       ...data,
@@ -48,6 +75,7 @@ const ThreadNew: React.FC = () => {
     <div>
       <Typography>スレッド作成のぺーじ</Typography>
       <Button onClick={() => setIsShowMSBOX(true)}>MS選択</Button>
+      <Button onClick={() => makeThread()}>スレ立て</Button>
       <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
       <form onSubmit={handleSubmit(onSubmit)}>
         スレッド名

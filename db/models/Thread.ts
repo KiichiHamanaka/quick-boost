@@ -1,6 +1,6 @@
 import { Document, Model, model, models, Schema } from "mongoose";
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
-import { UserIdSchema } from "./User";
+import { User, UserIdSchema } from "./User";
 import { ThreadID } from "../../types/thread/Thread";
 import { UserID } from "../../types/User";
 
@@ -18,7 +18,7 @@ export interface Thread extends Document {
   threadStyle: ThreadStyle;
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers: Array<UserID>;
+  allowUsers: Array<User>;
   useMS: Array<number>;
   position: Position;
   gameMode: GameMode;
@@ -32,14 +32,14 @@ export interface Thread extends Document {
 export const ThreadSchema: Schema = new Schema(
   {
     _id: { type: ThreadIdSchema, required: true },
-    threadAuthor: { type: UserIdSchema, required: true },
+    threadAuthor: { type: UserIdSchema, ref: "User" },
     title: { type: String, required: true, max: 20 },
     body: { type: String, required: true, max: 140 },
     playStyle: { type: String, enum: ["ガチ", "エンジョイ"], required: true },
     threadStyle: { type: String, enum: ["相方募集", "プラベ"], required: true },
     isVC: { type: Boolean, required: true },
     isPlaying: { type: Boolean, required: true },
-    allowUsers: [{ type: UserIdSchema }],
+    allowUsers: [{ type: UserIdSchema, ref: "User" }],
     useMS: [{ type: Number }],
     position: {
       type: String,
