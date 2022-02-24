@@ -13,7 +13,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "GET": {
       try {
         const tid = applyThreadID(id as string);
-        const find = await Thread.findOne({ "_id._id": tid._id });
+        const find = await Thread.findOne({ _id: tid }).populate(
+          "threadAuthor"
+        );
+
         res.status(200).json(find);
         break;
       } catch (e) {
