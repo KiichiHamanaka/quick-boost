@@ -13,7 +13,7 @@ const ThreadCard = (props: ThreadProps) => {
   // const bgColor = props.thread.playStyle === "ガチ" ? "#FFCCCC" : "#CCFFFF";
 
   return (
-    <Link href={`/thread/${props.thread._id?._id}`} passHref>
+    <Link href={`/thread/${props.thread._id}`} passHref>
       <Box sx={{ minWidth: "sx", maxWidth: "500px", border: 1 }}>
         <Typography>{props.thread.title}</Typography>
         {props.thread.isPlaying ? (

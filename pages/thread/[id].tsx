@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { useComments, useThread, useUser } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
-import { applyThreadID } from "../../types/thread/Thread";
 import { Box, Typography } from "@mui/material";
 
 //クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
@@ -18,8 +17,7 @@ const FindCardStyle = css`
 
 const ThreadId = () => {
   const router = useRouter();
-  const id = router.query.id as string;
-  const tid = applyThreadID(id);
+  const tid = router.query.id as string;
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
   // const { user, isErrorUser, isLoadingUser } = useUser(thread.threadAuthor);

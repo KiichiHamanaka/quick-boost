@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Thread from "../../../db/models/Thread";
 import connectDB from "../../../db/atlas";
-import { applyThreadID } from "../../../types/thread/Thread";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
@@ -12,10 +11,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const tid = applyThreadID(id as string);
-        const find = await Thread.findOne({ _id: tid }).populate(
-          "threadAuthor"
-        );
+        const tid = id as string;
+        const find = await Thread.findById(tid).populate("threadAuthor");
 
         res.status(200).json(find);
         break;

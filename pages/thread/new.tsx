@@ -10,9 +10,8 @@ import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import { Box, Button, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import { createThread } from "../api/create";
-import { newThreadID } from "../../types/thread/Thread";
-import { newUserID } from "../../types/User";
+import { createThread, createUser } from "../api/create";
+import mongoose from "mongoose";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -39,9 +38,24 @@ const ThreadNew: React.FC = () => {
   if (loading) return null; //ログイン画面に飛ばす
 
   const makeThread = () => {
+    const user = new mongoose.Types.ObjectId();
+    createUser({
+      _id: user,
+      bio: "やんやん",
+      discordId: "yaju114514",
+      favoriteMS: [
+        Math.floor(Math.random() * 30),
+        Math.floor(Math.random() * 30),
+        Math.floor(Math.random() * 30),
+      ],
+      grade: "大元帥",
+      openSNSSettings: "Open",
+      rank: "EXX",
+      twitterId: "yaju114514",
+      twitterName: "ジュッセンパイヤー",
+    });
     createThread({
-      _id: newThreadID(),
-      threadAuthor: newUserID(),
+      threadAuthor: user,
       title: "あくしろ",
       body: "ちんぽちんぽちんぽ",
       playStyle: "ガチ",

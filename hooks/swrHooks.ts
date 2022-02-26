@@ -1,13 +1,13 @@
 import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
-import { User, UserID } from "../types/User";
-import { Thread, ThreadID } from "../types/thread/Thread";
+import { User } from "../types/User";
+import { Thread } from "../types/thread/Thread";
 import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
 
-export const useThread = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/thread/${tid._id}`, fetcher.fetchGet);
+export const useThread = (tid: string) => {
+  const { data, error } = useSWR(`/api/thread/${tid}`, fetcher.fetchGet);
   const thread: Thread = data;
   return {
     thread,
@@ -32,7 +32,6 @@ export const useThreads = () => {
       tmp = tmp.filter((t) => t.gameMode === threadState.gameMode);
     }
     // if (threadState.startedAt !== null) {
-    //   // @ts-ignore
     //   result = result.filter((t) => t.startedAt >= threadState.startedAt);
     // }
     // if (threadState.finishedAt !== null) {
@@ -64,8 +63,8 @@ export const useThreads = () => {
   };
 };
 
-export const useComments = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/comment/${tid._id}`, fetcher.fetchGet);
+export const useComments = (tid: string) => {
+  const { data, error } = useSWR(`/api/comment/${tid}`, fetcher.fetchGet);
   const comments: Comment = data;
   return {
     comments,
@@ -74,8 +73,8 @@ export const useComments = (tid: ThreadID) => {
   };
 };
 
-export const useUser = (uid: UserID) => {
-  const { data, error } = useSWR(`/api/user/${uid._id}`, fetcher.fetchGet);
+export const useUser = (uid: string) => {
+  const { data, error } = useSWR(`/api/user/${uid}`, fetcher.fetchGet);
   const user: User = data;
   return {
     user,
