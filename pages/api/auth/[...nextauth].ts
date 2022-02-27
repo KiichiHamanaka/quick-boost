@@ -9,8 +9,16 @@ export default NextAuth({
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
     }),
   ],
+
   callbacks: {
-    session: async function ({ session, user, token }) {
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (profile) {
+        token.screen_name = profile.screen_name;
+      }
+      return token;
+    },
+    session: async function ({ session, token }) {
+      session.user.screen_name = token.screen_name as string;
       return session;
     },
   },

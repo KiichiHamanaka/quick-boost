@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import { User } from "../db/models/User";
 
 declare module "next-auth" {
   /**
@@ -7,7 +6,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      twitterID: string;
+      screen_name: string;
       name: string;
       image: string;
     };
