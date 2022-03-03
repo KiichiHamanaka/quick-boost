@@ -11,10 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const users = await User.find().populate({
-          path: "grade",
-          select: "name",
-        });
+        const users = await User.find();
         // .populate({
         //   path: "rank",
         //   select: "name power",

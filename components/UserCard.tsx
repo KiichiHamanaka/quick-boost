@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { MobileSuit, MSImagePath } from "../types/MobileSuit";
-import { UserBio } from "../types/User";
 
 // type PickUser = Pick<
 //   User,

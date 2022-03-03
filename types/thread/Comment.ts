@@ -1,11 +1,10 @@
-import { ThreadID } from "./Thread";
-import { UserID } from "../User";
+import mongoose from "mongoose";
 
 export type Comment = {
-  _id: CommentID;
-  threadId: ThreadID;
+  _id: mongoose.Types.ObjectId;
+  threadId: mongoose.Types.ObjectId;
   comment: string;
-  commentAuthor: UserID;
+  commentAuthor: mongoose.Types.ObjectId;
   createdAt: string;
   updatedAt: string;
 };

@@ -2,101 +2,49 @@ import React, { useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
-import { nonNullable } from "../../types/util";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
 import { Button, Grid, SelectChangeEvent } from "@mui/material";
 import InputBox from "../../components/InputBox";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import {
-  GameMode,
-  OpenSNSSettings,
-  PlayStyle,
-  Position,
-  ThreadStyle,
-} from "../../types/Union";
-import {
-  applyThreadID,
-  newThreadID,
-  Thread,
-  ThreadID,
-} from "../../types/thread/Thread";
-import {
-  applyUserID,
-  DiscordID,
-  newUserID,
-  User,
-  UserBio,
-  UserID,
-} from "../../types/User";
-import { createThread, createUser } from "../api/create";
-import mongoose from "mongoose";
+import { GameMode, PlayStyle, Position } from "../../types/Union";
+import { GetServerSideProps } from "next";
+import { ThreadType } from "../../types/thread/ThreadType";
+import Thread from "../../db/models/Thread";
 
-const gameMode: Array<string> = [
-  "ALL",
+const gameMode: Array<GameMode> = [
+  "何でも",
   "ランクマッチ",
   "カジュアル",
   "クロブフェス",
 ];
-const playStyle: Array<string> = ["ガチ", "エンジョイ"];
-const position: Array<string> = ["どちらでも", "前衛", "後衛"];
+const playStyle: Array<PlayStyle> = ["ガチ", "エンジョイ"];
+const position: Array<Position> = ["どちらでも", "前衛", "後衛"];
 
-const ThreadIndex: React.FC = () => {
-  const {
-    threads,
-    isLoadingThreads,
-    isErrorThreads,
-    threadState,
-    threadDispatch,
-  } = useThreads();
+interface Props {
+  fallbackData: ThreadType[];
+}
+//
+const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
+  const { result, isLoadingThreads, isErrorThreads, threadDispatch } =
+    useThreads(fallbackData);
   const { useMS } = useSelectMSBox();
-
-  console.log(threads);
 
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const gameModeHandleChange = (event: SelectChangeEvent) => {
     threadDispatch({
       type: "gameMode",
       gameMode: event.target.value as GameMode,
     });
   };
-
-  const makeThread = () => {
-    createThread({
-      _id: newThreadID(),
-      threadAuthor: newUserID(),
-      title: "あくしろ",
-      body: "ちんぽちんぽちんぽ",
-      playStyle: "ガチ",
-      threadStyle: "相方募集",
-      isVC: true,
-      isPlaying: false,
-      allowUsers: [],
-      useMS: [
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-      ],
-      position: "どちらでも",
-      gameMode: "何でも",
-      tagCode: "21212121",
-      startedAt: new Date(),
-      finishedAt: new Date(),
-    });
-  };
-  const makeUser = () => {
-    createUser({
-      _id: newUserID(),
-      discordId: "aaaa",
-      favoriteMS: [],
-      openSNSSettings: "Open",
-      twitterId: "aaa",
-      twitterName: "aaaa",
-      updatedAt: "",
+  const positionHandleChange = (event: SelectChangeEvent) => {
+    threadDispatch({
+      type: "position",
+      position: event.target.value as Position,
     });
   };
 
@@ -116,14 +64,17 @@ const ThreadIndex: React.FC = () => {
             <InputBox
               labelName={"ゲームモード"}
               menuItem={gameMode}
-              handleChange={handleChange}
+              handleChange={gameModeHandleChange}
+              dv={gameMode[0]}
             />
           </Grid>
           <Grid item>
-            <InputBox labelName={"立ち回り"} menuItem={position} />
-          </Grid>
-          <Grid item>
-            <InputBox labelName={"プレイスタイル"} menuItem={playStyle} />
+            <InputBox
+              labelName={"立ち回り"}
+              menuItem={position}
+              handleChange={positionHandleChange}
+              dv={position[0]}
+            />
           </Grid>
           <Grid item>
             <Button onClick={() => setIsShowMSBOX(true)}>MS検索</Button>
@@ -133,22 +84,31 @@ const ThreadIndex: React.FC = () => {
               日付検索
             </Button>
           </Grid>
-          <Button onClick={() => makeThread()}>スレ立て</Button>
-          <Button onClick={() => makeUser()}>ユーザー作成</Button>
         </Grid>
         <ShowMSImage
           MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
         />
         <div>
-          {threads.length
-            ? threads.map((thread, idx) => {
+          {result.length
+            ? result.map((thread, idx) => {
                 return <ThreadCard key={idx} thread={thread} />;
               })
-            : "なんもない"}
+            : "検索条件に沿う募集は見つかりませんでした"}
         </div>
       </Grid>
     );
   }
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const threads = await Thread.find().populate("threadAuthor");
+  const t = JSON.parse(JSON.stringify(threads));
+
+  return {
+    props: {
+      fallbackData: t,
+    },
+  };
 };
 
 export default ThreadIndex;

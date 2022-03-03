@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const user = await User.findOne({ twitter: id });
+        const user = await User.findById(id);
         res.status(200).json(user);
         break;
       } catch (err) {

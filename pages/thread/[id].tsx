@@ -1,62 +1,84 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { css } from "@emotion/react";
 import { useComments, useThread, useUser } from "../../hooks/swrHooks";
-import {
-  findMobileSuitFromMSID,
-  MobileSuit,
-  MSImagePath,
-} from "../../types/MobileSuit";
-import { applyThreadID } from "../../types/thread/Thread";
-import mongoose from "mongoose";
-
-//クローズしたスレのURL開いたらそのIDは存在しません処理がいるかも
-
-const FindCardStyle = css`
-  width: 400px;
-  border: solid 1px #2d2d2d;
-  border-radius: 4px;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-`;
+import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
+import { Alert, AlertTitle, Box, Paper, Typography } from "@mui/material";
 
 const ThreadId = () => {
   const router = useRouter();
-  const id = router.query.id as string;
-  const tid = applyThreadID(id);
+  const tid = router.query.id as string;
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
-  // const { user, isErrorUser, isLoadingUser } = useUser(thread.threadAuthor);
-  // const { comments, isLoadingComments, isErrorComments } = useComments(tid);
-  const isLoading = isLoadingThread;
-  const isError = isErrorThread;
+  const [alert, setAlert] = useState(false);
+  if (isLoadingThread) return <div>Loading Animation</div>;
+  if (isErrorThread) return <div>Error</div>;
 
-  if (isLoading) return <div>Loading Animation</div>;
-  if (isError) return <div>Error</div>;
-  console.log(thread);
+  const copyClipboard = () => {
+    navigator.clipboard.writeText(thread.tagCode);
+    setAlert(true);
+    setTimeout(() => setAlert(false), 3000);
+  };
 
   return (
-    <div css={FindCardStyle}>
-      {id}
-      {/*<div>@{user.twitterId}</div>*/}
-      {/*<div>{user.twitterName}</div>*/}
-      {/*<div>タイトル:{thread.title}</div>*/}
-      {/*{user.grade && <div>{user.grade}</div>}*/}
-      {/*{user.rank && <div>{user.rank}</div>}*/}
-      <div>{thread.body}</div>
-      {thread.useMS &&
-        thread.useMS.map(
-          (MS, idx) =>
-            MS && (
-              <Image
-                key={idx}
-                src={MSImagePath(findMobileSuitFromMSID(MS))}
-                alt={findMobileSuitFromMSID(MS).name}
-                width={50}
-                height={50}
-              />
-            )
-        )}
+    <div>
+      {alert && (
+        <Alert severity="error">
+          <AlertTitle>コピー完了</AlertTitle>
+          タッグコードをクリップボードにコピーしました！
+        </Alert>
+      )}
+      <Paper
+        sx={{ minWidth: "sx", border: 0.5 }}
+        onClick={() => copyClipboard()}
+      >
+        <Box>
+          <Typography>{thread.title}</Typography>
+          {thread.isPlaying ? (
+            <Typography>現在プレイ中！</Typography>
+          ) : (
+            <Typography>現在募集中！</Typography>
+          )}
+          <div>モード：{thread.gameMode}</div>
+          <Box>{thread.body}</Box>
+          <Box>
+            {!!thread.useMS ? (
+              thread.useMS.map((ms, idx) => (
+                <Image
+                  key={idx}
+                  src={MSImagePath(findMobileSuitFromMSID(ms))}
+                  alt={findMobileSuitFromMSID(ms).name}
+                  loading={"lazy"}
+                  width={106}
+                  height={52}
+                />
+              ))
+            ) : (
+              <Typography>Nothing</Typography>
+            )}
+          </Box>
+          <Typography>タッグコード:{thread.tagCode}</Typography>
+          <Typography>開始日時:{thread.startedAt}</Typography>
+          <Typography>終了日時:{thread.finishedAt}</Typography>
+          <Typography>作成日:{thread.createdAt}</Typography>
+          {thread.isVC ? (
+            <Image
+              src={"/assets/Image/Logo/discord.jpeg"}
+              alt={"VC可能"}
+              width={50}
+              height={50}
+            />
+          ) : (
+            <Image
+              src={"/assets/Image/Logo/discord.jpeg"}
+              alt={"VC不可"}
+              width={50}
+              height={50}
+            />
+          )}
+          コメントエリアのコンポーネント
+        </Box>
+      </Paper>
     </div>
   );
 };

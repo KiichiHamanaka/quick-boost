@@ -1,12 +1,4 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { fms, MobileSuit } from "../types/MobileSuit";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import useSelectMSBox from "../hooks/useSelectMSBox";
@@ -44,11 +36,10 @@ export const SelectMobileSuits = () => {
 
   const [isFav, setIsFav] = useState<boolean>(false);
 
-  const initialMS = mobileSuits.mobileSuits;
-  const [ms, setMS] = useState(initialMS);
+  const [ms, setMS] = useState(mobileSuits.mobileSuits);
 
   useEffect(() => {
-    let result = initialMS;
+    let result = mobileSuits.mobileSuits;
     if (state.cost !== "ALL") {
       result = result.filter((m) => m.cost === state.cost);
     }
@@ -58,7 +49,6 @@ export const SelectMobileSuits = () => {
     if (state.msName !== "") {
       result = result.filter((m) => m.name.includes(state.msName));
     }
-    console.log(state);
     setMS(result);
   }, [state]);
 

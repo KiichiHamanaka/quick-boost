@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Thread from "../../../db/models/Thread";
+import User from "../../../db/models/User";
 import connectDB from "../../../db/atlas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,26 +11,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET": {
       try {
-        const tid = id as string;
-        const find = await Thread.findById(tid).populate("threadAuthor");
-
-        res.status(200).json(find);
+        const uid = id as string;
+        const user = await User.findOne({ twitterUID: parseInt(uid) });
+        res.status(200).json(user);
         break;
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
         break;
       }
     }
     case "PUT": {
-      try {
-        const find = await Thread.create(req.body); //mongooseでcreateではなくupdateがあるか調べる
-        res.status(201).json({ find });
-        break;
-      } catch (e) {
-        break;
-      }
-    }
-    case "DELETE": {
       try {
         const { val1, val2 } = req.body;
         const result = val1 + val2;

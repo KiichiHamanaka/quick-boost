@@ -1,16 +1,10 @@
 import { useUser } from "../../hooks/swrHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/react";
 
-import { nonNullable } from "../../types/util";
-import {
-  findMobileSuitFromMSID,
-  MobileSuit,
-  MSImagePath,
-} from "../../types/MobileSuit";
-import { applyUserID } from "../../types/User";
+import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
 
 const UserCardStyle = css`
   width: 400px;
@@ -22,19 +16,9 @@ const UserCardStyle = css`
 const UserId: React.FC = () => {
   const router = useRouter();
   const id: string = router.query.id as string;
-  const uid = applyUserID(id);
 
-  const { user, isLoadingUser, isErrorUser } = useUser(uid);
+  const { user, isLoadingUser, isErrorUser } = useUser(id);
   const [favoriteMS, setFavoriteMS] = useState<MobileSuit[]>([]);
-
-  useEffect(() => {
-    if (user)
-      setFavoriteMS(
-        user.favoriteMS
-          .map((msid) => findMobileSuitFromMSID(msid))
-          .filter(nonNullable)
-      );
-  }, [user]);
 
   if (isLoadingUser) return <div>Loading Animation</div>;
   if (isErrorUser) return <div>Error</div>;

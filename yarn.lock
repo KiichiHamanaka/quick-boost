@@ -2326,9 +2326,9 @@ jest-worker@27.0.0-next.5:
     supports-color "^8.0.0"
 
 jose@^4.1.4, jose@^4.3.7:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.5.0.tgz#92829d8cf846351eb55aaaf94f252fb1d191f2d5"
-  integrity sha512-GFcVFQwYQKbQTUOo2JlpFGXTkgBw26uzDsRMD2q1WgSKNSnpKS9Ug7bdQ8dS+p4sZHNH6iRPu6WK2jLIjspaMA==
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.5.1.tgz#1531d491fafe567338fd517f118293cce27aa0aa"
+  integrity sha512-uhjuzZjKGKmi5DVJ/eghN8hJklLhwZRLRAaaG9MkkMAdfRYlHvZ10i4z/4WSN1hSTMffCet+k7iRHvbdGwmZPw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -3051,9 +3051,9 @@ postcss@8.2.15:
     source-map "^0.6.1"
 
 preact-render-to-string@^5.1.19:
-  version "5.1.19"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.1.19.tgz#ffae7c3bd1680be5ecf5991d41fe3023b3051e0e"
-  integrity sha512-bj8sn/oytIKO6RtOGSS/1+5CrQyRSC99eLUnEVbqUa6MzJX5dYh7wu9bmT0d6lm/Vea21k9KhCQwvr2sYN3rrQ==
+  version "5.1.20"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-5.1.20.tgz#9e61a478e8514e5c4140282c7c43d9747a6d32a9"
+  integrity sha512-ivh2oOGzth0o7XqbatWUQ81WQGoJwSqDKP5z917SoqTWYCAr7dlBzMv3SAMTAu3Gr5g47BJwrvyO44H2Y10ubg==
   dependencies:
     pretty-format "^3.8.0"
 

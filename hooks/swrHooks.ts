@@ -1,13 +1,14 @@
 import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
-import { User, UserID } from "../types/User";
-import { Thread, ThreadID } from "../types/thread/Thread";
-import { useReducer } from "react";
+import { UserType } from "../types/UserType";
+import { ThreadType } from "../types/thread/ThreadType";
+import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
+import useSelectMSBox from "./useSelectMSBox";
 
-export const useThread = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/thread/${tid._id}`, fetcher.fetchGet);
-  const thread: Thread = data;
+export const useThread = (tid: string) => {
+  const { data, error } = useSWR(`/api/thread/${tid}`, fetcher.fetchGet);
+  const thread: ThreadType = data;
   return {
     thread,
     isLoadingThread: !error && !data,
@@ -15,15 +16,48 @@ export const useThread = (tid: ThreadID) => {
   };
 };
 
-export const useThreads = () => {
-  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
-  const threads: Array<Thread> = data || [];
+export const useThreads = (fallbackData?: ThreadType[]) => {
+  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
+    fallbackData,
+  });
+  const threads: Array<ThreadType> = data || [];
   const [threadState, threadDispatch] = useReducer(
     threadReducer,
     threadInitialState
   );
+  const [result, setResult] = useState<ThreadType[]>(data || []);
+  const { useMS } = useSelectMSBox();
+
+  useEffect(() => {
+    let tmp = threads;
+    if (threadState.gameMode !== "何でも") {
+      tmp = tmp.filter((t) => t.gameMode === threadState.gameMode);
+    }
+    // if (threadState.startedAt !== null) {
+    //   result = result.filter((t) => t.startedAt >= threadState.startedAt);
+    // }
+    // if (threadState.finishedAt !== null) {
+    //   result = result.filter((t) => t.finishedAt <= threadState.finishedAt);
+    // }
+    if (threadState.position !== "どちらでも") {
+      tmp = tmp.filter((t) => t.position === threadState.position);
+    }
+    if (useMS.length) {
+      tmp = tmp.filter((t) => t.useMS.some((ms) => useMS.includes(ms)));
+    }
+    // if (threadState.sort === "ASC") {
+    //   result = result.sort((a, b) => {
+    //     if (a.startedAt < b.startedAt) return -1;
+    //     if (a.startedAt < b.startedAt) return 1;
+    //     return 0;
+    //   });
+    // }
+    setResult(tmp);
+  }, [useMS, threadState, threads]);
+
   return {
     threads,
+    result,
     isLoadingThreads: !error && !data,
     isErrorThreads: error,
     threadState,
@@ -31,8 +65,8 @@ export const useThreads = () => {
   };
 };
 
-export const useComments = (tid: ThreadID) => {
-  const { data, error } = useSWR(`/api/comment/${tid._id}`, fetcher.fetchGet);
+export const useComments = (tid: string) => {
+  const { data, error } = useSWR(`/api/comment/${tid}`, fetcher.fetchGet);
   const comments: Comment = data;
   return {
     comments,
@@ -41,9 +75,19 @@ export const useComments = (tid: ThreadID) => {
   };
 };
 
-export const useUser = (uid: UserID) => {
-  const { data, error } = useSWR(`/api/user/${uid._id}`, fetcher.fetchGet);
-  const user: User = data;
+export const useUser = (uid: string) => {
+  const { data, error } = useSWR(`/api/user/${uid}`, fetcher.fetchGet);
+  const user: UserType = data;
+  return {
+    user,
+    isLoadingUser: !error && !data,
+    isErrorUser: error,
+  };
+};
+
+export const useUserFromName = (uid: number) => {
+  const { data, error } = useSWR(`/api/uid/${uid}`, fetcher.fetchGet);
+  const user: UserType = data;
   return {
     user,
     isLoadingUser: !error && !data,
@@ -53,7 +97,7 @@ export const useUser = (uid: UserID) => {
 
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
-  const users: Array<User> = data;
+  const users: Array<UserType> = data;
   return {
     users,
     isLoadingUsers: !error && !data,
