@@ -18,7 +18,7 @@ export const threadInitialState: State = {
   startedAt: null,
   finishedAt: null,
   useMS: [],
-  gameMode: "ランクマッチ",
+  gameMode: "何でも",
   position: "どちらでも",
   sort: "DESC",
 };
