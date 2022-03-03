@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Thread } from "../types/thread/Thread";
+import { ThreadType } from "../types/thread/ThreadType";
 import { findMobileSuitFromMSID, MSImagePath } from "../types/MobileSuit";
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
 
 type ThreadProps = {
-  thread: Thread;
+  thread: ThreadType;
 };
 
 const ThreadCard = (props: ThreadProps) => {

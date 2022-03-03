@@ -2,7 +2,7 @@ import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
 import { User } from "../User";
 import mongoose from "mongoose";
 
-export interface Thread {
+export interface ThreadType {
   _id?: mongoose.Types.ObjectId;
   threadAuthor: mongoose.Types.ObjectId;
   title: string;
