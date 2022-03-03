@@ -1,14 +1,14 @@
 import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
 import { User } from "../types/User";
-import { Thread } from "../types/thread/Thread";
+import { ThreadType } from "../types/thread/ThreadType";
 import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
 
 export const useThread = (tid: string) => {
   const { data, error } = useSWR(`/api/thread/${tid}`, fetcher.fetchGet);
-  const thread: Thread = data;
+  const thread: ThreadType = data;
   return {
     thread,
     isLoadingThread: !error && !data,
@@ -16,15 +16,17 @@ export const useThread = (tid: string) => {
   };
 };
 
-export const useThreads = () => {
-  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet);
-  const threads: Array<Thread> = data || [];
+export const useThreads = (fallbackData: ThreadType[]) => {
+  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
+    fallbackData,
+  });
+  const threads: Array<ThreadType> = data || [];
   const [threadState, threadDispatch] = useReducer(
     threadReducer,
     threadInitialState
   );
-  const [result, setResult] = useState<Thread[]>(data || []);
-  const { state, useMS } = useSelectMSBox();
+  const [result, setResult] = useState<ThreadType[]>(data || []);
+  const { useMS } = useSelectMSBox();
 
   useEffect(() => {
     let tmp = threads;
@@ -51,7 +53,7 @@ export const useThreads = () => {
     //   });
     // }
     setResult(tmp);
-  }, [state.useMS, threadState, data]);
+  }, [useMS, threadState, threads]);
 
   return {
     threads,
@@ -75,6 +77,16 @@ export const useComments = (tid: string) => {
 
 export const useUser = (uid: string) => {
   const { data, error } = useSWR(`/api/user/${uid}`, fetcher.fetchGet);
+  const user: User = data;
+  return {
+    user,
+    isLoadingUser: !error && !data,
+    isErrorUser: error,
+  };
+};
+
+export const useUserFromName = (uid: number) => {
+  const { data, error } = useSWR(`/api/uid/${uid}`, fetcher.fetchGet);
   const user: User = data;
   return {
     user,

@@ -9,6 +9,9 @@ import { Button, Grid, SelectChangeEvent } from "@mui/material";
 import InputBox from "../../components/InputBox";
 import ShowMSImage from "../../components/selectMS/showMSImager";
 import { GameMode, PlayStyle, Position } from "../../types/Union";
+import { GetServerSideProps } from "next";
+import { ThreadType } from "../../types/thread/ThreadType";
+import Thread from "../../db/models/Thread";
 
 const gameMode: Array<GameMode> = [
   "何でも",
@@ -19,9 +22,13 @@ const gameMode: Array<GameMode> = [
 const playStyle: Array<PlayStyle> = ["ガチ", "エンジョイ"];
 const position: Array<Position> = ["どちらでも", "前衛", "後衛"];
 
-const ThreadIndex = () => {
+interface Props {
+  fallbackData: ThreadType[];
+}
+//
+const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   const { result, isLoadingThreads, isErrorThreads, threadDispatch } =
-    useThreads();
+    useThreads(fallbackData);
   const { useMS } = useSelectMSBox();
 
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
@@ -91,6 +98,15 @@ const ThreadIndex = () => {
       </Grid>
     );
   }
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const threads = await Thread.find().populate("threadAuthor");
+  return {
+    props: {
+      fallbackData: threads,
+    },
+  };
 };
 
 export default ThreadIndex;

@@ -1,10 +1,10 @@
-import { Thread } from "../types/thread/Thread";
+import { ThreadType } from "../types/thread/ThreadType";
 import { GameMode, Position } from "../types/Union";
 
 type Sort = "ASC" | "DESC";
 
 export type State = {
-  threads: Thread[];
+  threads: ThreadType[];
   startedAt: Date | null;
   finishedAt: Date | null;
   useMS: Array<number>;
@@ -24,7 +24,7 @@ export const threadInitialState: State = {
 };
 
 export type ThreadAction =
-  | { type: "fetch"; threads: Thread[] }
+  | { type: "fetch"; threads: ThreadType[] }
   | { type: "sort"; sort: Sort }
   | { type: "startedAt"; startedAt: Date | null | "reset" }
   | { type: "finishedAt"; finishedAt: Date | null | "reset" }
