@@ -16,14 +16,10 @@ export const useThread = (tid: string) => {
   };
 };
 
-export const useThreads = (fallbackData?: ThreadType[]) => {
-  const { data, error } = useSWR(
-    `/api/thread`,
-    fetcher.fetchGet,
-    fallbackData && {
-      fallbackData,
-    }
-  );
+export const useThreads = (fallbackData: ThreadType[]) => {
+  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
+    fallbackData,
+  });
   const threads: Array<ThreadType> = data || [];
   const [threadState, threadDispatch] = useReducer(
     threadReducer,

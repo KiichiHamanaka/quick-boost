@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useComments, useThread, useUser } from "../../hooks/swrHooks";
+import React, { useState } from "react";
+import { useThread } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
 import { Alert, AlertTitle, Box, Paper, Typography } from "@mui/material";
 
