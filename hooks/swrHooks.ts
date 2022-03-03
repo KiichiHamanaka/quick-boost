@@ -16,7 +16,7 @@ export const useThread = (tid: string) => {
   };
 };
 
-export const useThreads = (fallbackData: ThreadType[]) => {
+export const useThreads = (fallbackData?: ThreadType[]) => {
   const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
     fallbackData,
   });
