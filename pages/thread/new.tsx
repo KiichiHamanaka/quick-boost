@@ -14,6 +14,7 @@ import { createThread, createUser } from "../api/create";
 import { GetServerSideProps } from "next";
 import User from "../../db/models/User";
 import { UserType } from "../../types/UserType";
+import connectDB from "../../db/atlas";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -95,10 +96,12 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
+  await connectDB();
 
   if (session) {
     console.log("とうたつ！！！");
     console.log(session);
+
     const user = await User.findOne({
       twitterUID: 504093817,
     });
