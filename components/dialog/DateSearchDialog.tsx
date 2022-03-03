@@ -21,7 +21,7 @@ type Props = {
 };
 
 const DateSearchDialog = (props: Props) => {
-  const { threadState, threadDispatch } = useThreads();
+  const { threadState, threadDispatch } = useThreads([]);
 
   return (
     <Dialog

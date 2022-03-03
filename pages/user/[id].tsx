@@ -2,16 +2,7 @@ import { useUser } from "../../hooks/swrHooks";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { css } from "@emotion/react";
-
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-
-const UserCardStyle = css`
-  width: 400px;
-  border: solid 1px #2d2d2d;
-  border-radius: 4px;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
-`;
 
 const UserId: React.FC = () => {
   const router = useRouter();
@@ -23,7 +14,7 @@ const UserId: React.FC = () => {
   if (isLoadingUser) return <div>Loading Animation</div>;
   if (isErrorUser) return <div>Error</div>;
   return (
-    <div css={UserCardStyle}>
+    <div>
       <div>{user.twitterId}</div>
       <div>{user.twitterName}</div>
       <div>{user.grade}</div>
