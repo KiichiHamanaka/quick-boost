@@ -28,15 +28,13 @@ const Header = () => {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
-          <Button color="inherit" onClick={() => signOut()}>
-            ログアウト
-          </Button>
         </IconButton>
+
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           {/* ロゴに変更 + */}
           Quick-Boost
         </Typography>
-        {!session && (
+        {!session ? (
           <Button
             color="inherit"
             onClick={() =>
@@ -47,12 +45,14 @@ const Header = () => {
           >
             ログイン
           </Button>
-        )}
-        {session && (
+        ) : (
           <>
             {session.user.name}@{session.user.screen_name}
             <Avatar alt={session.user.name} src={session.user.image} />
             {/*userpageへ飛ぶ処理の追加*/}
+            <Button color="inherit" onClick={() => signOut()}>
+              ログアウト
+            </Button>
           </>
         )}
       </Toolbar>
