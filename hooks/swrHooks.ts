@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
-import { User } from "../types/User";
+import { UserType } from "../types/UserType";
 import { ThreadType } from "../types/thread/ThreadType";
 import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
@@ -77,7 +77,7 @@ export const useComments = (tid: string) => {
 
 export const useUser = (uid: string) => {
   const { data, error } = useSWR(`/api/user/${uid}`, fetcher.fetchGet);
-  const user: User = data;
+  const user: UserType = data;
   return {
     user,
     isLoadingUser: !error && !data,
@@ -87,7 +87,7 @@ export const useUser = (uid: string) => {
 
 export const useUserFromName = (uid: number) => {
   const { data, error } = useSWR(`/api/uid/${uid}`, fetcher.fetchGet);
-  const user: User = data;
+  const user: UserType = data;
   return {
     user,
     isLoadingUser: !error && !data,
@@ -97,7 +97,7 @@ export const useUserFromName = (uid: number) => {
 
 export const useUsers = () => {
   const { data, error } = useSWR(`/api/user`, fetcher.fetchGet);
-  const users: Array<User> = data;
+  const users: Array<UserType> = data;
   return {
     users,
     isLoadingUsers: !error && !data,

@@ -1,8 +1,9 @@
 import { OpenSNSSettings } from "./Union";
 import mongoose from "mongoose";
 
-export interface User {
-  _id?: mongoose.Types.ObjectId;
+export interface UserType {
+  _id: mongoose.Types.ObjectId;
+  twitterUID: number;
   twitterId: string;
   twitterName: string;
   grade?: string;

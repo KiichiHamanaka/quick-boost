@@ -2,13 +2,14 @@ import { Document, model, Model, models, Schema } from "mongoose";
 import { OpenSNSSettings } from "../../types/Union";
 
 export interface User extends Document {
+  twitterUID: number;
   twitterId: string;
   twitterName: string;
   grade?: string;
   rank?: string;
   discordId?: string;
   openSNSSettings: OpenSNSSettings;
-  favoriteMSIDs: Array<number>;
+  favoriteMSIDs?: Array<number>;
   bio?: string;
   createdAt: string;
   updatedAt: string;
@@ -16,6 +17,10 @@ export interface User extends Document {
 
 export const UserSchema: Schema = new Schema(
   {
+    twitterUID: {
+      type: Number,
+      required: true,
+    },
     twitterId: {
       type: String,
       required: true,

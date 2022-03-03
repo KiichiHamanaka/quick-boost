@@ -3,15 +3,17 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { PlayStyle, ThreadStyle } from "../../types/Union";
-import { findMobileSuitFromMSID, MobileSuit } from "../../types/MobileSuit";
+import { getSession, useSession } from "next-auth/react";
+import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
+import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import { createThread, createUser } from "../api/create";
-import mongoose from "mongoose";
+import { createThread } from "../api/create";
+import { GetServerSideProps } from "next";
+import User from "../../db/models/User";
+import { UserType } from "../../types/UserType";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,73 +25,42 @@ type FormValues = {
   playStyle: PlayStyle;
   threadStyle: ThreadStyle;
   isVC: boolean;
-  wantToUse: string;
-  position: string;
-  start_at: string;
-  end_at: string;
+  tagCode: string;
+  useMS: string;
+  gameMode: GameMode;
+  position: Position;
 };
 
-const ThreadNew: React.FC = () => {
+interface Props {
+  fallbackData: UserType;
+}
+
+const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
   const { data: session, status } = useSession();
   const { register, handleSubmit } = useForm<FormValues>();
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { useMS } = useSelectMSBox();
+
   const loading = status === "loading";
   if (loading) return null; //ログイン画面に飛ばす
 
-  const makeThread = () => {
-    const user = new mongoose.Types.ObjectId();
-    createUser({
-      _id: user,
-      bio: "やんやん",
-      discordId: "yaju114514",
-      favoriteMS: [
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-      ],
-      grade: "大元帥",
-      openSNSSettings: "Open",
-      rank: "EXX",
-      twitterId: "yaju114514",
-      twitterName: "ジュッセンパイヤー",
-    });
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     createThread({
-      threadAuthor: user,
-      title: "あくしろ",
-      body: "ちんぽちんぽちんぽ",
-      playStyle: "ガチ",
-      threadStyle: "相方募集",
-      isVC: true,
-      isPlaying: false,
+      ...data,
+      threadAuthor: fallbackData._id,
       allowUsers: [],
-      useMS: [
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-        Math.floor(Math.random() * 30),
-      ],
-      position: "どちらでも",
-      gameMode: "何でも",
-      tagCode: "21212121",
+      isVC: true,
+      useMS,
+      isPlaying: false,
       startedAt: new Date(),
       finishedAt: new Date(),
     });
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const req = {
-      ...data,
-      threadAuthor: session!.user,
-      allowUsers: [],
-      useMS,
-      isPlaying: false,
-    };
-  };
   return (
     <div>
       <Typography>スレッド作成のぺーじ</Typography>
       <Button onClick={() => setIsShowMSBOX(true)}>MS選択</Button>
-      <Button onClick={() => makeThread()}>スレ立て</Button>
       <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
       <form onSubmit={handleSubmit(onSubmit)}>
         スレッド名
@@ -100,21 +71,40 @@ const ThreadNew: React.FC = () => {
         <input {...register("playStyle")} />
         スレッドスタイル
         <input {...register("threadStyle")} />
-        VC有無
-        <input {...register("isVC")} />
+        ゲームモード
+        <input {...register("gameMode")} />
+        タッグコード
+        <input {...register("tagCode")} />
         <ShowMSImage
           MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
         />
         募集立ち回り
         <input {...register("position")} />
-        開始日
-        <input {...register("start_at")} />
-        終了日
-        <input {...register("end_at")} />
         <input type="submit" />
       </form>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (session) {
+    const user = await User.findOne({
+      twitterUID: session.twitterUID as number,
+    });
+    return {
+      props: {
+        fallbackData: user,
+      },
+    };
+  } else {
+    return {
+      props: {
+        fallbackData: null,
+      },
+    };
+  }
 };
 
 export default ThreadNew;

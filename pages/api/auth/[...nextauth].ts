@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
+import { createUser } from "../create";
 
 export default NextAuth({
   secret: process.env.SECRET,
@@ -12,13 +13,22 @@ export default NextAuth({
 
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {
+      // isNewUser &&
+      //   createUser({
+      //     twitterUID: profile!.id as number,
+      //     openSNSSettings: "Open",
+      //     twitterId: profile!.screen_name as string,
+      //     twitterName: profile!.name as string,
+      //   });
       if (profile) {
         token.screen_name = profile.screen_name;
+        token.twitterUID = profile.id;
       }
       return token;
     },
     session: async function ({ session, token }) {
       session.user.screen_name = token.screen_name as string;
+      session.user.twitterUID = token.twitterUID as number;
       return session;
     },
   },
