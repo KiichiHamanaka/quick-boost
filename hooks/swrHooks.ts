@@ -17,15 +17,19 @@ export const useThread = (tid: string) => {
 };
 
 export const useThreads = (fallbackData?: ThreadType[]) => {
-  const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
-    fallbackData,
-  });
+  const { data, error } = useSWR(
+    `/api/thread`,
+    fetcher.fetchGet,
+    fallbackData && {
+      fallbackData,
+    }
+  );
   const threads: Array<ThreadType> = data || [];
   const [threadState, threadDispatch] = useReducer(
     threadReducer,
     threadInitialState
   );
-  const [result, setResult] = useState<ThreadType[]>(data || []);
+  const [result, setResult] = useState<ThreadType[]>(data);
   const { useMS } = useSelectMSBox();
 
   useEffect(() => {
