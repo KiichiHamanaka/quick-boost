@@ -102,9 +102,11 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const threads = await Thread.find().populate("threadAuthor");
+  const t = JSON.parse(JSON.stringify(threads));
+
   return {
     props: {
-      fallbackData: threads,
+      fallbackData: t,
     },
   };
 };

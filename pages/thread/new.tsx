@@ -10,7 +10,7 @@ import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import { Button, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import { createThread } from "../api/create";
+import { createThread, createUser } from "../api/create";
 import { GetServerSideProps } from "next";
 import User from "../../db/models/User";
 import { UserType } from "../../types/UserType";
@@ -40,11 +40,18 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { useMS } = useSelectMSBox();
-
+  console.log("fallbackData");
+  console.dir(fallbackData, { depth: null });
   const loading = status === "loading";
   if (loading) return null; //ログイン画面に飛ばす
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    // createUser({
+    //   openSNSSettings: "Open",
+    //   twitterId: session!.user.screen_name,
+    //   twitterName: session!.user.name,
+    //   twitterUID: session!.user.twitterUID as number,
+    // });
     createThread({
       ...data,
       threadAuthor: fallbackData._id,
@@ -90,12 +97,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
   if (session) {
+    console.log("とうたつ！！！");
+    console.log(session);
     const user = await User.findOne({
-      twitterUID: session.twitterUID as number,
+      twitterUID: 504093817,
     });
+    console.log("user");
+    console.log(user);
+    const u = JSON.parse(JSON.stringify(user));
+
     return {
       props: {
-        fallbackData: user,
+        fallbackData: u,
       },
     };
   } else {
