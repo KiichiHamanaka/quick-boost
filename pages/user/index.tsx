@@ -21,22 +21,24 @@ const UserIndex: React.FC = () => {
   if (isErrorUsers) return <div>Error</div>;
   return (
     <div>
-      {users?.map((user, idx) => {
-        const fms = user.favoriteMS
-          .map((msid) => findMobileSuitFromMSID(msid))
-          .filter(nonNullable);
-        return (
-          <UserCard
-            key={idx}
-            twitterId={user.twitterId}
-            twitterName={user.twitterName}
-            bio={user.bio}
-            grade={user.grade}
-            rank={user.rank}
-            favoriteMS={fms}
-          />
-        );
-      })}
+      {users.length
+        ? users.map((user, idx) => {
+            const fms = user.favoriteMS
+              .map((msid) => findMobileSuitFromMSID(msid))
+              .filter(nonNullable);
+            return (
+              <UserCard
+                key={idx}
+                twitterId={user.twitterId}
+                twitterName={user.twitterName}
+                bio={user.bio}
+                grade={user.grade}
+                rank={user.rank}
+                favoriteMS={fms}
+              />
+            );
+          })
+        : "検索条件に沿う募集は見つかりませんでした"}
     </div>
   );
 };
