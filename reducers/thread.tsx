@@ -3,7 +3,7 @@ import { GameMode, Position } from "../types/Union";
 
 type Sort = "ASC" | "DESC";
 
-export type State = {
+export type ThreadState = {
   threads: ThreadType[];
   startedAt: Date | null;
   finishedAt: Date | null;
@@ -13,7 +13,7 @@ export type State = {
   sort: Sort;
 };
 
-export const threadInitialState: State = {
+export const threadInitialState: ThreadState = {
   threads: [],
   startedAt: null,
   finishedAt: null,
@@ -30,10 +30,13 @@ export type ThreadAction =
   | { type: "finishedAt"; finishedAt: Date | null | "reset" }
   | { type: "gameMode"; gameMode: GameMode }
   | { type: "position"; position: Position }
-  | { type: "reset"; state: State }
+  | { type: "reset"; state: ThreadState }
   | { type: "filterMS"; msids: number[] };
 
-export const threadReducer = (state: State, action: ThreadAction): State => {
+export const threadReducer = (
+  state: ThreadState,
+  action: ThreadAction
+): ThreadState => {
   switch (action.type) {
     case "fetch": // reset all state
       return {

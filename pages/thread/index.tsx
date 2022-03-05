@@ -27,10 +27,15 @@ const position: Array<Position> = ["どちらでも", "前衛", "後衛"];
 interface Props {
   fallbackData: ThreadType[];
 }
-//
+
 const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
-  const { result, isLoadingThreads, isErrorThreads, threadDispatch } =
-    useThreads(fallbackData);
+  const {
+    result,
+    threadState,
+    isLoadingThreads,
+    isErrorThreads,
+    threadDispatch,
+  } = useThreads(fallbackData);
   const { useMS } = useSelectMSBox();
 
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
@@ -60,6 +65,8 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
         <DateSearchDialog
           setOpen={setIsShowDateSearchDialog}
           open={isShowDateSearchDialog}
+          state={threadState}
+          dispatch={threadDispatch}
         />
         <Grid container spacing={2}>
           <Grid item>
