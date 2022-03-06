@@ -1,9 +1,14 @@
-import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
-import { UserType } from "../UserType";
+import {
+  GameMode,
+  OpenSNSSettings,
+  PlayStyle,
+  Position,
+  ThreadStyle,
+} from "../Union";
 import mongoose from "mongoose";
+import { UserType } from "../UserType";
 
-export interface ThreadType {
-  _id: mongoose.Types.ObjectId;
+interface UserCreateDTO {
   threadAuthor: mongoose.Types.ObjectId;
   title: string;
   body: string;
@@ -16,8 +21,9 @@ export interface ThreadType {
   position: Position;
   gameMode: GameMode;
   tagCode: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+
   startedAt: Date;
   finishedAt: Date;
 }
+
+export default UserCreateDTO;
