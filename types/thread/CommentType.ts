@@ -1,15 +1,10 @@
 import mongoose from "mongoose";
 
-export type Comment = {
+export type CommentType = {
   _id: mongoose.Types.ObjectId;
   threadId: mongoose.Types.ObjectId;
   comment: string;
   commentAuthor: mongoose.Types.ObjectId;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type CommentID = {
-  _id: string;
-  _meta: "CommentID";
+  createdAt?: Date;
+  updatedAt?: Date;
 };
