@@ -12,8 +12,7 @@ import { GameMode, PlayStyle, Position } from "../../types/Union";
 import { GetServerSideProps } from "next";
 import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
-import connectDB from "../../db/atlas";
-import mongoose, { models } from "mongoose";
+import connectDB from "../../db/connectDB";
 
 const gameMode: Array<GameMode> = [
   "何でも",
@@ -111,13 +110,6 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   await connectDB();
-
-  console.log("到達");
-  await console.log(models);
-  await console.log(models.Thread);
-  await console.log(models.threads);
-  await console.log(models.User);
-  await console.log(models.users);
   const threads = await Thread.find().populate("threadAuthor");
   const t = JSON.parse(JSON.stringify(threads));
 

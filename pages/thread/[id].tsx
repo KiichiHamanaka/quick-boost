@@ -7,7 +7,7 @@ import { Alert, AlertTitle, Box, Paper, Typography } from "@mui/material";
 import CommentsArea from "../../components/CommentsArea";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import connectDB from "../../db/atlas";
+import connectDB from "../../db/connectDB";
 import { UserType } from "../../types/UserType";
 import User from "../../db/models/User";
 
