@@ -18,16 +18,16 @@ const connectDB = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         bufferCommands: false,
-        bufferMaxEntries: 0,
-        useFindAndModify: false,
-        useCreateIndex: true,
       };
       cached.promise = mongoose
         .connect(process.env.DATABASE_URL!, opts)
         .then((mongoose) => mongoose);
+      cached.conn = await cached.promise;
+      require("./models/Thread");
+      require("./models/User");
+      require("./models/Comment");
+      return cached.conn;
     }
-    cached.conn = await cached.promise;
-    return cached.conn;
   } catch (err) {
     console.log("DB接続失敗してるわ");
     console.log(err);
