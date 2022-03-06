@@ -2,6 +2,7 @@ import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
 import { UserType } from "../types/UserType";
 import { ThreadType } from "../types/thread/ThreadType";
+import { CommentType } from "../types/thread/CommentType";
 import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
@@ -74,7 +75,8 @@ export const useThreads = (fallbackData: ThreadType[]) => {
 
 export const useComments = (tid: string) => {
   const { data, error } = useSWR(`/api/comment/${tid}`, fetcher.fetchGet);
-  const comments: Comment = data;
+  const comments: Array<CommentType> = data;
+
   return {
     comments,
     isLoadingComments: !error && !data,
