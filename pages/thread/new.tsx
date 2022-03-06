@@ -14,7 +14,7 @@ import { createThread, createUser } from "../api/create";
 import { GetServerSideProps } from "next";
 import User from "../../db/models/User";
 import { UserType } from "../../types/UserType";
-import connectDB from "../../db/atlas";
+import connectDB from "../../db/connectDB";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -41,8 +41,6 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { useMS } = useSelectMSBox();
-  console.log("fallbackData");
-  console.dir(fallbackData, { depth: null });
   const loading = status === "loading";
   if (loading) return null; //ログイン画面に飛ばす
 

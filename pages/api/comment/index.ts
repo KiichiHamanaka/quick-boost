@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Comment from "../../../db/models/Comment";
-import connectDB from "../../../db/atlas";
+import connectDB from "../../../db/connectDB";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();

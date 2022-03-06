@@ -21,7 +21,6 @@ interface UserCreateDTO {
   position: Position;
   gameMode: GameMode;
   tagCode: string;
-
   startedAt: Date;
   finishedAt: Date;
 }
