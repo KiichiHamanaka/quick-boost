@@ -68,7 +68,7 @@ export const SeriesDict: { [K in number]: Series } = {
   },
   14: {
     seriesId: 14,
-    name: "seed_s",
+    name: "seed_stargazer",
     title: "機動戦士ガンダムSEED C.E.73 STARGAZER",
   },
   15: {
