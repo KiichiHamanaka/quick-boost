@@ -9,20 +9,19 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import React, { useState } from "react";
-import { LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import DatePicker from "@mui/lab/DatePicker";
-import { useThreads } from "../../hooks/swrHooks";
+import React, { Dispatch } from "react";
+import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import { ThreadAction, ThreadState } from "../../reducers/thread";
+import DateAdapter from "@mui/lab/AdapterDayjs";
 
 type Props = {
   open: boolean;
   setOpen: (bool: boolean) => void;
+  state: ThreadState;
+  dispatch: Dispatch<ThreadAction>;
 };
 
 const DateSearchDialog = (props: Props) => {
-  const { threadState, threadDispatch } = useThreads([]);
-
   return (
     <Dialog
       open={props.open}
@@ -37,30 +36,24 @@ const DateSearchDialog = (props: Props) => {
             遊びたい日付を入力してください
           </DialogContentText>
 
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={DateAdapter}>
             <Stack spacing={2}>
-              <DatePicker
-                disableFuture
+              <DateTimePicker
                 label="開始日時"
-                openTo="year"
-                views={["year", "month", "day"]}
-                value={threadState.startedAt}
+                value={props.state.startedAt}
                 onChange={(newValue) => {
-                  threadDispatch({ type: "startedAt", startedAt: newValue });
+                  props.dispatch({ type: "startedAt", startedAt: newValue });
                 }}
                 renderInput={(
                   params: JSX.IntrinsicAttributes & TextFieldProps
                 ) => <TextField {...params} />}
               />
 
-              <DatePicker
-                disableFuture
+              <DateTimePicker
                 label="終了日時"
-                openTo="year"
-                views={["year", "month", "day"]}
-                value={threadState.finishedAt}
+                value={props.state.finishedAt}
                 onChange={(newValue) => {
-                  threadDispatch({ type: "finishedAt", finishedAt: newValue });
+                  props.dispatch({ type: "finishedAt", finishedAt: newValue });
                 }}
                 renderInput={(
                   params: JSX.IntrinsicAttributes & TextFieldProps
@@ -77,8 +70,8 @@ const DateSearchDialog = (props: Props) => {
         <Button
           variant="outlined"
           onClick={() => {
-            threadDispatch({ type: "startedAt", startedAt: "reset" });
-            threadDispatch({ type: "finishedAt", finishedAt: "reset" });
+            props.dispatch({ type: "startedAt", startedAt: "reset" });
+            props.dispatch({ type: "finishedAt", finishedAt: "reset" });
             props.setOpen(false);
           }}
         >

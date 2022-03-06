@@ -2,6 +2,7 @@ import useSWR from "swr";
 import * as fetcher from "../pages/api/fetcher";
 import { UserType } from "../types/UserType";
 import { ThreadType } from "../types/thread/ThreadType";
+import { CommentType } from "../types/thread/CommentType";
 import { useEffect, useReducer, useState } from "react";
 import { threadInitialState, threadReducer } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
@@ -31,20 +32,26 @@ export const useThreads = (fallbackData: ThreadType[]) => {
   useEffect(() => {
     let tmp = threads;
     if (threadState.gameMode !== "何でも") {
-      tmp = tmp.filter((t) => t.gameMode === threadState.gameMode);
+      tmp = tmp.filter(
+        (t) => t.gameMode === threadState.gameMode || t.gameMode === "何でも"
+      );
     }
-    // if (threadState.startedAt !== null) {
-    //   result = result.filter((t) => t.startedAt >= threadState.startedAt);
-    // }
-    // if (threadState.finishedAt !== null) {
-    //   result = result.filter((t) => t.finishedAt <= threadState.finishedAt);
-    // }
+    if (threadState.startedAt !== null) {
+      tmp = tmp.filter((t) => t.startedAt >= threadState.startedAt!);
+    }
+    if (threadState.finishedAt !== null) {
+      tmp = tmp.filter((t) => t.finishedAt >= threadState.finishedAt!);
+    }
     if (threadState.position !== "どちらでも") {
-      tmp = tmp.filter((t) => t.position === threadState.position);
+      tmp = tmp.filter(
+        (t) =>
+          t.position === threadState.position || t.position === "どちらでも"
+      );
     }
     if (useMS.length) {
       tmp = tmp.filter((t) => t.useMS.some((ms) => useMS.includes(ms)));
     }
+
     // if (threadState.sort === "ASC") {
     //   result = result.sort((a, b) => {
     //     if (a.startedAt < b.startedAt) return -1;
@@ -52,6 +59,7 @@ export const useThreads = (fallbackData: ThreadType[]) => {
     //     return 0;
     //   });
     // }
+
     setResult(tmp);
   }, [useMS, threadState, threads]);
 
@@ -67,7 +75,8 @@ export const useThreads = (fallbackData: ThreadType[]) => {
 
 export const useComments = (tid: string) => {
   const { data, error } = useSWR(`/api/comment/${tid}`, fetcher.fetchGet);
-  const comments: Comment = data;
+  const comments: Array<CommentType> = data;
+
   return {
     comments,
     isLoadingComments: !error && !data,
