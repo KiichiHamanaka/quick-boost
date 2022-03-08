@@ -1225,4 +1225,10 @@ export const MSDict: { [K in number]: MobileSuit } = {
     cost: "2500",
     series: 42,
   },
+  205: {
+    id: 205,
+    name: "ディジェ",
+    cost: "2000",
+    series: 2,
+  },
 };
