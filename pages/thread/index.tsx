@@ -5,7 +5,14 @@ import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
-import { Button, Grid, SelectChangeEvent } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  AlertTitle,
+  Button,
+  Grid,
+  SelectChangeEvent,
+} from "@mui/material";
 import InputBox from "../../components/InputBox";
 import ShowMSImage from "../../components/selectMS/showMSImager";
 import { GameMode, PlayStyle, Position } from "../../types/Union";
@@ -13,6 +20,7 @@ import { GetServerSideProps } from "next";
 import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
 import connectDB from "../../db/connectDB";
+import { useRouter } from "next/router";
 
 const gameMode: Array<GameMode> = [
   "何でも",
@@ -37,6 +45,9 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   } = useThreads(fallbackData);
   const { useMS } = useSelectMSBox();
 
+  const router = useRouter();
+  const query = router.query;
+  console.log(query);
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
@@ -67,6 +78,12 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           state={threadState}
           dispatch={threadDispatch}
         />
+        {query && (
+          <Alert severity={query.severity as AlertColor}>
+            <AlertTitle>{query.alertTitle}</AlertTitle>
+            {query.alertDesc}
+          </Alert>
+        )}
         <Grid container spacing={2}>
           <Grid item>
             <InputBox
