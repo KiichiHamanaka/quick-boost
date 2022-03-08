@@ -16,6 +16,7 @@ export default NextAuth({
           id: profile.id,
           name: profile.name,
           twitterId: profile.screen_name,
+          twitterUID: profile.id,
           twitterName: profile.name,
           openSNSSettings: "No",
           image: profile.profile_image_url,
@@ -26,21 +27,8 @@ export default NextAuth({
   ],
 
   callbacks: {
-    // async jwt({ token, user, profile }) {
-    //   console.log("じょじょじょ");
-    //   if (user) {
-    //     console.log("ゆざざざざ");
-    //     console.log(user);
-    //   }
-    //   if (profile) {
-    //     console.log("ぷろふふふふ");
-    //     console.log(profile);
-    //   }
-    //   console.log("おわりわり");
-    //   return token;
-    // },
     async session({ session, user }) {
-      session.user.twitterUID = parseInt(user.id);
+      session.user.twitterUID = user.twitterUID as number;
       session.user.twitterName = user.twitterName as string;
       session.user.twitterId = user.twitterId as string;
       return session;

@@ -10,6 +10,7 @@ import { getSession } from "next-auth/react";
 import connectDB from "../../db/connectDB";
 import { UserType } from "../../types/UserType";
 import User from "../../db/models/User";
+import NotSignIn from "../../components/NotSignIn";
 
 interface Props {
   user: UserType;
@@ -32,58 +33,60 @@ const ThreadId = (props: Props) => {
 
   return (
     <Paper sx={{ border: 0.5 }} onClick={() => copyClipboard()}>
-      {alert && (
-        <Alert severity="error">
-          <AlertTitle>コピー完了</AlertTitle>
-          タッグコードをクリップボードにコピーしました！
-        </Alert>
-      )}
-      <Box>
-        <Typography>{thread.title}</Typography>
-        {thread.isPlaying ? (
-          <Typography>現在プレイ中！</Typography>
-        ) : (
-          <Typography>現在募集中！</Typography>
+      <NotSignIn>
+        {alert && (
+          <Alert severity="info">
+            <AlertTitle>コピー完了</AlertTitle>
+            タッグコードをクリップボードにコピーしました！
+          </Alert>
         )}
-        <div>モード：{thread.gameMode}</div>
-        <Box>{thread.body}</Box>
         <Box>
-          {!!thread.useMS ? (
-            thread.useMS.map((ms, idx) => (
-              <Image
-                key={idx}
-                src={MSImagePath(findMobileSuitFromMSID(ms))}
-                alt={findMobileSuitFromMSID(ms).name}
-                loading={"lazy"}
-                width={106}
-                height={52}
-              />
-            ))
+          <Typography>{thread.title}</Typography>
+          {thread.isPlaying ? (
+            <Typography>現在プレイ中！</Typography>
           ) : (
-            <Typography>Nothing</Typography>
+            <Typography>現在募集中！</Typography>
           )}
+          <div>モード：{thread.gameMode}</div>
+          <Box>{thread.body}</Box>
+          <Box>
+            {!!thread.useMS ? (
+              thread.useMS.map((ms, idx) => (
+                <Image
+                  key={idx}
+                  src={MSImagePath(findMobileSuitFromMSID(ms))}
+                  alt={findMobileSuitFromMSID(ms).name}
+                  loading={"lazy"}
+                  width={106}
+                  height={52}
+                />
+              ))
+            ) : (
+              <Typography>Nothing</Typography>
+            )}
+          </Box>
+          <Typography>タッグコード:{thread.tagCode}</Typography>
+          <Typography>開始日時:{thread.startedAt}</Typography>
+          <Typography>終了日時:{thread.finishedAt}</Typography>
+          <Typography>作成日:{thread.createdAt}</Typography>
+          {thread.isVC ? (
+            <Image
+              src={"/assets/Image/Logo/discord.jpeg"}
+              alt={"VC可能"}
+              width={50}
+              height={50}
+            />
+          ) : (
+            <Image
+              src={"/assets/Image/Logo/discord.jpeg"}
+              alt={"VC不可"}
+              width={50}
+              height={50}
+            />
+          )}
+          <CommentsArea threadID={tid} user={props.user} />
         </Box>
-        <Typography>タッグコード:{thread.tagCode}</Typography>
-        <Typography>開始日時:{thread.startedAt}</Typography>
-        <Typography>終了日時:{thread.finishedAt}</Typography>
-        <Typography>作成日:{thread.createdAt}</Typography>
-        {thread.isVC ? (
-          <Image
-            src={"/assets/Image/Logo/discord.jpeg"}
-            alt={"VC可能"}
-            width={50}
-            height={50}
-          />
-        ) : (
-          <Image
-            src={"/assets/Image/Logo/discord.jpeg"}
-            alt={"VC不可"}
-            width={50}
-            height={50}
-          />
-        )}
-        <CommentsArea threadID={tid} user={props.user} />
-      </Box>
+      </NotSignIn>
     </Paper>
   );
 };

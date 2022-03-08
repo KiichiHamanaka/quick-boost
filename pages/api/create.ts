@@ -9,10 +9,11 @@ export const createUser = (user: UserCreateDTO) => {
   });
 };
 
-export const createThread = (thread: ThreadCreateDTO) => {
+export const createThread = async (thread: ThreadCreateDTO) => {
   axios.post("/api/thread", thread).then((res) => {
     console.log("response body:", res.data);
   });
+  return Promise;
 };
 
 export const createComment = (comment: CommentCreateDTO) => {
