@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useRouter } from "next/router";
 
 const Header = () => {
   // ハンバーガーメニューも作りたい
   // li追加していく感じで
   // アイテムはリストページ、プロフィールページ、ユーザ検索、お問い合わせページ、関連リンク、ログアウトとか？
-
+  const router = useRouter();
   const { data: session, status } = useSession();
   const loading = status === "loading";
   if (loading) return null;
@@ -35,14 +36,7 @@ const Header = () => {
           Quick-Boost
         </Typography>
         {!session ? (
-          <Button
-            color="inherit"
-            onClick={() =>
-              signIn("twitter", {
-                callbackUrl: `${process.env.NEXTAUTH_URL}/thread`,
-              })
-            }
-          >
+          <Button color="inherit" onClick={() => signIn("twitter")}>
             ログイン
           </Button>
         ) : (
