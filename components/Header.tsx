@@ -47,8 +47,8 @@ const Header = () => {
           </Button>
         ) : (
           <>
-            {session.user.name}@{session.user.screen_name}
-            <Avatar alt={session.user.name} src={session.user.image} />
+            {session.user.twitterName}@{session.user.twitterId}
+            <Avatar alt={session.user.twitterName} src={session.user.image} />
             {/*userpageへ飛ぶ処理の追加*/}
             <Button color="inherit" onClick={() => signOut()}>
               ログアウト

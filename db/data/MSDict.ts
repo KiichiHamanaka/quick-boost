@@ -292,7 +292,7 @@ export const MSDict: { [K in number]: MobileSuit } = {
   49: {
     id: 49,
     name: "ガンダムデスサイズヘル",
-    cost: "2500",
+    cost: "2000",
     series: 8,
   },
   50: {
@@ -988,7 +988,7 @@ export const MSDict: { [K in number]: MobileSuit } = {
   166: {
     id: 166,
     name: "Hi-νガンダム",
-    cost: "2000",
+    cost: "3000",
     series: 30,
   },
   167: {
@@ -1186,7 +1186,7 @@ export const MSDict: { [K in number]: MobileSuit } = {
   199: {
     id: 199,
     name: "ヤークトアルケーガンダム",
-    cost: "2000",
+    cost: "3000",
     series: 40,
   },
   200: {
