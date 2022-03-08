@@ -10,11 +10,13 @@ import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import { Button, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import { createThread, createUser } from "../api/create";
+import { createThread } from "../api/create";
 import { GetServerSideProps } from "next";
 import User from "../../db/models/User";
 import { UserType } from "../../types/UserType";
 import connectDB from "../../db/connectDB";
+import NotSignIn from "../../components/NotSignIn";
+import { useRouter } from "next/router";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -32,25 +34,20 @@ type FormValues = {
   position: Position;
 };
 
-interface Props {
+type Props = {
   fallbackData: UserType;
-}
+};
 
 const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
-  const { data: session, status } = useSession();
+  const router = useRouter();
+  const { status } = useSession();
   const { register, handleSubmit } = useForm<FormValues>();
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { useMS } = useSelectMSBox();
   const loading = status === "loading";
-  if (loading) return null; //ログイン画面に飛ばす
+  if (loading) return null;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    // createUser({
-    //   openSNSSettings: "Open",
-    //   twitterId: session!.user.screen_name,
-    //   twitterName: session!.user.name,
-    //   twitterUID: session!.user.twitterUID as number,
-    // });
     createThread({
       ...data,
       threadAuthor: fallbackData._id,
@@ -60,11 +57,20 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
       isPlaying: false,
       startedAt: new Date(),
       finishedAt: new Date(),
-    });
+    }).then(() =>
+      router.push({
+        pathname: "/thread",
+        query: {
+          alertSeverity: "info",
+          alertTitle: "作成完了",
+          alertDesc: `「${data.title}」で相方の募集開始しました！`,
+        },
+      })
+    );
   };
 
   return (
-    <div>
+    <NotSignIn>
       <Typography>スレッド作成のぺーじ</Typography>
       <Button onClick={() => setIsShowMSBOX(true)}>MS選択</Button>
       <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
@@ -88,7 +94,7 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
         <input {...register("position")} />
         <input type="submit" />
       </form>
-    </div>
+    </NotSignIn>
   );
 };
 
@@ -97,16 +103,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await connectDB();
 
   if (session) {
-    console.log("とうたつ！！！");
-    console.log(session);
-
     const user = await User.findOne({
-      twitterUID: 504093817,
+      twitterUID: session.user.twitterUID,
     });
-    console.log("user");
-    console.log(user);
     const u = JSON.parse(JSON.stringify(user));
-
     return {
       props: {
         fallbackData: u,
