@@ -28,7 +28,7 @@ const gameMode: Array<GameMode> = [
   "カジュアル",
   "クロブフェス",
 ];
-const playStyle: Array<PlayStyle> = ["ガチ", "エンジョイ"];
+const playStyle: Array<PlayStyle> = ["どちらでも", "ガチ", "エンジョイ"];
 const position: Array<Position> = ["どちらでも", "前衛", "後衛"];
 
 interface Props {
@@ -47,7 +47,6 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
 
   const router = useRouter();
   const query = router.query;
-  console.log(query);
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
@@ -65,6 +64,13 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     });
   };
 
+  const playStyleHandleChange = (event: SelectChangeEvent) => {
+    threadDispatch({
+      type: "playStyle",
+      playStyle: event.target.value as PlayStyle,
+    });
+  };
+
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
   if (isLoadingThreads) {
     return <div>ロードなう アニメにせんかい</div>;
@@ -78,13 +84,21 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           state={threadState}
           dispatch={threadDispatch}
         />
-        {query && (
+        {!!Object.keys(query).length && (
           <Alert severity={query.severity as AlertColor}>
             <AlertTitle>{query.alertTitle}</AlertTitle>
             {query.alertDesc}
           </Alert>
         )}
         <Grid container spacing={2}>
+          <Grid item>
+            <InputBox
+              labelName={"プレイスタイル"}
+              menuItem={playStyle}
+              handleChange={playStyleHandleChange}
+              dv={playStyle[0]}
+            />
+          </Grid>
           <Grid item>
             <InputBox
               labelName={"ゲームモード"}
@@ -107,6 +121,17 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           <Grid item>
             <Button onClick={() => setIsShowDateSearchDialog(true)}>
               日付検索
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={() =>
+                threadDispatch({
+                  type: "sortDesc",
+                })
+              }
+            >
+              ソート順
             </Button>
           </Grid>
         </Grid>

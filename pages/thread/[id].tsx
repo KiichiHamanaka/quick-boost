@@ -32,7 +32,7 @@ const ThreadId = (props: Props) => {
   };
 
   return (
-    <Paper sx={{ border: 0.5 }} onClick={() => copyClipboard()}>
+    <Paper sx={{ border: 0.5 }}>
       <NotSignIn>
         {alert && (
           <Alert severity="info">
@@ -65,7 +65,9 @@ const ThreadId = (props: Props) => {
               <Typography>Nothing</Typography>
             )}
           </Box>
-          <Typography>タッグコード:{thread.tagCode}</Typography>
+          <Typography onClick={() => copyClipboard()}>
+            タッグコード:{thread.tagCode}
+          </Typography>
           <Typography>開始日時:{thread.startedAt}</Typography>
           <Typography>終了日時:{thread.finishedAt}</Typography>
           <Typography>作成日:{thread.createdAt}</Typography>

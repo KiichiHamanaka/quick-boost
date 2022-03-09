@@ -1,7 +1,5 @@
 import { ThreadType } from "../types/thread/ThreadType";
-import { GameMode, Position } from "../types/Union";
-
-type Sort = "ASC" | "DESC";
+import { GameMode, PlayStyle, Position } from "../types/Union";
 
 export type ThreadState = {
   threads: ThreadType[];
@@ -9,8 +7,9 @@ export type ThreadState = {
   finishedAt: Date | null;
   useMS: Array<number>;
   gameMode: GameMode;
+  playStyle: PlayStyle;
   position: Position;
-  sort: Sort;
+  sortDesc: boolean;
 };
 
 export const threadInitialState: ThreadState = {
@@ -18,17 +17,19 @@ export const threadInitialState: ThreadState = {
   startedAt: null,
   finishedAt: null,
   useMS: [],
+  playStyle: "どちらでも",
   gameMode: "何でも",
   position: "どちらでも",
-  sort: "DESC",
+  sortDesc: true,
 };
 
 export type ThreadAction =
   | { type: "fetch"; threads: ThreadType[] }
-  | { type: "sort"; sort: Sort }
+  | { type: "sortDesc" }
   | { type: "startedAt"; startedAt: Date | null | "reset" }
   | { type: "finishedAt"; finishedAt: Date | null | "reset" }
   | { type: "gameMode"; gameMode: GameMode }
+  | { type: "playStyle"; playStyle: PlayStyle }
   | { type: "position"; position: Position }
   | { type: "reset"; state: ThreadState }
   | { type: "filterMS"; msids: number[] };
@@ -38,19 +39,10 @@ export const threadReducer = (
   action: ThreadAction
 ): ThreadState => {
   switch (action.type) {
-    case "fetch": // reset all state
+    case "sortDesc":
       return {
         ...state,
-        threads: action.threads,
-      };
-    case "sort": // sort by date
-      return {
-        ...state,
-        threads: state.threads.sort((a, b) => {
-          if (a.startedAt < b.startedAt) return -1; //numberかdateならワンライナー
-          if (a.startedAt < b.startedAt) return 1;
-          return 0;
-        }),
+        sortDesc: !state.sortDesc,
       };
     case "startedAt":
       if (action.startedAt === "reset") {
@@ -82,6 +74,11 @@ export const threadReducer = (
         threads: state.threads.filter((thread) => {
           thread.useMS.some((msid) => action.msids.includes(msid));
         }),
+      };
+    case "playStyle":
+      return {
+        ...state,
+        playStyle: action.playStyle,
       };
     case "gameMode":
       return {
