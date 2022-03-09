@@ -1,7 +1,6 @@
 import { signIn, useSession } from "next-auth/react";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import DrawerNavigator from "./DrawerNavigator";
 
@@ -10,7 +9,6 @@ const Header = () => {
   // li追加していく感じで
   // アイテムはリストページ、プロフィールページ、ユーザ検索、お問い合わせページ、関連リンク、ログアウトとか？
   const [drawer, setDrawer] = useState(false);
-  const router = useRouter();
 
   const { data: session, status } = useSession();
   const loading = status === "loading";
