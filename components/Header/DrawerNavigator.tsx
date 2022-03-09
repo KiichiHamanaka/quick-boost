@@ -10,6 +10,7 @@ import { Avatar, SwipeableDrawer, useMediaQuery } from "@mui/material";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import { useTheme } from "@mui/system";
+import { signOut } from "next-auth/react";
 
 type Props = {
   setDrawer: Dispatch<SetStateAction<boolean>>;
@@ -25,7 +26,6 @@ type MenuObject = {
 const menuItem: Array<MenuObject> = [
   { text: "相方検索", url: "/thread" },
   { text: "相方募集", url: "/thread/new" },
-  { text: "ログアウト", url: "/api/auth/signOut" },
 ];
 
 const DrawerNavigator = (props: Props) => {
@@ -45,7 +45,7 @@ const DrawerNavigator = (props: Props) => {
       >
         {props.session && (
           <List>
-            <Link href={`/user/${props.session.user.id}`}>
+            <Link href={`/user/${props.session.user.id}`} passHref>
               <ListItem button>
                 <ListItemIcon>
                   <Avatar
@@ -62,13 +62,18 @@ const DrawerNavigator = (props: Props) => {
         )}
         <Divider />
         <List>
-          {menuItem.map((obj, index) => (
-            <Link key={obj.text} href={obj.url}>
+          {menuItem.map((obj) => (
+            <Link key={obj.text} href={obj.url} passHref>
               <ListItem button>
                 <ListItemText primary={obj.text} />
               </ListItem>
             </Link>
           ))}
+          {props.session && (
+            <ListItem button onClick={() => signOut()} passHref>
+              <ListItemText primary={"ログアウト"} />
+            </ListItem>
+          )}
         </List>
       </Box>
     </SwipeableDrawer>
