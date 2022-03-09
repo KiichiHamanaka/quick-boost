@@ -3,10 +3,14 @@ import Link from "next/link";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Avatar, SwipeableDrawer, useMediaQuery } from "@mui/material";
+import {
+  Avatar,
+  ListItem,
+  SwipeableDrawer,
+  useMediaQuery,
+} from "@mui/material";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import { useTheme } from "@mui/system";
@@ -70,7 +74,7 @@ const DrawerNavigator = (props: Props) => {
             </Link>
           ))}
           {props.session && (
-            <ListItem button onClick={() => signOut()} passHref>
+            <ListItem button onClick={() => signOut()}>
               <ListItemText primary={"ログアウト"} />
             </ListItem>
           )}
