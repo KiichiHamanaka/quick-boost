@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../db/mongodb";
-import mongoose from "mongoose";
 
 export default NextAuth({
   secret: process.env.SECRET,
@@ -11,17 +10,17 @@ export default NextAuth({
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
-      // @ts-ignore
+      version: "2.0",
       profile(profile) {
         return {
-          id: new mongoose.Types.ObjectId(),
-          name: profile.name,
-          twitterId: profile.screen_name,
-          twitterUID: profile.id,
-          twitterName: profile.name,
+          id: profile.data.id,
+          name: profile.data.name,
+          twitterId: profile.data.username,
+          twitterUID: profile.data.id,
+          twitterName: profile.data.name,
           openSNSSettings: "No",
-          image: profile.profile_image_url,
-          bio: profile.description,
+          image: profile.data.profile_image_url,
+          bio: profile.data.description,
         };
       },
     }),
