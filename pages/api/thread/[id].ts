@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const tid = id as string;
         const find = await Thread.findById(tid).populate("threadAuthor");
-
+        console.log(find);
         res.status(200).json(find);
         break;
       } catch (e) {
@@ -32,8 +32,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "DELETE": {
       try {
-        const { val1, val2 } = req.body;
-        const result = val1 + val2;
+        const tid = id as string;
+        const result = await Thread.findByIdAndDelete(tid);
         res.status(200).json({ result });
         break;
       } catch (e) {
