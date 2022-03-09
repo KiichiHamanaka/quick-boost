@@ -11,6 +11,7 @@ import connectDB from "../../db/connectDB";
 import { UserType } from "../../types/UserType";
 import User from "../../db/models/User";
 import NotSignIn from "../../components/NotSignIn";
+import { Oval } from "react-loader-spinner";
 
 interface Props {
   user: UserType;
@@ -22,7 +23,7 @@ const ThreadId = (props: Props) => {
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
   const [alert, setAlert] = useState(false);
-  if (isLoadingThread) return <div>Loading Comments Animation</div>;
+  if (isLoadingThread) return <Oval color="#00BFFF" height={80} width={80} />;
   if (isErrorThread) return <div>Error</div>;
 
   const copyClipboard = () => {

@@ -21,6 +21,7 @@ import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
 import connectDB from "../../db/connectDB";
 import { useRouter } from "next/router";
+import { Oval } from "react-loader-spinner";
 
 const gameMode: Array<GameMode> = [
   "何でも",
@@ -77,7 +78,7 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
 
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
   if (isLoadingThreads) {
-    return <div>ロードなう アニメにせんかい</div>;
+    return <Oval color="#00BFFF" height={80} width={80} />;
   } else {
     return (
       <Grid>

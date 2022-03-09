@@ -4,9 +4,10 @@ import { useComments } from "../hooks/swrHooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createComment } from "../pages/api/create";
 import mongoose from "mongoose";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { UserType } from "../types/UserType";
+import { Oval } from "react-loader-spinner";
 
 interface Props {
   threadID: string;
@@ -21,7 +22,6 @@ const CommentsArea = (props: Props) => {
   const { comments, isLoadingComments, isErrorComments } = useComments(
     props.threadID
   );
-  const { data: session, status } = useSession();
   const { register, handleSubmit } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -35,19 +35,15 @@ const CommentsArea = (props: Props) => {
   return (
     <Paper sx={{ border: 0.5 }}>
       <Box>
-        {session ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            コメント
-            <input {...register("comment")} />
-            <input type="submit" value={"送信"} />
-          </form>
-        ) : (
-          <Typography>ログインしてください</Typography>
-        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          コメント
+          <input {...register("comment")} />
+          <input type="submit" value={"送信"} />
+        </form>
       </Box>
       <Box>
         {isLoadingComments ? (
-          <div>Loading Animation</div>
+          <Oval color="#00BFFF" height={80} width={80} />
         ) : isErrorComments ? (
           <div>Error</div>
         ) : comments.length ? (
