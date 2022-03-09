@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
@@ -43,13 +43,17 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     isErrorThreads,
     threadDispatch,
   } = useThreads(fallbackData);
-  const { useMS } = useSelectMSBox();
+  const { useMS, dispatch } = useSelectMSBox();
 
   const router = useRouter();
   const query = router.query;
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch({ type: "useMS", useMS: "reset" });
+  }, []);
 
   const gameModeHandleChange = (event: SelectChangeEvent) => {
     threadDispatch({
