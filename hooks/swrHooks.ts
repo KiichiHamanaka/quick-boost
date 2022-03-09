@@ -48,18 +48,28 @@ export const useThreads = (fallbackData: ThreadType[]) => {
           t.position === threadState.position || t.position === "どちらでも"
       );
     }
+    if (threadState.playStyle !== "どちらでも") {
+      tmp = tmp.filter(
+        (t) =>
+          t.playStyle === threadState.playStyle || t.playStyle === "どちらでも"
+      );
+    }
     if (useMS.length) {
       tmp = tmp.filter((t) => t.useMS.some((ms) => useMS.includes(ms)));
     }
-
-    // if (threadState.sort === "ASC") {
-    //   result = result.sort((a, b) => {
-    //     if (a.startedAt < b.startedAt) return -1;
-    //     if (a.startedAt < b.startedAt) return 1;
-    //     return 0;
-    //   });
-    // }
-
+    if (threadState.sortDesc) {
+      tmp = tmp.sort((a, b) => {
+        if (a.startedAt > b.startedAt) return -1;
+        if (a.startedAt > b.startedAt) return 1;
+        return 0;
+      });
+    } else {
+      tmp = tmp.sort((a, b) => {
+        if (a.startedAt < b.startedAt) return -1;
+        if (a.startedAt < b.startedAt) return 1;
+        return 0;
+      });
+    }
     setResult(tmp);
   }, [useMS, threadState, threads]);
 

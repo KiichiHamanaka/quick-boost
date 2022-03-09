@@ -6,5 +6,5 @@ export type GameMode =
   | "ランクマッチ"
   | "クロブフェス"
   | "何でも";
-export type PlayStyle = "ガチ" | "エンジョイ";
+export type PlayStyle = "ガチ" | "エンジョイ" | "どちらでも";
 export type ThreadStyle = "相方募集" | "プラベ";
