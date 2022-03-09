@@ -28,7 +28,11 @@ export const ThreadSchema: Schema = new Schema(
     threadAuthor: { type: Schema.Types.ObjectId, ref: "User" },
     title: { type: String, required: true, max: 20 },
     body: { type: String, required: true, max: 140 },
-    playStyle: { type: String, enum: ["ガチ", "エンジョイ"], required: true },
+    playStyle: {
+      type: String,
+      enum: ["ガチ", "エンジョイ", "どちらでも"],
+      required: true,
+    },
     threadStyle: { type: String, enum: ["相方募集", "プラベ"], required: true },
     isVC: { type: Boolean, required: true },
     isPlaying: { type: Boolean, required: true },

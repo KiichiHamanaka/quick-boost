@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
@@ -21,6 +21,7 @@ import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
 import connectDB from "../../db/connectDB";
 import { useRouter } from "next/router";
+import { Oval } from "react-loader-spinner";
 
 const gameMode: Array<GameMode> = [
   "何でも",
@@ -43,13 +44,17 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     isErrorThreads,
     threadDispatch,
   } = useThreads(fallbackData);
-  const { useMS } = useSelectMSBox();
+  const { useMS, dispatch } = useSelectMSBox();
 
   const router = useRouter();
   const query = router.query;
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch({ type: "useMS", useMS: "reset" });
+  }, []);
 
   const gameModeHandleChange = (event: SelectChangeEvent) => {
     threadDispatch({
@@ -73,7 +78,7 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
 
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
   if (isLoadingThreads) {
-    return <div>ロードなう アニメにせんかい</div>;
+    return <Oval color="#00BFFF" height={80} width={80} />;
   } else {
     return (
       <Grid>

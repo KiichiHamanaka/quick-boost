@@ -18,7 +18,7 @@ export interface User extends Document {
 export const UserSchema: Schema = new Schema(
   {
     twitterUID: {
-      type: Number,
+      type: String,
       required: true,
     },
     twitterId: {

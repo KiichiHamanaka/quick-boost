@@ -6,6 +6,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { nonNullable } from "../../types/util";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
+import { Oval } from "react-loader-spinner";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -17,7 +18,7 @@ dayjs.tz.setDefault("Asia/Tokyo");
 
 const UserIndex: React.FC = () => {
   const { users, isLoadingUsers, isErrorUsers } = useUsers();
-  if (isLoadingUsers) return <div>Loading Animation</div>;
+  if (isLoadingUsers) return <Oval color="#00BFFF" height={80} width={80} />;
   if (isErrorUsers) return <div>Error</div>;
   return (
     <div>

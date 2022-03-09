@@ -1,16 +1,26 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useThread } from "../../hooks/swrHooks";
-import { findMobileSuitFromMSID, MSImagePath } from "../../types/MobileSuit";
-import { Alert, AlertTitle, Box, Paper, Typography } from "@mui/material";
-import CommentsArea from "../../components/CommentsArea";
+import { useState } from "react";
+import AlertDialog from "../../../components/dialog/AlertDialog";
+import { findMobileSuitFromMSID, MSImagePath } from "../../../types/MobileSuit";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { GetServerSideProps } from "next";
+import connectDB from "../../../db/connectDB";
+import { useRouter } from "next/router";
+import { Oval } from "react-loader-spinner";
+import { useThread } from "../../../hooks/swrHooks";
+import CommentsArea from "../../../components/CommentsArea";
+import NotSignIn from "../../../components/NotSignIn";
+import { UserType } from "../../../types/UserType";
 import { getSession } from "next-auth/react";
-import connectDB from "../../db/connectDB";
-import { UserType } from "../../types/UserType";
-import User from "../../db/models/User";
-import NotSignIn from "../../components/NotSignIn";
+import Image from "next/image";
+import User from "../../../db/models/User";
+import { deleteThread } from "../../api/delete";
 
 interface Props {
   user: UserType;
@@ -22,7 +32,9 @@ const ThreadId = (props: Props) => {
 
   const { thread, isLoadingThread, isErrorThread } = useThread(tid);
   const [alert, setAlert] = useState(false);
-  if (isLoadingThread) return <div>Loading Comments Animation</div>;
+  const [editDialog, setEditDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  if (isLoadingThread) return <Oval color="#00BFFF" height={80} width={80} />;
   if (isErrorThread) return <div>Error</div>;
 
   const copyClipboard = () => {
@@ -33,6 +45,31 @@ const ThreadId = (props: Props) => {
 
   return (
     <Paper sx={{ border: 0.5 }}>
+      <AlertDialog
+        open={editDialog}
+        setOpen={setEditDialog}
+        title={"スレッド編集"}
+        text={"この募集を編集しますか？"}
+        event={() => router.push(`/thread/${tid}/edit`)}
+      />
+      <AlertDialog
+        open={deleteDialog}
+        setOpen={setDeleteDialog}
+        title={"スレッド削除"}
+        text={"この募集を削除しますか？"}
+        event={() =>
+          deleteThread(tid).then(() =>
+            router.push({
+              pathname: "/thread",
+              query: {
+                alertSeverity: "success",
+                alertTitle: "削除完了",
+                alertDesc: `スレッド「${thread.title}」を削除しました。`,
+              },
+            })
+          )
+        }
+      />
       <NotSignIn>
         {alert && (
           <Alert severity="info">
@@ -41,6 +78,12 @@ const ThreadId = (props: Props) => {
           </Alert>
         )}
         <Box>
+          {thread.threadAuthor._id === props.user._id && (
+            <div>
+              <Button onClick={() => setEditDialog(true)}>編集</Button>
+              <Button onClick={() => setDeleteDialog(true)}>削除</Button>
+            </div>
+          )}
           <Typography>{thread.title}</Typography>
           {thread.isPlaying ? (
             <Typography>現在プレイ中！</Typography>
@@ -96,7 +139,6 @@ const ThreadId = (props: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   await connectDB();
-
   if (session) {
     const user = await User.findOne({
       twitterUID: session.user.twitterUID,

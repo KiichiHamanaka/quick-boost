@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
+import { Oval } from "react-loader-spinner";
 
 const UserId: React.FC = () => {
   const router = useRouter();
@@ -11,7 +12,8 @@ const UserId: React.FC = () => {
   const { user, isLoadingUser, isErrorUser } = useUser(id);
   const [favoriteMS, setFavoriteMS] = useState<MobileSuit[]>([]);
 
-  if (isLoadingUser) return <div>Loading Animation</div>;
+  if (isLoadingUser) return <Oval color="#00BFFF" height={80} width={80} />;
+
   if (isErrorUser) return <div>Error</div>;
   return (
     <div>
