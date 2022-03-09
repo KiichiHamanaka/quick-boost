@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -44,25 +45,29 @@ const DrawerNavigator = (props: Props) => {
       >
         {props.session && (
           <List>
-            <ListItem button>
-              <ListItemIcon>
-                <Avatar
-                  alt={props.session.user.twitterName}
-                  src={props.session.user.image}
+            <Link href={`/user/${props.session.user.id}`}>
+              <ListItem button>
+                <ListItemIcon>
+                  <Avatar
+                    alt={props.session.user.twitterName}
+                    src={props.session.user.image}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={`${props.session.user.twitterName}@${props.session.user.twitterId}`}
                 />
-              </ListItemIcon>
-              <ListItemText
-                primary={`${props.session.user.twitterName}@${props.session.user.twitterId}`}
-              />
-            </ListItem>
+              </ListItem>
+            </Link>
           </List>
         )}
         <Divider />
         <List>
           {menuItem.map((obj, index) => (
-            <ListItem button key={obj.text}>
-              <ListItemText primary={obj.text} />
-            </ListItem>
+            <Link key={obj.text} href={obj.url}>
+              <ListItem button>
+                <ListItemText primary={obj.text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Box>
