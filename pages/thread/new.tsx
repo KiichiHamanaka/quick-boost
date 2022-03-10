@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { getSession, useSession } from "next-auth/react";
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
 import { createThread } from "../api/create";
 import { GetServerSideProps } from "next";
@@ -17,6 +17,7 @@ import { UserType } from "../../types/UserType";
 import connectDB from "../../db/connectDB";
 import NotSignIn from "../../components/NotSignIn";
 import { useRouter } from "next/router";
+import HookFormInput from "../../components/input/HookFormInput";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -41,7 +42,7 @@ type Props = {
 const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
   const router = useRouter();
   const { status } = useSession();
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { control, register, handleSubmit } = useForm<FormValues>();
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
   const { useMS } = useSelectMSBox();
   const loading = status === "loading";
@@ -76,7 +77,8 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
       <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
       <form onSubmit={handleSubmit(onSubmit)}>
         スレッド名
-        <input {...register("title")} />
+        <HookFormInput name={"title"} control={control} />
+        {/*<input {...register("title")} />*/}
         本文
         <input {...register("body")} />
         プレイスタイル
@@ -101,7 +103,6 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   await connectDB();
-
   if (session) {
     const user = await User.findOne({
       twitterUID: session.user.twitterUID,

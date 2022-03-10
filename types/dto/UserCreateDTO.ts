@@ -3,7 +3,7 @@ import { OpenSNSSettings } from "../Union";
 interface UserCreateDTO {
   twitterUID: number;
   twitterId: string;
-  twitterName: string;
+  name: string;
   grade?: string;
   rank?: string;
   discordId?: string;

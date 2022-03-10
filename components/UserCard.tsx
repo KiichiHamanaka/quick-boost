@@ -6,12 +6,12 @@ import { MobileSuit, MSImagePath } from "../types/MobileSuit";
 
 // type PickUser = Pick<
 //   User,
-//   "twitterId" | "twitterName" | "grade" | "rank" | "favoriteMS" | "bio"
+//   "twitterId" | "name" | "grade" | "rank" | "favoriteMS" | "bio"
 // >;
 
 type UserProps = {
   twitterId: string;
-  twitterName: string;
+  name: string;
   grade?: string;
   rank?: string;
   favoriteMS: Array<MobileSuit>;
@@ -30,7 +30,7 @@ const UserCard = (props: UserProps) => {
   return (
     <Link href={`/user/${props.twitterId}`} passHref>
       <div css={UserCardStyle}>
-        <div>{props.twitterName}</div>
+        <div>{props.name}</div>
         <div>{props.bio}</div>
         <div>{props.grade}</div>
         <div>{props.rank}</div>

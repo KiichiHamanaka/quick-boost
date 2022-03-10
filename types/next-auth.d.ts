@@ -7,9 +7,9 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      twitterUID: number;
+      twitterUID: string;
       twitterId: string;
-      twitterName: string;
+      name: string;
       image: string;
     };
   }

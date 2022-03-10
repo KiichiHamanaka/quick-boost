@@ -53,12 +53,12 @@ const DrawerNavigator = (props: Props) => {
               <ListItem button>
                 <ListItemIcon>
                   <Avatar
-                    alt={props.session.user.twitterName}
+                    alt={props.session.user.name}
                     src={props.session.user.image}
                   />
                 </ListItemIcon>
                 <ListItemText
-                  primary={`${props.session.user.twitterName}@${props.session.user.twitterId}`}
+                  primary={`${props.session.user.name}@${props.session.user.twitterId}`}
                 />
               </ListItem>
             </Link>

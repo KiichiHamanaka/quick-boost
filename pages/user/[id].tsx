@@ -18,7 +18,7 @@ const UserId: React.FC = () => {
   return (
     <div>
       <div>{user.twitterId}</div>
-      <div>{user.twitterName}</div>
+      <div>{user.name}</div>
       <div>{user.grade}</div>
       <div>{user.rank}</div>
       <div>{user.bio}</div>
