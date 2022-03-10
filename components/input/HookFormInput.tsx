@@ -1,10 +1,16 @@
 import * as React from "react";
-import { useController, UseControllerProps } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { TextField } from "@mui/material";
 
-const HookFormInput = (props: UseControllerProps<any>) => {
+type Props = {
+  control: any;
+  name: string;
+  placeholder: string;
+};
+
+const HookFormInput = (props: Props) => {
   const { field } = useController(props);
-  return <TextField {...field} placeholder={props.name} />;
+  return <TextField {...field} placeholder={props.placeholder} />;
 };
 
 export default HookFormInput;
