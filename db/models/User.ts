@@ -4,7 +4,7 @@ import { OpenSNSSettings } from "../../types/Union";
 export interface User extends Document {
   twitterUID: number;
   twitterId: string;
-  twitterName: string;
+  name: string;
   grade?: string;
   rank?: string;
   discordId?: string;
@@ -25,7 +25,7 @@ export const UserSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    twitterName: {
+    name: {
       type: String,
       required: true,
     },

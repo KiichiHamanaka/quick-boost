@@ -30,6 +30,7 @@ type MenuObject = {
 const menuItem: Array<MenuObject> = [
   { text: "相方検索", url: "/thread" },
   { text: "相方募集", url: "/thread/new" },
+  { text: "このサイトについて", url: "/howto" },
 ];
 
 const DrawerNavigator = (props: Props) => {
@@ -53,12 +54,12 @@ const DrawerNavigator = (props: Props) => {
               <ListItem button>
                 <ListItemIcon>
                   <Avatar
-                    alt={props.session.user.twitterName}
+                    alt={props.session.user.name}
                     src={props.session.user.image}
                   />
                 </ListItemIcon>
                 <ListItemText
-                  primary={`${props.session.user.twitterName}@${props.session.user.twitterId}`}
+                  primary={`${props.session.user.name}@${props.session.user.twitterId}`}
                 />
               </ListItem>
             </Link>

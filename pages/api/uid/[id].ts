@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "GET": {
       try {
         const uid = id as string;
-        const user = await User.findOne({ twitterUID: parseInt(uid) });
+        const user = await User.findOne({ twitterUID: uid });
         res.status(200).json(user);
         break;
       } catch (err) {

@@ -17,7 +17,6 @@ export default NextAuth({
           name: profile.data.name,
           twitterId: profile.data.username,
           twitterUID: profile.data.id,
-          twitterName: profile.data.name,
           openSNSSettings: "No",
           image: profile.data.profile_image_url,
           bio: profile.data.description,
@@ -29,8 +28,8 @@ export default NextAuth({
   callbacks: {
     async session({ session, user }) {
       session.user.id = user.id;
-      session.user.twitterUID = user.twitterUID as number;
-      session.user.twitterName = user.twitterName as string;
+      session.user.twitterUID = user.twitterUID as string;
+      session.user.name = user.name as string;
       session.user.twitterId = user.twitterId as string;
       return session;
     },

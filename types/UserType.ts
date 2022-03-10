@@ -5,7 +5,7 @@ export interface UserType {
   _id: mongoose.Types.ObjectId;
   twitterUID: number;
   twitterId: string;
-  twitterName: string;
+  name: string;
   grade?: string;
   rank?: string;
   discordId?: string;

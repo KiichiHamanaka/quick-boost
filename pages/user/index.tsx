@@ -31,7 +31,7 @@ const UserIndex: React.FC = () => {
               <UserCard
                 key={idx}
                 twitterId={user.twitterId}
-                twitterName={user.twitterName}
+                name={user.name}
                 bio={user.bio}
                 grade={user.grade}
                 rank={user.rank}
