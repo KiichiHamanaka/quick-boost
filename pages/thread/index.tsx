@@ -22,15 +22,7 @@ import Thread from "../../db/models/Thread";
 import connectDB from "../../db/connectDB";
 import { useRouter } from "next/router";
 import { Oval } from "react-loader-spinner";
-
-const gameMode: Array<GameMode> = [
-  "何でも",
-  "ランクマッチ",
-  "カジュアル",
-  "クロブフェス",
-];
-const playStyle: Array<PlayStyle> = ["どちらでも", "ガチ", "エンジョイ"];
-const position: Array<Position> = ["どちらでも", "前衛", "後衛"];
+import { gameMode, playStyle, position } from "../../db/data/FormItems";
 
 interface Props {
   fallbackData: ThreadType[];
