@@ -30,6 +30,7 @@ type MenuObject = {
 const menuItem: Array<MenuObject> = [
   { text: "相方検索", url: "/thread" },
   { text: "相方募集", url: "/thread/new" },
+  { text: "このサイトについて", url: "/howto" },
 ];
 
 const DrawerNavigator = (props: Props) => {
