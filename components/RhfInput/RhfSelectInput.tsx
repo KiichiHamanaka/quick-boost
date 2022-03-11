@@ -10,7 +10,7 @@ type Props = {
   helperText?: string;
 };
 
-const HookFormInputSelectInput = (props: Props) => {
+const RhfSelectInput = (props: Props) => {
   const { field } = useController({
     control: props.control,
     defaultValue: props.defaultValue,
@@ -28,4 +28,4 @@ const HookFormInputSelectInput = (props: Props) => {
   );
 };
 
-export default HookFormInputSelectInput;
+export default RhfSelectInput;
