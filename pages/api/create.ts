@@ -10,7 +10,8 @@ export const createUser = (user: UserCreateDTO) => {
 };
 
 export const createThread = async (thread: ThreadCreateDTO) => {
-  axios.post("/api/thread", thread).then((res) => {
+  const threadDTO = { ...thread, isPlaying: false };
+  axios.post("/api/thread", threadDTO).then((res) => {
     console.log("response body:", res.data);
   });
   return Promise;
