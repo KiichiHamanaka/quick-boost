@@ -11,7 +11,6 @@ export interface Thread extends Document {
   threadStyle: ThreadStyle;
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers: Array<User>;
   useMS: Array<number>;
   position: Position;
   gameMode: GameMode;
@@ -36,7 +35,6 @@ export const ThreadSchema: Schema = new Schema(
     threadStyle: { type: String, enum: ["相方募集", "プラベ"], required: true },
     isVC: { type: Boolean, required: true },
     isPlaying: { type: Boolean, required: true },
-    allowUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     useMS: [{ type: Number }],
     position: {

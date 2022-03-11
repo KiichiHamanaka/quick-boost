@@ -55,7 +55,9 @@ export const useThreads = (fallbackData: ThreadType[]) => {
       );
     }
     if (useMS.length) {
-      tmp = tmp.filter((t) => t.useMS.some((ms) => useMS.includes(ms)));
+      tmp = tmp.filter(
+        (t) => t.useMS.some((ms) => useMS.includes(ms)) || t.useMS.length === 0
+      );
     }
     if (threadState.sortDesc) {
       tmp = tmp.sort((a, b) => {
