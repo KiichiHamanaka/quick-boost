@@ -11,7 +11,6 @@ export interface ThreadType {
   threadStyle: ThreadStyle;
   isVC: boolean;
   isPlaying: boolean;
-  allowUsers: Array<UserType>;
   useMS: Array<number>;
   position: Position;
   gameMode: GameMode;
