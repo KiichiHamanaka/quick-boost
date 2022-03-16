@@ -30,7 +30,7 @@ interface Props {
 
 const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   const {
-    result,
+    filterResult,
     threadState,
     isLoadingThreads,
     isErrorThreads,
@@ -138,8 +138,8 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           />
         )}
         <div>
-          {result.length
-            ? result.map((thread, idx) => {
+          {filterResult.length
+            ? filterResult.map((thread, idx) => {
                 return <ThreadCard key={idx} thread={thread} />;
               })
             : "検索条件に沿う募集は見つかりませんでした"}

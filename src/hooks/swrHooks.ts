@@ -3,8 +3,12 @@ import * as fetcher from "../pages/api/fetcher";
 import { UserType } from "../types/UserType";
 import { ThreadType } from "../types/thread/ThreadType";
 import { CommentType } from "../types/thread/CommentType";
-import { useEffect, useReducer, useState } from "react";
-import { threadInitialState, threadReducer } from "../reducers/thread";
+import { useCallback, useMemo, useReducer, useState } from "react";
+import {
+  threadInitialState,
+  threadReducer,
+  ThreadState,
+} from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
 
 export const useThread = (tid: string) => {
@@ -21,37 +25,40 @@ export const useThreads = (fallbackData: ThreadType[]) => {
   const { data, error } = useSWR(`/api/thread`, fetcher.fetchGet, {
     fallbackData,
   });
-  const threads: Array<ThreadType> = data || [];
+  const threads: Array<ThreadType> = useMemo(() => {
+    return data || [];
+  }, [data]);
   const [threadState, threadDispatch] = useReducer(
     threadReducer,
     threadInitialState
   );
-  const [result, setResult] = useState<ThreadType[]>(data);
   const { useMS } = useSelectMSBox();
 
-  useEffect(() => {
+  const threadFilter = (
+    threads: ThreadType[],
+    tState: ThreadState,
+    useMS: number[]
+  ) => {
     let tmp = threads;
-    if (threadState.gameMode !== "何でも") {
+    if (tState.gameMode !== "何でも") {
       tmp = tmp.filter(
-        (t) => t.gameMode === threadState.gameMode || t.gameMode === "何でも"
+        (t) => t.gameMode === tState.gameMode || t.gameMode === "何でも"
       );
     }
-    if (threadState.startedAt !== null) {
-      tmp = tmp.filter((t) => t.startedAt >= threadState.startedAt!);
+    if (tState.startedAt !== null) {
+      tmp = tmp.filter((t) => t.startedAt >= tState.startedAt!);
     }
-    if (threadState.finishedAt !== null) {
-      tmp = tmp.filter((t) => t.finishedAt >= threadState.finishedAt!);
+    if (tState.finishedAt !== null) {
+      tmp = tmp.filter((t) => t.finishedAt >= tState.finishedAt!);
     }
-    if (threadState.position !== "どちらでも") {
+    if (tState.position !== "どちらでも") {
       tmp = tmp.filter(
-        (t) =>
-          t.position === threadState.position || t.position === "どちらでも"
+        (t) => t.position === tState.position || t.position === "どちらでも"
       );
     }
-    if (threadState.playStyle !== "どちらでも") {
+    if (tState.playStyle !== "どちらでも") {
       tmp = tmp.filter(
-        (t) =>
-          t.playStyle === threadState.playStyle || t.playStyle === "どちらでも"
+        (t) => t.playStyle === tState.playStyle || t.playStyle === "どちらでも"
       );
     }
     if (useMS.length) {
@@ -59,7 +66,7 @@ export const useThreads = (fallbackData: ThreadType[]) => {
         (t) => t.useMS.some((ms) => useMS.includes(ms)) || t.useMS.length === 0
       );
     }
-    if (threadState.sortDesc) {
+    if (tState.sortDesc) {
       tmp = tmp.sort((a, b) => {
         if (a.startedAt > b.startedAt) return -1;
         if (a.startedAt > b.startedAt) return 1;
@@ -72,12 +79,16 @@ export const useThreads = (fallbackData: ThreadType[]) => {
         return 0;
       });
     }
-    setResult(tmp);
+    return tmp;
+  };
+
+  const filterResult = useMemo(() => {
+    return threadFilter(threads, threadState, useMS);
   }, [useMS, threadState, threads]);
 
   return {
     threads,
-    result,
+    filterResult,
     isLoadingThreads: !error && !data,
     isErrorThreads: error,
     threadState,
