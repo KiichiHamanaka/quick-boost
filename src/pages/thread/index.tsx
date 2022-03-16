@@ -132,9 +132,11 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
             </Button>
           </Grid>
         </Grid>
-        <ShowMSImage
-          MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
-        />
+        {!!useMS.length && (
+          <ShowMSImage
+            MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+          />
+        )}
         <div>
           {result.length
             ? result.map((thread, idx) => {

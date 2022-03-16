@@ -4,11 +4,6 @@ import Image from "next/image";
 import React from "react";
 import { MobileSuit, MSImagePath } from "../types/MobileSuit";
 
-// type PickUser = Pick<
-//   User,
-//   "twitterId" | "name" | "grade" | "rank" | "favoriteMS" | "bio"
-// >;
-
 type UserProps = {
   twitterId: string;
   name: string;

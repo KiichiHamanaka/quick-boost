@@ -8,7 +8,7 @@ import { GameMode, PlayStyle, Position, ThreadStyle } from "../../types/Union";
 import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import { Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
 import { createThread } from "../api/create";
 import { GetServerSideProps } from "next";
@@ -82,73 +82,86 @@ const ThreadNew: React.FC<Props> = ({ fallbackData }) => {
     <NotSignIn>
       <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography>スレッド名</Typography>
-        <RhfTextInput
-          name={"title"}
-          control={control}
-          placeholder={"スレッド名"}
-        />
-        <Typography>本文</Typography>
-        <RhfTextInput name={"body"} control={control} placeholder={"本文"} />
-        <Typography>プレイスタイル</Typography>
-        <RhfSelectInput
-          name={"playStyle"}
-          control={control}
-          menuItem={playStyle}
-          defaultValue={playStyle[0]}
-          helperText={"playStyle"}
-        />
-        <Typography>スレッドスタイル</Typography>
-        <RhfSelectInput
-          name={"threadStyle"}
-          control={control}
-          menuItem={threadStyle}
-          defaultValue={threadStyle[0]}
-          helperText={"threadStyle"}
-        />
-        <Typography>ゲームモード</Typography>
-        <RhfSelectInput
-          name={"gameMode"}
-          control={control}
-          menuItem={gameMode}
-          defaultValue={gameMode[0]}
-          helperText={"gameMode"}
-        />
-        <Typography>VC有無</Typography>
-        <RhfSwitch name={"isVC"} control={control} defaultValue={false} />
-        <Typography>タッグコード</Typography>
-        <RhfTextInput
-          name={"tagCode"}
-          control={control}
-          placeholder={"タッグコード"}
-        />
-        <Button onClick={() => setIsShowMSBOX(true)}>募集MS選択</Button>
-        {!!useMS.length && (
-          <ShowMSImage
-            MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Typography>スレッド名</Typography>
+            <RhfTextInput
+              name={"title"}
+              control={control}
+              placeholder={"スレッド名"}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography>本文</Typography>
+            <RhfTextInput
+              name={"body"}
+              control={control}
+              placeholder={"本文"}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography>プレイスタイル</Typography>
+            <RhfSelectInput
+              name={"playStyle"}
+              control={control}
+              menuItem={playStyle}
+              defaultValue={playStyle[0]}
+              helperText={"playStyle"}
+            />
+          </Grid>
+
+          <Typography>スレッドスタイル</Typography>
+          <RhfSelectInput
+            name={"threadStyle"}
+            control={control}
+            menuItem={threadStyle}
+            defaultValue={threadStyle[0]}
+            helperText={"threadStyle"}
           />
-        )}
-        <Typography>立ち回り</Typography>
-        <RhfSelectInput
-          name={"position"}
-          control={control}
-          menuItem={position}
-          defaultValue={position[0]}
-          helperText={"立ち回り"}
-        />
-        <RhfDatePicker
-          name={"startedAt"}
-          control={control}
-          label={"開始日時"}
-          defaultValue={new Date()}
-        />
-        <RhfDatePicker
-          name={"finishedAt"}
-          control={control}
-          label={"終了日時"}
-          defaultValue={new Date()}
-        />
-        <Button type="submit">送信</Button>
+          <Typography>ゲームモード</Typography>
+          <RhfSelectInput
+            name={"gameMode"}
+            control={control}
+            menuItem={gameMode}
+            defaultValue={gameMode[0]}
+            helperText={"gameMode"}
+          />
+          <Typography>VC有無</Typography>
+          <RhfSwitch name={"isVC"} control={control} defaultValue={false} />
+          <Typography>タッグコード</Typography>
+          <RhfTextInput
+            name={"tagCode"}
+            control={control}
+            placeholder={"タッグコード"}
+          />
+          <Button onClick={() => setIsShowMSBOX(true)}>募集MS選択</Button>
+          {!!useMS.length && (
+            <ShowMSImage
+              MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+            />
+          )}
+          <Typography>立ち回り</Typography>
+          <RhfSelectInput
+            name={"position"}
+            control={control}
+            menuItem={position}
+            defaultValue={position[0]}
+            helperText={"立ち回り"}
+          />
+          <RhfDatePicker
+            name={"startedAt"}
+            control={control}
+            label={"開始日時"}
+            defaultValue={new Date()}
+          />
+          <RhfDatePicker
+            name={"finishedAt"}
+            control={control}
+            label={"終了日時"}
+            defaultValue={new Date()}
+          />
+          <Button type="submit">送信</Button>
+        </Grid>
       </form>
     </NotSignIn>
   );
