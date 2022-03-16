@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { css, SerializedStyles } from "@emotion/react";
 import {
   findSeriesFromSeriesID,
@@ -29,7 +29,7 @@ const SeriesImageStyle = css`
   height: 52px;
 `;
 
-const MSList = (props: Props) => {
+const MSList: React.FC<Props> = (props) => {
   const { dispatch } = useSelectMSBox();
 
   const GroupedMS: MobileSuit[][] = useMemo(() => {
@@ -90,4 +90,4 @@ const MSList = (props: Props) => {
   );
 };
 
-export default React.memo(MSList);
+export default memo(MSList);
