@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typedoc": "typedoc --out ./docs/ ./src/"
   },
   "preinstall": "typesync || :",
   "dependencies": {
@@ -32,6 +33,7 @@
     "react-hook-form": "^7.27.1",
     "react-loader-spinner": "^6.0.0-0",
     "swr": "^1.2.2",
+    "typedoc": "^0.22.13",
     "typesync": "^0.8.0",
     "uuid": "^8.3.2"
   },
