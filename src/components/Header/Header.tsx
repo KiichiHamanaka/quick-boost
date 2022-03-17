@@ -14,36 +14,34 @@ const Header = () => {
   const loading = status === "loading";
   if (loading) return null;
   return (
-    <div>
+    <AppBar position="static">
       <DrawerNavigator
         session={session}
         setDrawer={setDrawer}
         drawer={drawer}
       />
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            onClick={() => setDrawer(true)}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+      <Toolbar>
+        <IconButton
+          onClick={() => setDrawer(true)}
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Quick-Boost
-          </Typography>
-          {!session && (
-            <Button color="inherit" onClick={() => signIn("twitter")}>
-              ログイン
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Quick-Boost
+        </Typography>
+        {!session && (
+          <Button color="inherit" onClick={() => signIn("twitter")}>
+            ログイン
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 
