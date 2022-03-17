@@ -1,10 +1,9 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React from "react";
 import { useComments } from "../hooks/swrHooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createComment } from "../pages/api/create";
 import mongoose from "mongoose";
-import { useSession } from "next-auth/react";
 
 import { UserType } from "../types/UserType";
 import { Oval } from "react-loader-spinner";

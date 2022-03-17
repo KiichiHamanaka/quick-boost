@@ -6,7 +6,7 @@ type props = {
 };
 
 const NotSignIn: React.FC<props> = ({ children }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return session ? (
     <div>{children}</div>

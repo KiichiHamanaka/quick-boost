@@ -1,12 +1,5 @@
-import {
-  GameMode,
-  OpenSNSSettings,
-  PlayStyle,
-  Position,
-  ThreadStyle,
-} from "../Union";
+import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
 import mongoose from "mongoose";
-import { UserType } from "../UserType";
 
 interface UserCreateDTO {
   threadAuthor: mongoose.Types.ObjectId;

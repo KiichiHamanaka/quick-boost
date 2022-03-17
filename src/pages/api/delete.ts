@@ -1,8 +1,6 @@
 import axios from "axios";
 import UserCreateDTO from "../../types/dto/UserCreateDTO";
 import CommentCreateDTO from "../../types/dto/CommentCreateDTO";
-import ThreadCreateDTO from "../../types/dto/ThreadCreateDTO";
-import Thread from "../../db/models/Thread";
 
 export const deleteUser = (user: UserCreateDTO) => {
   axios.post("/api/user", user).then((res) => {

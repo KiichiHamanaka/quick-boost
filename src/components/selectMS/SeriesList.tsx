@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { Dispatch } from "react";
+import React from "react";
 import { Series, seriesImagePath } from "../../types/Series";
 import { SeriesDict } from "../../db/data/SeriesDict";
 import { nonNullable } from "../../types/util";

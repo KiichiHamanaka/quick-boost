@@ -1,5 +1,4 @@
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
-import { UserType } from "../UserType";
 import mongoose from "mongoose";
 
 export interface ThreadType {

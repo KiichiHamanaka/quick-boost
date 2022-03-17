@@ -4,7 +4,7 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import DateAdapter from "@mui/lab/AdapterDayjs";
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import React from "react";
 
