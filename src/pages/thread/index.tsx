@@ -5,24 +5,16 @@ import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
-import {
-  Alert,
-  AlertColor,
-  AlertTitle,
-  Button,
-  Grid,
-  SelectChangeEvent,
-} from "@mui/material";
-import InputBox from "../../components/InputBox";
+import { Alert, AlertColor, AlertTitle, Fab, Grid } from "@mui/material";
 import ShowMSImage from "../../components/selectMS/showMSImager";
-import { GameMode, PlayStyle, Position } from "../../types/Union";
 import { GetServerSideProps } from "next";
 import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
 import connectDB from "../../db/connectDB";
 import { useRouter } from "next/router";
 import { Oval } from "react-loader-spinner";
-import { gameMode, playStyle, position } from "../../db/data/FormItems";
+import ThreadsFilterDialog from "../../components/dialog/ThreadsFilterDialog";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface Props {
   fallbackData: ThreadType[];
@@ -43,37 +35,24 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+  const [isShowFilterDialog, setIsShowFilterDialog] = useState<boolean>(false);
+  const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!!Object.keys(query).length) setIsShowAlert(true);
     dispatch({ type: "useMS", useMS: "reset" });
   }, []);
 
-  const gameModeHandleChange = (event: SelectChangeEvent) => {
-    threadDispatch({
-      type: "gameMode",
-      gameMode: event.target.value as GameMode,
-    });
-  };
-  const positionHandleChange = (event: SelectChangeEvent) => {
-    threadDispatch({
-      type: "position",
-      position: event.target.value as Position,
-    });
-  };
-
-  const playStyleHandleChange = (event: SelectChangeEvent) => {
-    threadDispatch({
-      type: "playStyle",
-      playStyle: event.target.value as PlayStyle,
-    });
-  };
+  useEffect(() => {
+    setTimeout(() => setIsShowAlert(false), 3000);
+  }, [isShowAlert]);
 
   if (isErrorThreads) return <div>なんかおかしいわ</div>;
   if (isLoadingThreads) {
     return <Oval color="#00BFFF" height={80} width={80} />;
   } else {
     return (
-      <Grid>
+      <div>
         <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
         <DateSearchDialog
           setOpen={setIsShowDateSearchDialog}
@@ -81,70 +60,57 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           state={threadState}
           dispatch={threadDispatch}
         />
-        {!!Object.keys(query).length && (
-          <Alert severity={query.severity as AlertColor}>
+        <ThreadsFilterDialog
+          open={isShowFilterDialog}
+          setOpen={setIsShowFilterDialog}
+          setIsShowDateSearchDialog={setIsShowDateSearchDialog}
+          setIsShowMSBOX={setIsShowMSBOX}
+          threadDispatch={threadDispatch}
+        />
+        {!!Object.keys(query).length && isShowAlert && (
+          <Alert
+            sx={{
+              position: "fixed",
+              top: 80,
+              right: 16,
+            }}
+            severity={query.severity as AlertColor}
+          >
             <AlertTitle>{query.alertTitle}</AlertTitle>
             {query.alertDesc}
           </Alert>
         )}
-        <Grid container spacing={2}>
-          <Grid item>
-            <InputBox
-              labelName={"プレイスタイル"}
-              menuItem={playStyle}
-              handleChange={playStyleHandleChange}
-              dv={playStyle[0]}
-            />
-          </Grid>
-          <Grid item>
-            <InputBox
-              labelName={"ゲームモード"}
-              menuItem={gameMode}
-              handleChange={gameModeHandleChange}
-              dv={gameMode[0]}
-            />
-          </Grid>
-          <Grid item>
-            <InputBox
-              labelName={"立ち回り"}
-              menuItem={position}
-              handleChange={positionHandleChange}
-              dv={position[0]}
-            />
-          </Grid>
-          <Grid item>
-            <Button onClick={() => setIsShowMSBOX(true)}>MS検索</Button>
-          </Grid>
-          <Grid item>
-            <Button onClick={() => setIsShowDateSearchDialog(true)}>
-              日付検索
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              onClick={() =>
-                threadDispatch({
-                  type: "sortDesc",
-                })
-              }
-            >
-              ソート順
-            </Button>
-          </Grid>
-        </Grid>
         {!!useMS.length && (
           <ShowMSImage
             MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
           />
         )}
-        <div>
-          {filterResult.length
-            ? filterResult.map((thread, idx) => {
-                return <ThreadCard key={idx} thread={thread} />;
-              })
-            : "検索条件に沿う募集は見つかりませんでした"}
-        </div>
-      </Grid>
+        <Grid container justifyContent={"center"}>
+          <Grid container wrap={"wrap"} direction="row" p={2} spacing={2}>
+            {filterResult.length
+              ? filterResult.map((thread, idx) => {
+                  return (
+                    <Grid key={idx} item xs={12} sm={6}>
+                      <ThreadCard thread={thread} />
+                    </Grid>
+                  );
+                })
+              : "検索条件に沿う募集は見つかりませんでした"}
+          </Grid>
+        </Grid>
+
+        <Fab
+          color="primary"
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            right: 16,
+          }}
+          onClick={() => setIsShowFilterDialog(true)}
+        >
+          <SearchIcon />
+        </Fab>
+      </div>
     );
   }
 };

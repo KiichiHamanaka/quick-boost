@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { MsBoxContext } from "../contexts/msBoxContext";
+import { MsBoxContext } from "../contexts/MsBoxContext";
 import { msBoxInitialState } from "../reducers/selectMSBox";
 
 const UseSelectMSBox = () => {
