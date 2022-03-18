@@ -27,6 +27,58 @@ type ThreadProps = {
   thread: ThreadType;
 };
 
+type MSImageBoxProps = {
+  title: string;
+  cardHeight: number;
+  useMS: number[];
+  RenderMSNum: number;
+};
+
+const MSImageBox = (props: MSImageBoxProps) => {
+  console.log(props.useMS);
+  return (
+    <Box sx={{ height: props.cardHeight / 2 }}>
+      <Typography>{props.title}</Typography>
+      {props.useMS.length > props.RenderMSNum ? (
+        <Box>
+          {props.useMS
+            .filter((ms, idx) => idx < props.RenderMSNum)
+            .map((ms, idx) => (
+              <Image
+                key={idx}
+                src={MSImagePath(findMobileSuitFromMSID(ms))}
+                alt={findMobileSuitFromMSID(ms).name}
+                loading={"lazy"}
+                width={106}
+                height={52}
+              />
+            ))}
+          <Image
+            src={"/assets/Image/MS/etc/many.png"}
+            alt={"too many"}
+            loading={"lazy"}
+            width={106}
+            height={52}
+          />
+        </Box>
+      ) : props.useMS.length ? (
+        props.useMS.map((ms, idx) => (
+          <Image
+            key={idx}
+            src={MSImagePath(findMobileSuitFromMSID(ms))}
+            alt={findMobileSuitFromMSID(ms).name}
+            loading={"lazy"}
+            width={106}
+            height={52}
+          />
+        ))
+      ) : (
+        <Typography>合わせます</Typography>
+      )}
+    </Box>
+  );
+};
+
 const ThreadCard = (props: ThreadProps) => {
   const bgColor = (ps: PlayStyle) => {
     switch (ps) {
@@ -69,13 +121,21 @@ const ThreadCard = (props: ThreadProps) => {
               <Typography component="div" variant="h5">
                 {props.thread.title}
               </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                {props.thread.threadAuthor._id}
-              </Typography>
+              <Link href={`/user/${props.thread.threadAuthor._id}`} passHref>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  {"name" in props.thread.threadAuthor
+                    ? props.thread.threadAuthor.name
+                    : "None"}
+                  @
+                  {"twitterId" in props.thread.threadAuthor
+                    ? props.thread.threadAuthor.twitterId
+                    : "None"}
+                </Typography>
+              </Link>
               {props.thread.isPlaying ? (
                 <Typography>現在プレイ中！</Typography>
               ) : (
@@ -104,84 +164,18 @@ const ThreadCard = (props: ThreadProps) => {
             xs={6}
             md={6}
           >
-            <Box sx={{ height: CardHeight / 2 }}>
-              <Typography>スレ主使用機体</Typography>
-              {props.thread.useMS.length > RenderMSNum ? (
-                <Box>
-                  {props.thread.useMS
-                    .filter((ms, idx) => idx < RenderMSNum)
-                    .map((ms, idx) => (
-                      <Image
-                        key={idx}
-                        src={MSImagePath(findMobileSuitFromMSID(ms))}
-                        alt={findMobileSuitFromMSID(ms).name}
-                        loading={"lazy"}
-                        width={106}
-                        height={52}
-                      />
-                    ))}
-                  <Image
-                    src={"/assets/Image/MS/etc/many.png"}
-                    alt={"too many"}
-                    loading={"lazy"}
-                    width={106}
-                    height={52}
-                  />
-                </Box>
-              ) : props.thread.useMS.length ? (
-                props.thread.useMS.map((ms, idx) => (
-                  <Image
-                    key={idx}
-                    src={MSImagePath(findMobileSuitFromMSID(ms))}
-                    alt={findMobileSuitFromMSID(ms).name}
-                    loading={"lazy"}
-                    width={106}
-                    height={52}
-                  />
-                ))
-              ) : (
-                <Typography>合わせます</Typography>
-              )}
-            </Box>
-            <Box sx={{ height: CardHeight / 2 }}>
-              <Typography>募集機体</Typography>
-              {props.thread.useMS.length > RenderMSNum ? (
-                <Box>
-                  {props.thread.useMS
-                    .filter((ms, idx) => idx < RenderMSNum)
-                    .map((ms, idx) => (
-                      <Image
-                        key={idx}
-                        src={MSImagePath(findMobileSuitFromMSID(ms))}
-                        alt={findMobileSuitFromMSID(ms).name}
-                        loading={"lazy"}
-                        width={106}
-                        height={52}
-                      />
-                    ))}
-                  <Image
-                    src={"/assets/Image/MS/etc/many.png"}
-                    alt={"too many"}
-                    loading={"lazy"}
-                    width={106}
-                    height={52}
-                  />
-                </Box>
-              ) : props.thread.useMS.length ? (
-                props.thread.useMS.map((ms, idx) => (
-                  <Image
-                    key={idx}
-                    src={MSImagePath(findMobileSuitFromMSID(ms))}
-                    alt={findMobileSuitFromMSID(ms).name}
-                    loading={"lazy"}
-                    width={106}
-                    height={52}
-                  />
-                ))
-              ) : (
-                <Typography>合わせます</Typography>
-              )}
-            </Box>
+            <MSImageBox
+              title={"スレ主使用機体"}
+              useMS={props.thread.useMS}
+              RenderMSNum={RenderMSNum}
+              cardHeight={CardHeight}
+            />
+            <MSImageBox
+              title={"募集機体"}
+              useMS={props.thread.partnerUseMS}
+              RenderMSNum={RenderMSNum}
+              cardHeight={CardHeight}
+            />
           </Grid>
         </Grid>
       </Card>
