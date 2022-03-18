@@ -7,13 +7,15 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { SeriesDict } from "../../db/data/SeriesDict";
-import React from "react";
-import useSelectMSBox from "../../hooks/useSelectMSBox";
-import { MsBoxContext } from "../../contexts/MsBoxContext";
-import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
+import React, { Dispatch } from "react";
+import { MSBoxAction, msBoxState } from "../../reducers/selectMSBox";
 
-const SeriesInputBox = () => {
-  const { state, dispatch } = useSelectMSBox(MsBoxContext, PartnerMsBoxContext);
+type Props = {
+  state: msBoxState;
+  dispatch: Dispatch<MSBoxAction>;
+};
+
+const SeriesInputBox: React.FC<Props> = ({ state, dispatch }) => {
   const handleChange = (event: SelectChangeEvent) => {
     event.target.value === "ALL"
       ? dispatch({ type: "seriesId", seriesId: event.target.value })

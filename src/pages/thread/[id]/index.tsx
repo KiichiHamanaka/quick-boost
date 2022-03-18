@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AlertDialog from "../../../components/dialog/AlertDialog";
 import { findMobileSuitFromMSID, MSImagePath } from "../../../types/MobileSuit";
-import { AlertColor, Box, Button, Paper, Typography } from "@mui/material";
+import { AlertColor, Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import connectDB from "../../../db/connectDB";
 import { useRouter } from "next/router";
