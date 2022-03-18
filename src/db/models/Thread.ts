@@ -12,6 +12,7 @@ export interface Thread extends Document {
   isVC: boolean;
   isPlaying: boolean;
   useMS: Array<number>;
+  partnerUseMS: Array<number>;
   position: Position;
   gameMode: GameMode;
   comments: Comment;
@@ -37,6 +38,7 @@ export const ThreadSchema: Schema = new Schema(
     isPlaying: { type: Boolean, required: true },
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     useMS: [{ type: Number }],
+    partnerUseMS: [{ type: Number }],
     position: {
       type: String,
       enum: ["前衛", "後衛", "どちらでも"],
