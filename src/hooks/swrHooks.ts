@@ -11,6 +11,8 @@ import {
 } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
 import dayjs from "dayjs";
+import { MsBoxContext } from "../contexts/MsBoxContext";
+import { PartnerMsBoxContext } from "../contexts/PartnerMsBoxContext";
 
 export const useThread = (tid: string) => {
   const { data, error } = useSWR(`/api/thread/${tid}`, fetcher.fetchGet);
@@ -33,8 +35,10 @@ export const useThreads = (fallbackData: ThreadType[]) => {
     threadReducer,
     threadInitialState
   );
-  const { useMS } = useSelectMSBox();
-
+  const { useMS, partnerUseMS } = useSelectMSBox(
+    MsBoxContext,
+    PartnerMsBoxContext
+  );
   const threadFilter = (
     threads: ThreadType[],
     tState: ThreadState,
@@ -63,6 +67,11 @@ export const useThreads = (fallbackData: ThreadType[]) => {
       );
     }
     if (useMS.length) {
+      tmp = tmp.filter(
+        (t) => t.useMS.some((ms) => useMS.includes(ms)) || t.useMS.length === 0
+      );
+    }
+    if (partnerUseMS.length) {
       tmp = tmp.filter(
         (t) => t.useMS.some((ms) => useMS.includes(ms)) || t.useMS.length === 0
       );

@@ -7,7 +7,7 @@ import {
 } from "../reducers/selectMSBox";
 
 export const PartnerMsBoxContext = createContext(
-  {} as { state: msBoxState; dispatch: Dispatch<MSBoxAction> }
+  {} as { partnerState: msBoxState; partnerDispatch: Dispatch<MSBoxAction> }
 );
 
 type props = {
@@ -15,9 +15,12 @@ type props = {
 };
 
 const PartnerMsBoxContextProvider: React.FC<props> = ({ children }) => {
-  const [state, dispatch] = useReducer(msBoxReducer, msBoxInitialState);
+  const [partnerState, partnerDispatch] = useReducer(
+    msBoxReducer,
+    msBoxInitialState
+  );
   return (
-    <PartnerMsBoxContext.Provider value={{ state, dispatch }}>
+    <PartnerMsBoxContext.Provider value={{ partnerState, partnerDispatch }}>
       {children}
     </PartnerMsBoxContext.Provider>
   );

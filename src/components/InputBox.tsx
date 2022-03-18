@@ -12,7 +12,7 @@ type Props<T, U> = {
 
 const InputBox = (props: Props<any, any>) => {
   return (
-    <Box sx={{ minWidth: "200px" }}>
+    <Box sx={{ minWidth: "150px" }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{props.labelName}</InputLabel>
         <Select

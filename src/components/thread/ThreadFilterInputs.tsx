@@ -8,6 +8,7 @@ import { ThreadAction } from "../../reducers/thread";
 type Props = {
   threadDispatch: Dispatch<ThreadAction>;
   setIsShowMSBOX: any;
+  setIsShowPartnerMSBOX: any;
   setIsShowDateSearchDialog: any;
 };
 
@@ -18,6 +19,7 @@ const ButtonStyles = {
 const ThreadFilterInputs: React.FC<Props> = ({
   threadDispatch,
   setIsShowMSBOX,
+  setIsShowPartnerMSBOX,
   setIsShowDateSearchDialog,
 }) => {
   const gameModeHandleChange = (event: SelectChangeEvent) => {
@@ -103,7 +105,7 @@ const ThreadFilterInputs: React.FC<Props> = ({
           <Button
             sx={ButtonStyles}
             variant="contained"
-            onClick={() => setIsShowMSBOX(true)}
+            onClick={() => setIsShowPartnerMSBOX(true)}
           >
             相方MS検索
           </Button>

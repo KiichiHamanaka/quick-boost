@@ -6,6 +6,7 @@ import { ThreadAction } from "../../reducers/thread";
 type Props = {
   threadDispatch: Dispatch<ThreadAction>;
   setIsShowMSBOX: (bool: boolean) => void;
+  setIsShowPartnerMSBOX: (bool: boolean) => void;
   setIsShowDateSearchDialog: (bool: boolean) => void;
   open: boolean;
   setOpen: (bool: boolean) => void;
@@ -14,6 +15,7 @@ type Props = {
 const ThreadsFilterDialog: React.FC<Props> = ({
   threadDispatch,
   setIsShowMSBOX,
+  setIsShowPartnerMSBOX,
   setIsShowDateSearchDialog,
   open,
   setOpen,
@@ -34,6 +36,7 @@ const ThreadsFilterDialog: React.FC<Props> = ({
             threadDispatch={threadDispatch}
             setIsShowMSBOX={setIsShowMSBOX}
             setIsShowDateSearchDialog={setIsShowDateSearchDialog}
+            setIsShowPartnerMSBOX={setIsShowPartnerMSBOX}
           />
         </Stack>
       </DialogContent>

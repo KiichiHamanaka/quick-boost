@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import MSDialog from "../../components/dialog/MSSearchDialog";
+import MSSearchDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
 import { AlertColor, Fab, Grid } from "@mui/material";
 import { GetServerSideProps } from "next";
@@ -15,6 +15,8 @@ import ThreadsFilterDialog from "../../components/dialog/ThreadsFilterDialog";
 import SearchIcon from "@mui/icons-material/Search";
 import NotifyAlert from "../../components/Alert/NotifyAlert";
 import Head from "next/head";
+import { MsBoxContext } from "../../contexts/MsBoxContext";
+import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
 
 interface Props {
   fallbackData: ThreadType[];
@@ -28,19 +30,24 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     isErrorThreads,
     threadDispatch,
   } = useThreads(fallbackData);
-  const { dispatch } = useSelectMSBox();
+  const { dispatch, partnerDispatch } = useSelectMSBox(
+    MsBoxContext,
+    PartnerMsBoxContext
+  );
 
   const router = useRouter();
   const query = router.query;
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+  const [isShowPartnerMSBOX, setIsShowPartnerMSBOX] = useState<boolean>(false);
   const [isShowFilterDialog, setIsShowFilterDialog] = useState<boolean>(false);
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
 
   useEffect(() => {
     if (!!Object.keys(query).length) setIsShowAlert(true);
     dispatch({ type: "useMS", useMS: "reset" });
+    partnerDispatch({ type: "useMS", useMS: "reset" });
   }, []);
 
   useEffect(() => {
@@ -60,7 +67,18 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
+        <MSSearchDialog
+          setOpen={setIsShowMSBOX}
+          open={isShowMSBOX}
+          dispatch={dispatch}
+          whichOne={"self"}
+        />
+        <MSSearchDialog
+          setOpen={setIsShowPartnerMSBOX}
+          open={isShowPartnerMSBOX}
+          dispatch={partnerDispatch}
+          whichOne={"partner"}
+        />
         <DateSearchDialog
           setOpen={setIsShowDateSearchDialog}
           open={isShowDateSearchDialog}
@@ -72,6 +90,7 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           setOpen={setIsShowFilterDialog}
           setIsShowDateSearchDialog={setIsShowDateSearchDialog}
           setIsShowMSBOX={setIsShowMSBOX}
+          setIsShowPartnerMSBOX={setIsShowPartnerMSBOX}
           threadDispatch={threadDispatch}
         />
         {!!Object.keys(query).length && isShowAlert && (
