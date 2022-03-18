@@ -6,14 +6,16 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React from "react";
-import useSelectMSBox from "../../hooks/useSelectMSBox";
+import React, { Dispatch } from "react";
 import { Cost } from "../../types/Union";
-import { MsBoxContext } from "../../contexts/MsBoxContext";
-import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
+import { MSBoxAction, msBoxState } from "../../reducers/selectMSBox";
 
-const CostInputBox = () => {
-  const { state, dispatch } = useSelectMSBox(MsBoxContext, PartnerMsBoxContext);
+type Props = {
+  state: msBoxState;
+  dispatch: Dispatch<MSBoxAction>;
+};
+
+const CostInputBox: React.FC<Props> = ({ state, dispatch }) => {
   const handleChange = (event: SelectChangeEvent) => {
     dispatch({ type: "cost", cost: event.target.value as Cost });
   };

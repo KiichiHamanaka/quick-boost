@@ -89,10 +89,10 @@ export const SelectMobileSuits = (props: Props) => {
   return (
     <Grid container sx={{ display: "flex", flexDirection: "column" }}>
       <Grid item>
-        <SeriesInputBox />
+        <SeriesInputBox state={cState} dispatch={cDispatch} />
       </Grid>
       <Grid item>
-        <CostInputBox />
+        <CostInputBox state={cState} dispatch={cDispatch} />
       </Grid>
       <TextField
         onChange={handleChange}
