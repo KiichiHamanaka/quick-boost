@@ -1,6 +1,6 @@
 import { MobileSuit } from "../../types/MobileSuit";
 
-export const MSDict: { [K in number]: MobileSuit } = {
+export const MSDict: { [K: number]: MobileSuit } = {
   1: {
     id: 1,
     name: "ガンダム",
@@ -1231,4 +1231,46 @@ export const MSDict: { [K in number]: MobileSuit } = {
     cost: "2000",
     series: 2,
   },
+  206: {
+    id: 206,
+    name: "N-EXTREMEガンダム エクスプロージョン",
+    cost: "3000",
+    series: 43,
+  },
+  207: {
+    id: 207,
+    name: "N-EXTREMEガンダム ザナドゥ",
+    cost: "2000",
+    series: 43,
+  },
+  // 208: {
+  //   id: 208,
+  //   name: "random_ALL",
+  //   cost: "RANDOM",
+  //   series: 99,
+  // },
+  // 207: {
+  //   id: 207,
+  //   name: "random_1500",
+  //   cost: "RANDOM",
+  //   series: 99,
+  // },
+  // 208: {
+  //   id: 208,
+  //   name: "random_2000",
+  //   cost: "RANDOM",
+  //   series: 99,
+  // },
+  // 209: {
+  //   id: 209,
+  //   name: "random_2500",
+  //   cost: "RANDOM",
+  //   series: 99,
+  // },
+  // 210: {
+  //   id: 210,
+  //   name: "random_3000",
+  //   cost: "RANDOM",
+  //   series: 99,
+  // },
 };

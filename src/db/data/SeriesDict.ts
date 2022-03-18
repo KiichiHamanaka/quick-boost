@@ -1,6 +1,6 @@
 import { Series } from "../../types/Series";
 
-export const SeriesDict: { [K in number]: Series } = {
+export const SeriesDict: { [K: number]: Series } = {
   1: {
     seriesId: 1,
     name: "first",
@@ -211,4 +211,14 @@ export const SeriesDict: { [K in number]: Series } = {
     name: "exa",
     title: "ガンダムEXA",
   },
+  43: {
+    seriesId: 43,
+    name: "xb",
+    title: "N-EXTREME",
+  },
+  // 99: {
+  //   seriesId: 99,
+  //   name: "etc",
+  //   title: "RANDOM",
+  // },
 };
