@@ -2,9 +2,10 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import MSList from "./selectMS/MSList";
 import useSelectMSBox from "../hooks/useSelectMSBox";
-import { Input } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import SeriesInputBox from "./selectMS/SeriesInputBox";
 import CostInputBox from "./selectMS/CostInputBox";
+import Divider from "@mui/material/Divider";
 
 export const SelectMobileSuits = () => {
   const { state, mobileSuits, useMS, dispatch } = useSelectMSBox();
@@ -36,10 +37,10 @@ export const SelectMobileSuits = () => {
 
   const [isFav, setIsFav] = useState<boolean>(false);
 
-  const [ms, setMS] = useState(mobileSuits.mobileSuits);
+  const [ms, setMS] = useState(state.mobileSuits);
 
   useEffect(() => {
-    let result = mobileSuits.mobileSuits;
+    let result = state.mobileSuits;
     if (state.cost !== "ALL") {
       result = result.filter((m) => m.cost === state.cost);
     }
@@ -54,18 +55,21 @@ export const SelectMobileSuits = () => {
 
   if (loading) return null;
   return (
-    <div>
-      <SeriesInputBox />
-      <CostInputBox />
-      <Input onChange={handleChange} />
+    <Grid container sx={{ display: "flex", flexDirection: "column" }}>
+      <Grid item>
+        <SeriesInputBox />
+      </Grid>
+      <Grid item>
+        <CostInputBox />
+      </Grid>
+      <TextField onChange={handleChange} label="名前検索" variant="outlined" />
+      <Divider variant="middle" />
       {!isFav ? (
         <MSList mobileSuits={ms} useMS={useMS} />
       ) : (
-        // ) : favMS.length ? (
-        //   <MSList mobileSuits={favMS} useMS={useMS} />
         <div>お気に入りMSが登録されていません</div>
       )}
-    </div>
+    </Grid>
   );
 };
 

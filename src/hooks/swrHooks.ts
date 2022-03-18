@@ -3,13 +3,14 @@ import * as fetcher from "../pages/api/fetcher";
 import { UserType } from "../types/UserType";
 import { ThreadType } from "../types/thread/ThreadType";
 import { CommentType } from "../types/thread/CommentType";
-import { useCallback, useMemo, useReducer, useState } from "react";
+import { useMemo, useReducer } from "react";
 import {
   threadInitialState,
   threadReducer,
   ThreadState,
 } from "../reducers/thread";
 import useSelectMSBox from "./useSelectMSBox";
+import dayjs from "dayjs";
 
 export const useThread = (tid: string) => {
   const { data, error } = useSWR(`/api/thread/${tid}`, fetcher.fetchGet);
@@ -46,10 +47,10 @@ export const useThreads = (fallbackData: ThreadType[]) => {
       );
     }
     if (tState.startedAt !== null) {
-      tmp = tmp.filter((t) => t.startedAt >= tState.startedAt!);
+      tmp = tmp.filter((t) => dayjs(t.startedAt).isAfter(tState.startedAt!));
     }
     if (tState.finishedAt !== null) {
-      tmp = tmp.filter((t) => t.finishedAt >= tState.finishedAt!);
+      tmp = tmp.filter((t) => dayjs(t.finishedAt).isBefore(tState.finishedAt!));
     }
     if (tState.position !== "どちらでも") {
       tmp = tmp.filter(

@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Stack,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import ThreadFilterInputs from "../thread/ThreadFilterInputs";
 import React, { Dispatch } from "react";
 import { ThreadAction } from "../../reducers/thread";
@@ -36,9 +30,6 @@ const ThreadsFilterDialog: React.FC<Props> = ({
       <DialogTitle id="scroll-dialog-title">スレッド検索フィルタ</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
-          <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
-            フィルタ条件を選択してください
-          </DialogContentText>
           <ThreadFilterInputs
             threadDispatch={threadDispatch}
             setIsShowMSBOX={setIsShowMSBOX}

@@ -11,6 +11,10 @@ type Props = {
   setIsShowDateSearchDialog: any;
 };
 
+const ButtonStyles = {
+  width: "200px",
+};
+
 const ThreadFilterInputs: React.FC<Props> = ({
   threadDispatch,
   setIsShowMSBOX,
@@ -37,47 +41,95 @@ const ThreadFilterInputs: React.FC<Props> = ({
   };
 
   return (
-    <Grid container justifyContent={"center"} spacing={2}>
-      <Grid item>
-        <InputBox
-          labelName={"プレイスタイル"}
-          menuItem={playStyle}
-          handleChange={playStyleHandleChange}
-          dv={playStyle[0]}
-        />
+    <Grid
+      container
+      sx={{ height: "250px" }}
+      alignItems={"center"}
+      justifyContent={"center"}
+      spacing={2}
+    >
+      <Grid
+        container
+        spacing={2}
+        sx={{ display: "flex", flexDirection: "column" }}
+        xs={6}
+        md={6}
+      >
+        <Grid item>
+          <InputBox
+            labelName={"プレイスタイル"}
+            menuItem={playStyle}
+            handleChange={playStyleHandleChange}
+            dv={playStyle[0]}
+          />
+        </Grid>
+        <Grid item>
+          <InputBox
+            labelName={"ゲームモード"}
+            menuItem={gameMode}
+            handleChange={gameModeHandleChange}
+            dv={gameMode[0]}
+          />
+        </Grid>
+        <Grid item>
+          <InputBox
+            labelName={"立ち回り"}
+            menuItem={position}
+            handleChange={positionHandleChange}
+            dv={position[0]}
+          />
+        </Grid>
       </Grid>
-      <Grid item>
-        <InputBox
-          labelName={"ゲームモード"}
-          menuItem={gameMode}
-          handleChange={gameModeHandleChange}
-          dv={gameMode[0]}
-        />
-      </Grid>
-      <Grid item>
-        <InputBox
-          labelName={"立ち回り"}
-          menuItem={position}
-          handleChange={positionHandleChange}
-          dv={position[0]}
-        />
-      </Grid>
-      <Grid item>
-        <Button onClick={() => setIsShowMSBOX(true)}>使用MS検索</Button>
-      </Grid>
-      <Grid item>
-        <Button onClick={() => setIsShowMSBOX(true)}>相方MS検索</Button>
-      </Grid>
-      <Grid item>
-        <Button
-          onClick={() =>
-            threadDispatch({
-              type: "sortDesc",
-            })
-          }
-        >
-          ソート順
-        </Button>
+      <Grid
+        container
+        sx={{
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        spacing={2}
+        xs={6}
+        md={6}
+      >
+        <Grid item>
+          <Button
+            sx={ButtonStyles}
+            variant="contained"
+            onClick={() => setIsShowMSBOX(true)}
+          >
+            使用MS検索
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={ButtonStyles}
+            variant="contained"
+            onClick={() => setIsShowMSBOX(true)}
+          >
+            相方MS検索
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={ButtonStyles}
+            variant="contained"
+            onClick={() => setIsShowDateSearchDialog(true)}
+          >
+            日付検索
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={ButtonStyles}
+            variant="contained"
+            onClick={() =>
+              threadDispatch({
+                type: "sortDesc",
+              })
+            }
+          >
+            ソート順
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );
