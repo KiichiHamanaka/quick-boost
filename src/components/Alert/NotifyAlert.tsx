@@ -14,6 +14,7 @@ const NotifyAlert: React.FC<Props> = ({ severity, alertTitle, alertDesc }) => {
         position: "fixed",
         top: 80,
         right: 16,
+        zIndex: 999,
       }}
       severity={severity as AlertColor}
     >
