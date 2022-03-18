@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-import React, { memo, useMemo } from "react";
+import React, { Dispatch, memo, useMemo } from "react";
 import { css, SerializedStyles } from "@emotion/react";
 import {
   findSeriesFromSeriesID,
@@ -8,11 +8,12 @@ import {
   seriesImagePath,
 } from "../../types/Series";
 import { Grid } from "@mui/material";
-import useSelectMSBox from "../../hooks/useSelectMSBox";
+import { MSBoxAction } from "../../reducers/selectMSBox";
 
 type Props = {
   mobileSuits: MobileSuit[];
   useMS: number[];
+  dispatch: Dispatch<MSBoxAction>;
 };
 
 const ChosenStyle = (choose: boolean): SerializedStyles => {
@@ -29,19 +30,17 @@ const SeriesImageStyle = css`
   height: 52px;
 `;
 
-const MSList: React.FC<Props> = (props) => {
-  const { dispatch } = useSelectMSBox();
-
+const MSList: React.FC<Props> = ({ mobileSuits, useMS, dispatch }) => {
   const GroupedMS: MobileSuit[][] = useMemo(() => {
     const array: MobileSuit[][] = [];
-    props.mobileSuits.forEach((MS) => {
+    mobileSuits.forEach((MS) => {
       if (array[MS.series - 1] === undefined) {
         array[MS.series - 1] = [];
       }
       array[MS.series - 1].push(MS);
     });
     return array;
-  }, [props.mobileSuits]);
+  }, [mobileSuits]);
 
   return (
     <Grid justifyContent="center" alignItems="center">
@@ -66,7 +65,7 @@ const MSList: React.FC<Props> = (props) => {
                     {MSArray.map((MS, MSKey) => (
                       <div
                         key={MSKey}
-                        css={ChosenStyle(props.useMS.includes(MS.id))}
+                        css={ChosenStyle(useMS.includes(MS.id))}
                         onClick={() =>
                           dispatch({ type: "useMS", useMS: MS.id })
                         }

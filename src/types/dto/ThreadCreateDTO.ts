@@ -9,6 +9,7 @@ interface UserCreateDTO {
   threadStyle: ThreadStyle;
   isVC: boolean;
   useMS: Array<number>;
+  partnerUseMS: Array<number>;
   position: Position;
   gameMode: GameMode;
   tagCode: string;

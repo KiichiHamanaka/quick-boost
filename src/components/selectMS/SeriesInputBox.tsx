@@ -9,9 +9,11 @@ import {
 import { SeriesDict } from "../../db/data/SeriesDict";
 import React from "react";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
+import { MsBoxContext } from "../../contexts/MsBoxContext";
+import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
 
 const SeriesInputBox = () => {
-  const { state, dispatch } = useSelectMSBox();
+  const { state, dispatch } = useSelectMSBox(MsBoxContext, PartnerMsBoxContext);
   const handleChange = (event: SelectChangeEvent) => {
     event.target.value === "ALL"
       ? dispatch({ type: "seriesId", seriesId: event.target.value })

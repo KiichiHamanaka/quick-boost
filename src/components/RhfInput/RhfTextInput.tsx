@@ -8,6 +8,7 @@ import { TextField } from "@mui/material";
 
 type TextAreaProps = {
   placeholder?: string;
+  minRows?: number;
 };
 
 type RhfTextAreaProps<T extends FieldValues> = TextAreaProps &
@@ -15,7 +16,13 @@ type RhfTextAreaProps<T extends FieldValues> = TextAreaProps &
 
 const RhfTextInput = <T extends FieldValues>(props: RhfTextAreaProps<T>) => {
   const { field } = useController<T>(props);
-  return <TextField {...field} />;
+  return (
+    <TextField
+      {...field}
+      placeholder={props.placeholder}
+      minRows={props.minRows}
+    />
+  );
 };
 
 export default RhfTextInput;

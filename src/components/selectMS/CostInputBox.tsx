@@ -9,9 +9,11 @@ import {
 import React from "react";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import { Cost } from "../../types/Union";
+import { MsBoxContext } from "../../contexts/MsBoxContext";
+import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
 
 const CostInputBox = () => {
-  const { state, dispatch } = useSelectMSBox();
+  const { state, dispatch } = useSelectMSBox(MsBoxContext, PartnerMsBoxContext);
   const handleChange = (event: SelectChangeEvent) => {
     dispatch({ type: "cost", cost: event.target.value as Cost });
   };

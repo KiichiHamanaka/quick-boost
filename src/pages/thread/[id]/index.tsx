@@ -1,14 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AlertDialog from "../../../components/dialog/AlertDialog";
 import { findMobileSuitFromMSID, MSImagePath } from "../../../types/MobileSuit";
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { AlertColor, Box, Button, Paper, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import connectDB from "../../../db/connectDB";
 import { useRouter } from "next/router";
@@ -21,6 +14,8 @@ import { getSession } from "next-auth/react";
 import Image from "next/image";
 import User from "../../../db/models/User";
 import { deleteThread } from "../../api/delete";
+import NotifyAlert from "../../../components/Alert/NotifyAlert";
+import Head from "next/head";
 
 interface Props {
   user: UserType;
@@ -44,7 +39,11 @@ const ThreadId = (props: Props) => {
   };
 
   return (
-    <Paper sx={{ border: 0.5 }}>
+    <div>
+      <Head>
+        <title>{thread.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <AlertDialog
         open={editDialog}
         setOpen={setEditDialog}
@@ -72,10 +71,11 @@ const ThreadId = (props: Props) => {
       />
       <NotSignIn>
         {alert && (
-          <Alert severity="info">
-            <AlertTitle>コピー完了</AlertTitle>
-            タッグコードをクリップボードにコピーしました！
-          </Alert>
+          <NotifyAlert
+            severity={"info" as AlertColor}
+            alertTitle={"コピー完了"}
+            alertDesc={"タッグコードをクリップボードにコピーしました"}
+          />
         )}
         <Box>
           {thread.threadAuthor._id === props.user._id && (
@@ -132,7 +132,7 @@ const ThreadId = (props: Props) => {
           <CommentsArea threadID={tid} user={props.user} />
         </Box>
       </NotSignIn>
-    </Paper>
+    </div>
   );
 };
 

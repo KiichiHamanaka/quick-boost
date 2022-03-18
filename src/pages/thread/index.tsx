@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
-import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
-import MSDialog from "../../components/dialog/MSSearchDialog";
+import MSSearchDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
-import { Alert, AlertColor, AlertTitle, Fab, Grid } from "@mui/material";
-import ShowMSImage from "../../components/selectMS/showMSImager";
+import { AlertColor, Fab, Grid } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
@@ -15,6 +13,10 @@ import { useRouter } from "next/router";
 import { Oval } from "react-loader-spinner";
 import ThreadsFilterDialog from "../../components/dialog/ThreadsFilterDialog";
 import SearchIcon from "@mui/icons-material/Search";
+import NotifyAlert from "../../components/Alert/NotifyAlert";
+import Head from "next/head";
+import { MsBoxContext } from "../../contexts/MsBoxContext";
+import { PartnerMsBoxContext } from "../../contexts/PartnerMsBoxContext";
 
 interface Props {
   fallbackData: ThreadType[];
@@ -28,19 +30,24 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     isErrorThreads,
     threadDispatch,
   } = useThreads(fallbackData);
-  const { useMS, dispatch } = useSelectMSBox();
+  const { dispatch, partnerDispatch } = useSelectMSBox(
+    MsBoxContext,
+    PartnerMsBoxContext
+  );
 
   const router = useRouter();
   const query = router.query;
   const [isShowDateSearchDialog, setIsShowDateSearchDialog] =
     useState<boolean>(false);
   const [isShowMSBOX, setIsShowMSBOX] = useState<boolean>(false);
+  const [isShowPartnerMSBOX, setIsShowPartnerMSBOX] = useState<boolean>(false);
   const [isShowFilterDialog, setIsShowFilterDialog] = useState<boolean>(false);
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
 
   useEffect(() => {
     if (!!Object.keys(query).length) setIsShowAlert(true);
     dispatch({ type: "useMS", useMS: "reset" });
+    partnerDispatch({ type: "useMS", useMS: "reset" });
   }, []);
 
   useEffect(() => {
@@ -53,7 +60,25 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   } else {
     return (
       <div>
-        <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
+        <Head>
+          <title>相方検索</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <MSSearchDialog
+          setOpen={setIsShowMSBOX}
+          open={isShowMSBOX}
+          dispatch={dispatch}
+          whichOne={"self"}
+        />
+        <MSSearchDialog
+          setOpen={setIsShowPartnerMSBOX}
+          open={isShowPartnerMSBOX}
+          dispatch={partnerDispatch}
+          whichOne={"partner"}
+        />
         <DateSearchDialog
           setOpen={setIsShowDateSearchDialog}
           open={isShowDateSearchDialog}
@@ -65,24 +90,14 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           setOpen={setIsShowFilterDialog}
           setIsShowDateSearchDialog={setIsShowDateSearchDialog}
           setIsShowMSBOX={setIsShowMSBOX}
+          setIsShowPartnerMSBOX={setIsShowPartnerMSBOX}
           threadDispatch={threadDispatch}
         />
         {!!Object.keys(query).length && isShowAlert && (
-          <Alert
-            sx={{
-              position: "fixed",
-              top: 80,
-              right: 16,
-            }}
+          <NotifyAlert
             severity={query.severity as AlertColor}
-          >
-            <AlertTitle>{query.alertTitle}</AlertTitle>
-            {query.alertDesc}
-          </Alert>
-        )}
-        {!!useMS.length && (
-          <ShowMSImage
-            MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+            alertTitle={query.alertTitle as string}
+            alertDesc={query.alertDesc as string}
           />
         )}
         <Grid container justifyContent={"center"}>

@@ -1,9 +1,10 @@
 import { GameMode, PlayStyle, Position, ThreadStyle } from "../Union";
 import mongoose from "mongoose";
+import { UserType } from "../UserType";
 
 export interface ThreadType {
   _id: mongoose.Types.ObjectId;
-  threadAuthor: mongoose.Types.ObjectId;
+  threadAuthor: mongoose.Types.ObjectId | UserType;
   title: string;
   body: string;
   playStyle: PlayStyle;
@@ -11,6 +12,7 @@ export interface ThreadType {
   isVC: boolean;
   isPlaying: boolean;
   useMS: Array<number>;
+  partnerUseMS: Array<number>;
   position: Position;
   gameMode: GameMode;
   tagCode: string;

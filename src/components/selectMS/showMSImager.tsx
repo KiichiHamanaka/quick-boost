@@ -1,27 +1,20 @@
 import Image from "next/image";
 import { MobileSuit, MSImagePath } from "../../types/MobileSuit";
-import React from "react";
+import React, { Dispatch } from "react";
 
-import { Grid, Paper } from "@mui/material";
-import useSelectMSBox from "../../hooks/useSelectMSBox";
+import { Card, Grid } from "@mui/material";
+import { MSBoxAction } from "../../reducers/selectMSBox";
 
 type Props = {
   MobileSuits: MobileSuit[];
+  dispatch: Dispatch<MSBoxAction>;
 };
 
-const indexCard = {
-  minWidth: "auto",
-  boxShadow: 1,
-  borderRadius: 0.5,
-  border: 0.5,
-};
-
-const ShowMSImage = (props: Props) => {
-  const { dispatch } = useSelectMSBox();
+const ShowMSImage: React.FC<Props> = ({ MobileSuits, dispatch }) => {
   return (
-    <Paper sx={indexCard}>
+    <Card>
       <Grid justifyContent="center" alignItems="center">
-        {props.MobileSuits.map((ms, idx) => (
+        {MobileSuits.map((ms, idx) => (
           <Image
             key={idx}
             src={MSImagePath(ms)}
@@ -33,7 +26,7 @@ const ShowMSImage = (props: Props) => {
           />
         ))}
       </Grid>
-    </Paper>
+    </Card>
   );
 };
 
