@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ThreadCard from "../../components/ThreadCard";
 import { useThreads } from "../../hooks/swrHooks";
-import { findMobileSuitFromMSID } from "../../types/MobileSuit";
 import useSelectMSBox from "../../hooks/useSelectMSBox";
 import MSDialog from "../../components/dialog/MSSearchDialog";
 import DateSearchDialog from "../../components/dialog/DateSearchDialog";
-import { Alert, AlertColor, AlertTitle, Fab, Grid } from "@mui/material";
-import ShowMSImage from "../../components/selectMS/showMSImager";
+import { AlertColor, Fab, Grid } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { ThreadType } from "../../types/thread/ThreadType";
 import Thread from "../../db/models/Thread";
@@ -15,6 +13,8 @@ import { useRouter } from "next/router";
 import { Oval } from "react-loader-spinner";
 import ThreadsFilterDialog from "../../components/dialog/ThreadsFilterDialog";
 import SearchIcon from "@mui/icons-material/Search";
+import NotifyAlert from "../../components/Alert/NotifyAlert";
+import Head from "next/head";
 
 interface Props {
   fallbackData: ThreadType[];
@@ -28,7 +28,7 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
     isErrorThreads,
     threadDispatch,
   } = useThreads(fallbackData);
-  const { useMS, dispatch } = useSelectMSBox();
+  const { dispatch } = useSelectMSBox();
 
   const router = useRouter();
   const query = router.query;
@@ -53,6 +53,13 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
   } else {
     return (
       <div>
+        <Head>
+          <title>相方検索</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
         <MSDialog setOpen={setIsShowMSBOX} open={isShowMSBOX} />
         <DateSearchDialog
           setOpen={setIsShowDateSearchDialog}
@@ -68,21 +75,10 @@ const ThreadIndex: React.FC<Props> = ({ fallbackData }) => {
           threadDispatch={threadDispatch}
         />
         {!!Object.keys(query).length && isShowAlert && (
-          <Alert
-            sx={{
-              position: "fixed",
-              top: 80,
-              right: 16,
-            }}
+          <NotifyAlert
             severity={query.severity as AlertColor}
-          >
-            <AlertTitle>{query.alertTitle}</AlertTitle>
-            {query.alertDesc}
-          </Alert>
-        )}
-        {!!useMS.length && (
-          <ShowMSImage
-            MobileSuits={useMS.map((ms) => findMobileSuitFromMSID(ms))}
+            alertTitle={query.alertTitle as string}
+            alertDesc={query.alertDesc as string}
           />
         )}
         <Grid container justifyContent={"center"}>
